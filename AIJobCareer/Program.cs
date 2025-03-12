@@ -14,7 +14,13 @@ builder.Services.AddSwaggerGen();
 
 // Add Database Context
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    options.UseMySql(
+        connectionString,
+        ServerVersion.AutoDetect(connectionString) // Auto-detect MySQL version
+    );
+});
 
 var app = builder.Build();
 
