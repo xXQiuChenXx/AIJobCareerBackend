@@ -1,4 +1,4 @@
-@AIJobCareer_HostAddress = http://localhost:5109
+@AIJobCareer_HostAddress = http://localhost:7071
 
 GET {{AIJobCareer_HostAddress}}/weatherforecast/
 Accept: application/json
