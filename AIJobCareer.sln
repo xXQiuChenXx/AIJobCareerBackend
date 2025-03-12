@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35825.156 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AIJobCareer", "AIJobCareer\AIJobCareer.csproj", "{420B3B30-ED81-48D7-9E70-7AE73C77EF66}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{420B3B30-ED81-48D7-9E70-7AE73C77EF66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{420B3B30-ED81-48D7-9E70-7AE73C77EF66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{420B3B30-ED81-48D7-9E70-7AE73C77EF66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{420B3B30-ED81-48D7-9E70-7AE73C77EF66}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A36A2CED-9EE5-4EA9-88FF-AB97E7B8545D}
+	EndGlobalSection
+EndGlobal
