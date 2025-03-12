@@ -1,3 +1,6 @@
+using AIJobCareer.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,6 +11,10 @@ builder.Services.AddOpenApi();
 
 // Configure Swagger/OpenAPI
 builder.Services.AddSwaggerGen();
+
+// Add Database Context
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 
