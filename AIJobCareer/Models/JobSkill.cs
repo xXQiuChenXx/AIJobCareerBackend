@@ -9,9 +9,9 @@ namespace AIJobCareer.Models
         public int JS_ID { get; set; }
         public int JS_JOB_ID { get; set; }
         [ForeignKey("JS_JOB_ID")]
-        public virtual Job Job { get; set; }
+        public virtual Job Job { get; set; } = null;
         public int JS_SKILL_ID { get; set; }
         [ForeignKey("JS_SKILL_ID")]
-        public virtual Skill Skill { get; set; }
+        public virtual Skill Skill { get; set; } = null;
     }
 }

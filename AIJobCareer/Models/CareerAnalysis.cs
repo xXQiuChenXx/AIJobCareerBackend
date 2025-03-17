@@ -6,12 +6,12 @@ namespace AIJobCareer.Models
     public class CareerAnalysis
     {
         [Key]
-        public int ANALYSIS_ID { get; set; }
-        public int ANALYSIS_USER_ID { get; set; }
-        [ForeignKey("ANALYSIS_USER_ID")]
+        public int analysis_id { get; set; }
+        public int analysis_user_id { get; set; }
+        [ForeignKey("analysis_user_id")]
         public virtual User User { get; set; }
-        public string ANALYSIS_AI_DIRECTION { get; set; }
-        public string ANALYSIS_AI_MARKET_GAP { get; set; }
-        public string ANALYSIS_AI_CAREER_PROSPECTS { get; set; }
+        public string analysis_ai_direction { get; set; }
+        public string analysis_ai_market_gap { get; set; }
+        public string analysis_ai_career_prospects { get; set; }
     }
 }

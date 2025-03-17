@@ -6,30 +6,38 @@ namespace AIJobCareer.Models
     public class User
     {
         [Key]
-        public int USER_ID { get; set; }
+        public int user_id { get; set; }
         [Required]
-        [StringLength(255)]
-        public string USER_NAME { get; set; }
-        public int? USER_AGE { get; set; }
-        public string USER_INTRO { get; set; }
+        [StringLength(50, MinimumLength = 3)]
+        public string username { get; set; } = string.Empty;
+        [Required]
+        [StringLength(150)]
+        public string user_first_name { get; set; } = string.Empty;
+        [Required]
+        [StringLength(150)]
+        public string user_last_name { get; set; } = string.Empty;
+        public int? user_age { get; set; }
+        public string? user_intro { get; set; }
         [StringLength(20)]
-        public string USER_CONTACT_NUMBER { get; set; }
+        public string? user_contact_number { get; set; }
         [StringLength(255)]
-        public string USER_EMAIL { get; set; }
+        public string user_email { get; set; } = string.Empty;
         [StringLength(255)]
-        public string USER_PASSWORD { get; set; }
+        public string user_password { get; set; } = string.Empty;
         [StringLength(255)]
-        public string USER_ICON { get; set; }
-        public string USER_PRIVACY_STATUS { get; set; }
-        public string USER_ROLE { get; set; }
-        public DateTime USER_ACCOUNT_CREATED_TIME { get; set; }
-        public int? USER_AREA_ID { get; set; }
-        [ForeignKey("USER_AREA_ID")]
-        public virtual Area Area { get; set; }
-        public virtual ICollection<Notification> Notifications { get; set; }
-        public virtual ICollection<Resume> Resumes { get; set; }
-        public virtual ICollection<UserSkill> UserSkills { get; set; }
-        public virtual ICollection<UserApplication> UserApplications { get; set; }
-        public virtual ICollection<CareerAnalysis> CareerAnalyses { get; set; }
+        public string? user_icon { get; set; }
+        public string user_privacy_status { get; set; } = string.Empty;
+        public string user_role { get; set; } = string.Empty;
+        public DateTime user_account_created_time { get; set; }
+        public DateTime? last_login_at { get; set; }
+        public int? user_area_id { get; set; }
+        [ForeignKey("user_area_id")]
+        public virtual Area Area { get; set; } = null!;
+        public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
+        public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
+        public virtual ICollection<UserSkill> UserSkills { get; set; } = new List<UserSkill>();
+        public virtual ICollection<UserApplication> UserApplications { get; set; } = new List<UserApplication>();
+        public virtual ICollection<CareerAnalysis> CareerAnalyses { get; set; } = new List<CareerAnalysis>();
+
     }
 }

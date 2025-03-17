@@ -6,14 +6,20 @@ namespace AIJobCareer.Models
     public class Resume
     {
         [Key]
-        public int RESUME_ID { get; set; }
-        public int RESUME_USER_ID { get; set; }
-        [ForeignKey("RESUME_USER_ID")]
-        public virtual User User { get; set; }
-        public string RESUME_TEXT { get; set; }
+        public int resume_id { get; set; }
+
+        public int resume_user_id { get; set; }
+
+        [ForeignKey("resume_user_id")]
+        public virtual User user { get; set; }
+
+        public string resume_text { get; set; }
+
         [StringLength(255)]
-        public string RESUME_FILE { get; set; }
-        public DateTime RESUME_LAST_MODIFY_TIME { get; set; }
-        public virtual ICollection<JobApplicationTable> JobApplicationTables { get; set; }
+        public string resume_file { get; set; }
+
+        public DateTime resume_last_modify_time { get; set; }
+
+        public virtual ICollection<JobApplicationTable> job_application_tables { get; set; }
     }
 }

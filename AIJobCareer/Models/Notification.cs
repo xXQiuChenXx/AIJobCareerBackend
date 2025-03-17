@@ -5,16 +5,22 @@ namespace AIJobCareer.Models
 {
     public class Notification
     {
+
         [Key]
-        public int NOTIFICATION_ID { get; set; }
-        public int? NOTIFICATION_USER_ID { get; set; }
-        [ForeignKey("NOTIFICATION_USER_ID")]
-        public virtual User User { get; set; }
-        public int? NOTIFICATION_COMPANY_ID { get; set; }
-        [ForeignKey("NOTIFICATION_COMPANY_ID")]
-        public virtual Company Company { get; set; }
-        public string NOTIFICATION_TEXT { get; set; }
-        public DateTime NOTIFICATION_TIMESTAMP { get; set; }
-        public string NOTIFICATION_STATUS { get; set; }
+        public int notification_id { get; set; }
+
+        public int? notification_user_id { get; set; }
+
+        [ForeignKey("notification_user_id")]
+        public virtual User user { get; set; }
+
+        public int? notification_company_id { get; set; }
+
+        [ForeignKey("notification_company_id")]
+        public virtual Company company { get; set; }
+
+        public string notification_text { get; set; }
+        public DateTime notification_timestamp { get; set; }
+        public string notification_status { get; set; }
     }
 }

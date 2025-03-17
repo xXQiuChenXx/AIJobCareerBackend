@@ -5,16 +5,21 @@ namespace AIJobCareer.Models
 {
     public class JobApplicationReview
     {
-            [Key]
-            public int REVIEW_ID { get; set; }
-            public int REVIEW_APPLICATION_ID { get; set; }
-            [ForeignKey("REVIEW_APPLICATION_ID")]
-            public virtual JobApplication JobApplication { get; set; }
-            public int REVIEW_COMPANY_ID { get; set; }
-            [ForeignKey("REVIEW_COMPANY_ID")]
-            public virtual Company Company { get; set; }
-            public string REVIEW_STATUS { get; set; }
-            public string REVIEW_CONTEXT { get; set; }
-            public DateTime REVIEW_DATE { get; set; }
+        [Key]
+        public int review_id { get; set; }
+
+        public int review_application_id { get; set; }
+
+        [ForeignKey("review_application_id")]
+        public virtual JobApplication job_application { get; set; }
+
+        public int review_company_id { get; set; }
+
+        [ForeignKey("review_company_id")]
+        public virtual Company company { get; set; }
+
+        public string review_status { get; set; }
+        public string review_context { get; set; }
+        public DateTime review_date { get; set; }
     }
 }

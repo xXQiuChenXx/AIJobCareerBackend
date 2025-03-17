@@ -12,6 +12,6 @@ namespace AIJobCareer.Models
         public virtual User User { get; set; }
         public int UA_APPLICATION_ID { get; set; }
         [ForeignKey("UA_APPLICATION_ID")]
-        public virtual JobApplication JobApplication { get; set; }
+        public virtual JobApplication job_application { get; set; }
     }
 }
