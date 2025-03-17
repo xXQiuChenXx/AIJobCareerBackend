@@ -15,7 +15,7 @@ namespace AIJobCareer.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            // 
         }
     }
 }
