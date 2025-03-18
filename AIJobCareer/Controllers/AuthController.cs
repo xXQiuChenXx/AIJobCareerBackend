@@ -38,7 +38,7 @@ namespace AIJobCareer.Controllers
             }
 
             // Generate JWT token
-            var token = GenerateJwtToken(result.User);
+            string? token = GenerateJwtToken(result.User);
 
             return Ok(new
             {
@@ -61,7 +61,7 @@ namespace AIJobCareer.Controllers
                 return BadRequest(ModelState);
             }
 
-            var result = await _authService.LoginAsync(model.UsernameOrEmail, model.Password);
+            var result = await _authService.LoginAsync(model.username_or_email, model.Password);
 
             if (!result.Success)
             {
@@ -69,7 +69,7 @@ namespace AIJobCareer.Controllers
             }
 
             // Generate JWT token
-            var token = GenerateJwtToken(result.User);
+            string? token = GenerateJwtToken(result.User);
 
             return Ok(new
             {
@@ -131,7 +131,7 @@ namespace AIJobCareer.Controllers
     public class LoginModel
     {
         [Required]
-        public string UsernameOrEmail { get; set; }
+        public string username_or_email { get; set; }
 
         [Required]
         public string Password { get; set; }
