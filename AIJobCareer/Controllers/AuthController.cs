@@ -6,6 +6,7 @@ using System.Text;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace AIJobCareer.Controllers
 {
@@ -104,6 +105,237 @@ namespace AIJobCareer.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+
+        /// <summary>
+        /// Validates a JWT token and user information
+        /// </summary>
+        /// <param name="request">The token validation request containing JWT token and user information</param>
+        /// <returns>Validation result with user details if valid</returns>
+        [HttpPost("validate")]
+        [SwaggerOperation(
+            Summary = "Validate JWT token and user information",
+            Description = "Validates the provided JWT token signature and checks if the embedded claims match the provided user information",
+            OperationId = "ValidateToken",
+            Tags = new[] { "Authentication" }
+        )]
+        [SwaggerResponse(200, "Token is valid and user information matches", typeof(TokenValidationResponse))]
+        [SwaggerResponse(400, "Invalid request", typeof(ErrorResponse))]
+        [SwaggerResponse(401, "Token is invalid or doesn't match user information", typeof(ErrorResponse))]
+        [SwaggerResponse(500, "Internal server error", typeof(ErrorResponse))]
+        public IActionResult ValidateToken([FromBody] TokenValidationRequest request)
+        {
+            try
+            {
+                // Validate request
+                if (request == null || string.IsNullOrEmpty(request.Token))
+                {
+                    return BadRequest(new ErrorResponse
+                    {
+                        IsValid = false,
+                        Message = "Token is required"
+                    });
+                }
+
+                // Initialize token handler
+                var tokenHandler = new JwtSecurityTokenHandler();
+
+                // Check if token is in valid format
+                if (!tokenHandler.CanReadToken(request.Token))
+                {
+                    return BadRequest(new ErrorResponse
+                    {
+                        IsValid = false,
+                        Message = "Invalid token format"
+                    });
+                }
+
+                // Get secret key from environment variable or configuration
+                var key = Encoding.ASCII.GetBytes(
+                    Environment.GetEnvironmentVariable("JWT_SECRET") ??
+                    _configuration["Jwt:Secret"]);
+
+                // Set up validation parameters
+                var validationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+
+                // Validate token
+                ClaimsPrincipal principal;
+                try
+                {
+                    principal = tokenHandler.ValidateToken(request.Token, validationParameters, out SecurityToken validatedToken);
+                }
+                catch (SecurityTokenExpiredException)
+                {
+                    return Unauthorized(new ErrorResponse
+                    {
+                        IsValid = false,
+                        Message = "Token has expired"
+                    });
+                }
+                catch (Exception ex)
+                {
+                    return Unauthorized(new ErrorResponse
+                    {
+                        IsValid = false,
+                        Message = "Invalid token signature",
+                        Error = ex.Message
+                    });
+                }
+
+                // Extract claims from token
+                var userId = principal.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+                var username = principal.FindFirst(ClaimTypes.Name)?.Value;
+                var email = principal.FindFirst(ClaimTypes.Email)?.Value;
+
+                // Validate user information against token claims
+                bool userInfoMatches = true;
+                string mismatchField = null;
+
+                // Validate user ID if provided
+                if (!string.IsNullOrEmpty(request.UserId) && userId != request.UserId)
+                {
+                    userInfoMatches = false;
+                    mismatchField = "User ID";
+                }
+                // Validate username if provided
+                else if (!string.IsNullOrEmpty(request.Username) && username != request.Username)
+                {
+                    userInfoMatches = false;
+                    mismatchField = "Username";
+                }
+                // Validate email if provided
+                else if (!string.IsNullOrEmpty(request.Email) && email != request.Email)
+                {
+                    userInfoMatches = false;
+                    mismatchField = "Email";
+                }
+
+                if (!userInfoMatches)
+                {
+                    return Unauthorized(new ErrorResponse
+                    {
+                        IsValid = false,
+                        Message = $"{mismatchField} doesn't match the value in the token"
+                    });
+                }
+
+                // Success - token is valid and matches user information
+                return Ok(new TokenValidationResponse
+                {
+                    IsValid = true,
+                    UserId = userId,
+                    Username = username,
+                    Email = email,
+                    ExpiresAt = GetExpirationDateFromToken(principal)
+                });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new ErrorResponse
+                {
+                    IsValid = false,
+                    Message = "An error occurred during validation",
+                    Error = ex.Message
+                });
+            }
+        }
+
+        private DateTime? GetExpirationDateFromToken(ClaimsPrincipal principal)
+        {
+            var expClaim = principal.FindFirst(JwtRegisteredClaimNames.Exp);
+            if (expClaim != null && long.TryParse(expClaim.Value, out long expUnix))
+            {
+                // Convert Unix timestamp to DateTime
+                return DateTimeOffset.FromUnixTimeSeconds(expUnix).UtcDateTime;
+            }
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Request model for token validation
+    /// </summary>
+    public class TokenValidationRequest
+    {
+        /// <summary>
+        /// JWT token to validate
+        /// </summary>
+        [Required]
+        public string Token { get; set; }
+
+        /// <summary>
+        /// User ID to validate against token claims (optional)
+        /// </summary>
+        public string UserId { get; set; }
+
+        /// <summary>
+        /// Username to validate against token claims (optional)
+        /// </summary>
+        public string Username { get; set; }
+
+        /// <summary>
+        /// Email to validate against token claims (optional)
+        /// </summary>
+        public string Email { get; set; }
+    }
+
+    /// <summary>
+    /// Response model for successful token validation
+    /// </summary>
+    public class TokenValidationResponse
+    {
+        /// <summary>
+        /// Indicates if the token is valid
+        /// </summary>
+        public bool IsValid { get; set; }
+
+        /// <summary>
+        /// User ID extracted from token
+        /// </summary>
+        public string UserId { get; set; }
+
+        /// <summary>
+        /// Username extracted from token
+        /// </summary>
+        public string Username { get; set; }
+
+        /// <summary>
+        /// Email extracted from token
+        /// </summary>
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Token expiration date and time
+        /// </summary>
+        public DateTime? ExpiresAt { get; set; }
+    }
+
+    /// <summary>
+    /// Response model for validation errors
+    /// </summary>
+    public class ErrorResponse
+    {
+        /// <summary>
+        /// Indicates if the token is valid (false for error responses)
+        /// </summary>
+        public bool IsValid { get; set; }
+
+        /// <summary>
+        /// Error message
+        /// </summary>
+        public string Message { get; set; }
+
+        /// <summary>
+        /// Additional error details (if available)
+        /// </summary>
+        public string Error { get; set; }
     }
 
     public class RegisterModel
