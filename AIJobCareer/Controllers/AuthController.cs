@@ -87,7 +87,7 @@ namespace AIJobCareer.Controllers
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_configuration["Jwt:Secret"]);
+            var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET") ?? _configuration["Jwt:Secret"]);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
