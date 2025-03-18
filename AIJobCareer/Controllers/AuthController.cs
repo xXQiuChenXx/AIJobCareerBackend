@@ -37,9 +37,13 @@ namespace AIJobCareer.Controllers
                 return BadRequest(new { message = result.Message });
             }
 
+            // Generate JWT token
+            var token = GenerateJwtToken(result.User);
+
             return Ok(new
             {
                 message = result.Message,
+                token = token,
                 user = new
                 {
                     userId = result.User.user_id,
