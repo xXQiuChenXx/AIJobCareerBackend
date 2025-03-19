@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using Swashbuckle.AspNetCore.Annotations;
+using System.Threading.Tasks;
 
 namespace AIJobCareer.Controllers
 {
@@ -122,7 +123,7 @@ namespace AIJobCareer.Controllers
         [SwaggerResponse(400, "Invalid request", typeof(ErrorResponse))]
         [SwaggerResponse(401, "Token is invalid or doesn't match user information", typeof(ErrorResponse))]
         [SwaggerResponse(500, "Internal server error", typeof(ErrorResponse))]
-        public IActionResult ValidateToken([FromBody] TokenValidationRequest request)
+        public async Task<IActionResult> ValidateToken([FromBody] TokenValidationRequest request)
         {
             try
             {
@@ -210,12 +211,6 @@ namespace AIJobCareer.Controllers
                     userInfoMatches = false;
                     mismatchField = "Username";
                 }
-                // Validate email if provided
-                else if (!string.IsNullOrEmpty(request.Email) && email != request.Email)
-                {
-                    userInfoMatches = false;
-                    mismatchField = "Email";
-                }
 
                 if (!userInfoMatches)
                 {
@@ -226,13 +221,18 @@ namespace AIJobCareer.Controllers
                     });
                 }
 
+                User user = await _authService.ValidateAsync(userId, username);
+
                 // Success - token is valid and matches user information
                 return Ok(new TokenValidationResponse
                 {
                     IsValid = true,
-                    UserId = userId,
-                    Username = username,
-                    Email = email,
+                    user = new UserResponse
+                    {
+                        userId = user.user_id.ToString(),
+                        username = user.username,
+                        email = user.user_email
+                    }, 
                     ExpiresAt = GetExpirationDateFromToken(principal)
                 });
             }
@@ -299,22 +299,19 @@ namespace AIJobCareer.Controllers
         /// <summary>
         /// User ID extracted from token
         /// </summary>
-        public string UserId { get; set; }
-
-        /// <summary>
-        /// Username extracted from token
-        /// </summary>
-        public string Username { get; set; }
-
-        /// <summary>
-        /// Email extracted from token
-        /// </summary>
-        public string Email { get; set; }
+        public UserResponse user { get; set; }
 
         /// <summary>
         /// Token expiration date and time
         /// </summary>
         public DateTime? ExpiresAt { get; set; }
+    }
+
+    public class UserResponse
+    {
+        public string username { get; set; }
+        public string email { get; set; }
+        public string userId { get; set; }
     }
 
     /// <summary>

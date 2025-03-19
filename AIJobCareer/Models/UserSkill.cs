@@ -7,7 +7,7 @@ namespace AIJobCareer.Models
     {
         [Key]
         public int US_ID { get; set; }
-        public int US_USER_ID { get; set; }
+        public Guid US_USER_ID { get; set; }
         [ForeignKey("US_USER_ID")]
         public virtual User User { get; set; } = null;
         public int US_SKILL_ID { get; set; }

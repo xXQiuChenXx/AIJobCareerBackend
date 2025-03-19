@@ -3,6 +3,7 @@ using AIJobCareer.Data;
 using AIJobCareer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace AIJobCareer.Services
 {
@@ -10,6 +11,7 @@ namespace AIJobCareer.Services
     {
         Task<(bool Success, string Message, User? User)> RegisterAsync(RegisterModel input_user);
         Task<(bool Success, string Message, User? User)> LoginAsync(string usernameOrEmail, string password);
+        Task<User?> ValidateAsync(string? userId, string? username);
     }
 
     public class AuthService : IAuthService
@@ -40,6 +42,7 @@ namespace AIJobCareer.Services
             // Create new user
             var user = new User
             {
+                user_id = Guid.NewGuid(),
                 username = input_user.username,
                 user_first_name = input_user.user_first_name,
                 user_last_name = input_user.user_last_name,
@@ -82,6 +85,20 @@ namespace AIJobCareer.Services
             }
 
             return (false, "Invalid username/email or password", null);
+        }
+        public async Task<User?> ValidateAsync(string? userId, string? username)
+        {
+            if (!string.IsNullOrEmpty(userId))
+            {
+                return await _context.User
+                  .FirstOrDefaultAsync(u => u.user_id.ToString() == userId);
+            }
+            else if (!string.IsNullOrEmpty(username))
+            {
+                return await _context.User
+                    .FirstOrDefaultAsync(u => u.username == username);
+            }
+            return null;
         }
     }
 }

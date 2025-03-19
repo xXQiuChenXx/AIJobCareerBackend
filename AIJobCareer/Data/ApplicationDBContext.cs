@@ -1,10 +1,5 @@
 ﻿using AIJobCareer.Models;
 using Microsoft.EntityFrameworkCore;
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace AIJobCareer.Data
 {
     public class ApplicationDBContext : DbContext
@@ -38,6 +33,10 @@ namespace AIJobCareer.Data
 
         {
             base.OnModelCreating(modelBuilder);
+
+            Guid userId1 = Guid.NewGuid();
+            Guid userId2 = Guid.NewGuid();
+            Guid userId3 = Guid.NewGuid();
 
             // Seed Areas (10)
             modelBuilder.Entity<Area>().HasData(
@@ -111,7 +110,7 @@ namespace AIJobCareer.Data
             modelBuilder.Entity<User>().HasData(
                 new User
                 {
-                    user_id = 1,
+                    user_id = userId1,
                     user_first_name = "Ahmad",
                     user_last_name = "bin Ibrahim",
                     username = "ahmad_ibrahim",
@@ -128,7 +127,7 @@ namespace AIJobCareer.Data
                 },
                 new User
                 {
-                    user_id = 2,
+                    user_id = userId2,
                     user_first_name = "Siti",
                     user_last_name = "Nur Aminah",
                     username = "siti_aminah",
@@ -145,7 +144,7 @@ namespace AIJobCareer.Data
                 },
                 new User
                 {
-                    user_id = 3,
+                    user_id = userId3,
                     user_first_name = "Rajesh",
                     user_last_name = "Kumar",
                     username = "rajesh_kumar",
@@ -249,7 +248,7 @@ namespace AIJobCareer.Data
                 new Resume
                 {
                     resume_id = 1,
-                    resume_user_id = 1,
+                    resume_user_id = userId1,
                     resume_text = "Experienced software developer with expertise in .NET Core, React, and cloud technologies. Worked on enterprise applications for energy sector.",
                     resume_file = "ahmad_resume.pdf",
                     resume_last_modify_time = DateTime.Now.AddDays(-15)
@@ -257,7 +256,7 @@ namespace AIJobCareer.Data
                 new Resume
                 {
                     resume_id = 2,
-                    resume_user_id = 2,
+                    resume_user_id = userId2,
                     resume_text = "Environmental scientist focused on forest conservation. Experience in GIS mapping, biodiversity assessment, and sustainable forest management practices.",
                     resume_file = "siti_resume.pdf",
                     resume_last_modify_time = DateTime.Now.AddDays(-7)
@@ -265,7 +264,7 @@ namespace AIJobCareer.Data
                 new Resume
                 {
                     resume_id = 3,
-                    resume_user_id = 3,
+                    resume_user_id = userId3,
                     resume_text = "Petroleum engineer with extensive experience in offshore drilling. Skills include reservoir analysis, production optimization, and HSE compliance.",
                     resume_file = "rajesh_resume.pdf",
                     resume_last_modify_time = DateTime.Now.AddDays(-21)
@@ -317,19 +316,19 @@ namespace AIJobCareer.Data
                 new UserSkill
                 {
                     US_ID = 1,
-                    US_USER_ID = 1, // Ahmad bin Ibrahim
+                    US_USER_ID = userId1, // Ahmad bin Ibrahim
                     US_SKILL_ID = 1 // C# Programming
                 },
                 new UserSkill
                 {
                     US_ID = 2,
-                    US_USER_ID = 2, // Siti Nur Aminah
+                    US_USER_ID = userId2, // Siti Nur Aminah
                     US_SKILL_ID = 7 // Forestry Management
                 },
                 new UserSkill
                 {
                     US_ID = 3,
-                    US_USER_ID = 3, // Rajesh Kumar
+                    US_USER_ID = userId3, // Rajesh Kumar
                     US_SKILL_ID = 5 // Petroleum Engineering
                 }
             );
@@ -367,19 +366,19 @@ namespace AIJobCareer.Data
                 new UserApplication
                 {
                     UA_ID = 1,
-                    UA_USER_ID = 1,
+                    UA_USER_ID = userId1,
                     UA_APPLICATION_ID = 1 // Ahmad applied for Senior Software Developer
                 },
                 new UserApplication
                 {
                     UA_ID = 2,
-                    UA_USER_ID = 2,
+                    UA_USER_ID = userId2,
                     UA_APPLICATION_ID = 2 // Siti applied for Forest Conservation Officer
                 },
                 new UserApplication
                 {
                     UA_ID = 3,
-                    UA_USER_ID = 3,
+                    UA_USER_ID = userId3,
                     UA_APPLICATION_ID = 3 // Rajesh applied for Petroleum Engineer
                 }
             );

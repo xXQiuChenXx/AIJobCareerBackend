@@ -6,7 +6,7 @@ namespace AIJobCareer.Models
     public class User
     {
         [Key]
-        public int user_id { get; set; }
+        public Guid user_id { get; set; }
         [Required]
         [StringLength(50, MinimumLength = 3)]
         public string username { get; set; } = string.Empty;
