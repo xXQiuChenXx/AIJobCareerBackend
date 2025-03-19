@@ -8,6 +8,7 @@ namespace AIJobCareer.Models
         public int area_id { get; set; }
 
         [StringLength(255)]
+        [Required]
         public string area_name { get; set; }
 
         public virtual ICollection<User> users { get; set; }

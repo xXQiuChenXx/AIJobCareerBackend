@@ -6,7 +6,8 @@ namespace AIJobCareer.Models
     public class User
     {
         [Key]
-        public Guid user_id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public Guid user_id { get; set; } = Guid.NewGuid();
         [Required]
         [StringLength(50, MinimumLength = 3)]
         public string username { get; set; } = string.Empty;
@@ -26,9 +27,14 @@ namespace AIJobCareer.Models
         public string user_password { get; set; } = string.Empty;
         [StringLength(255)]
         public string? user_icon { get; set; }
-        public string user_privacy_status { get; set; } = string.Empty;
+
+        [Column(TypeName = "enum('public', 'private')")]
+        public string user_privacy_status { get; set; } = "public";
+
+        [Required]
+        [Column(TypeName = "enum('job_seeker', 'business')")]
         public string user_role { get; set; } = string.Empty;
-        public DateTime user_account_created_time { get; set; }
+        public DateTime user_account_created_time { get; set; } = DateTime.UtcNow;
         public DateTime? last_login_at { get; set; }
         public int? user_area_id { get; set; }
         [ForeignKey("user_area_id")]

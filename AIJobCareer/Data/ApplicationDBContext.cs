@@ -34,6 +34,145 @@ namespace AIJobCareer.Data
         {
             base.OnModelCreating(modelBuilder);
 
+            // Area relationships
+            modelBuilder.Entity<Area>()
+                .HasMany(a => a.users)
+                .WithOne(u => u.Area)
+                .HasForeignKey(u => u.user_area_id)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Area>()
+                .HasMany(a => a.companies)
+                .WithOne(c => c.Area)
+                .HasForeignKey(c => c.company_area_id)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // User relationships
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.UserSkills)
+                .WithOne(us => us.User)
+                .HasForeignKey(us => us.US_USER_ID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Resumes)
+                .WithOne(r => r.user)
+                .HasForeignKey(r => r.resume_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.CareerAnalyses)
+                .WithOne(ca => ca.User)
+                .HasForeignKey(ca => ca.analysis_user_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.UserApplications)
+                .WithOne(ua => ua.User)
+                .HasForeignKey(ua => ua.UA_USER_ID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.Notifications)
+                .WithOne(n => n.user)
+                .HasForeignKey(n => n.notification_user_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Skill relationships
+            modelBuilder.Entity<Skill>()
+                .HasMany(s => s.user_skills)
+                .WithOne(us => us.Skill)
+                .HasForeignKey(us => us.US_SKILL_ID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Skill>()
+                .HasMany(s => s.job_skills)
+                .WithOne(js => js.Skill)
+                .HasForeignKey(js => js.JS_SKILL_ID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Company relationships
+            modelBuilder.Entity<Company>()
+                .HasMany(c => c.jobs)
+                .WithOne(j => j.company)
+                .HasForeignKey(j => j.job_company_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Company>()
+                .HasMany(c => c.job_application_reviews)
+                .WithOne(jar => jar.company)
+                .HasForeignKey(jar => jar.review_company_id)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Company>()
+                .HasMany(c => c.notifications)
+                .WithOne(n => n.company)
+                .HasForeignKey(n => n.notification_company_id)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            // Job relationships
+            modelBuilder.Entity<Job>()
+                .HasMany(j => j.job_skills)
+                .WithOne(js => js.Job)
+                .HasForeignKey(js => js.JS_JOB_ID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Job>()
+                .HasMany(j => j.job_application)
+                .WithOne(ja => ja.job)
+                .HasForeignKey(ja => ja.application_job_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // JobApplication relationships
+            modelBuilder.Entity<JobApplication>()
+                .HasMany(ja => ja.job_application_table)
+                .WithOne(jat => jat.JobApplication)
+                .HasForeignKey(jat => jat.TABLE_APPLICATION_ID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<JobApplication>()
+                .HasMany(ja => ja.user_application)
+                .WithOne(ua => ua.job_application)
+                .HasForeignKey(ua => ua.UA_APPLICATION_ID)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<JobApplication>()
+                .HasMany(ja => ja.job_application_reviews)
+                .WithOne(jar => jar.job_application)
+                .HasForeignKey(jar => jar.review_application_id)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            // Resume relationships
+            modelBuilder.Entity<Resume>()
+                .HasMany(r => r.job_application_tables)
+                .WithOne(jat => jat.Resume)
+                .HasForeignKey(jat => jat.TABLE_RESUME_ID)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Resume>()
+               .HasOne(r => r.user)
+               .WithMany(u => u.Resumes)
+               .HasForeignKey(r => r.resume_user_id)
+               .OnDelete(DeleteBehavior.Cascade);
+
+            // Configure table names to match SQL
+            modelBuilder.Entity<Area>().ToTable("AREA");
+            modelBuilder.Entity<User>().ToTable("USERS");
+            modelBuilder.Entity<Skill>().ToTable("SKILL");
+            modelBuilder.Entity<UserSkill>().ToTable("USER_SKILL");
+            modelBuilder.Entity<Resume>().ToTable("RESUME");
+            modelBuilder.Entity<CareerAnalysis>().ToTable("CAREER_ANALYSIS");
+            modelBuilder.Entity<Company>().ToTable("COMPANY");
+            modelBuilder.Entity<Job>().ToTable("JOB");
+            modelBuilder.Entity<JobSkill>().ToTable("JOB_SKILL");
+            modelBuilder.Entity<JobApplication>().ToTable("JOB_APPLICATION");
+            modelBuilder.Entity<JobApplicationTable>().ToTable("JOB_APPLICATION_TABLE");
+            modelBuilder.Entity<UserApplication>().ToTable("USER_APPLICATION");
+            modelBuilder.Entity<JobApplicationReview>().ToTable("JOB_APPLICATION_REVIEW");
+            modelBuilder.Entity<Notification>().ToTable("NOTIFICATION");
+
+            // Seed data
+
             Guid userId1 = Guid.NewGuid();
             Guid userId2 = Guid.NewGuid();
             Guid userId3 = Guid.NewGuid();
@@ -120,8 +259,8 @@ namespace AIJobCareer.Data
                     user_email = "ahmad@example.com",
                     user_password = "hashed_password_1", // In reality, this should be properly hashed
                     user_icon = "ahmad_profile.jpg",
-                    user_privacy_status = "Public",
-                    user_role = "JobSeeker",
+                    user_privacy_status = "public",
+                    user_role = "job_seeker",
                     user_account_created_time = DateTime.Now.AddMonths(-6),
                     user_area_id = 1 // Kuching
                 },
@@ -137,8 +276,8 @@ namespace AIJobCareer.Data
                     user_email = "siti@example.com",
                     user_password = "hashed_password_2", // In reality, this should be properly hashed
                     user_icon = "siti_profile.jpg",
-                    user_privacy_status = "Limited",
-                    user_role = "JobSeeker",
+                    user_privacy_status = "private",
+                    user_role = "job_seeker",
                     user_account_created_time = DateTime.Now.AddMonths(-3),
                     user_area_id = 3 // Sibu
                 },
@@ -154,8 +293,8 @@ namespace AIJobCareer.Data
                     user_email = "rajesh@example.com",
                     user_password = "hashed_password_3", // In reality, this should be properly hashed
                     user_icon = "rajesh_profile.jpg",
-                    user_privacy_status = "Public",
-                    user_role = "JobSeeker",
+                    user_privacy_status = "public",
+                    user_role = "job_seeker",
                     user_account_created_time = DateTime.Now.AddMonths(-9),
                     user_area_id = 2 // Miri
                 }
@@ -339,24 +478,24 @@ namespace AIJobCareer.Data
                 {
                     application_id = 1,
                     application_job_id = 1,
-                    application_type = "Full Time",
-                    application_status = "Under Review",
+                    application_type = "full_time",
+                    application_status = "pending",
                     application_submission_date = DateTime.Now.AddDays(-10)
                 },
                 new JobApplication
                 {
                     application_id = 2,
                     application_job_id = 3,
-                    application_type = "Full Time",
-                    application_status = "Interview Scheduled",
+                    application_type = "full_time",
+                    application_status = "interview_scheduled",
                     application_submission_date = DateTime.Now.AddDays(-15)
                 },
                 new JobApplication
                 {
                     application_id = 3,
                     application_job_id = 2,
-                    application_type = "Contract",
-                    application_status = "Under Review",
+                    application_type = "contract",
+                    application_status = "pending",
                     application_submission_date = DateTime.Now.AddDays(-5)
                 }
             );
@@ -387,29 +526,29 @@ namespace AIJobCareer.Data
                 new Notification
                 {
                     notification_id = 1,
-                    notification_user_id = 1,
+                    notification_user_id = userId1,
                     notification_company_id = 1,
                     notification_text = "Your application for Senior Software Developer has been received. We will review it shortly.",
                     notification_timestamp = DateTime.Now.AddDays(-10),
-                    notification_status = "Unread"
+                    notification_status = "unread"
                 },
                 new Notification
                 {
                     notification_id = 2,
-                    notification_user_id = 2,
+                    notification_user_id = userId2,
                     notification_company_id = 3,
                     notification_text = "You have been shortlisted for the Forest Conservation Officer position. Please prepare for an interview.",
                     notification_timestamp = DateTime.Now.AddDays(-8),
-                    notification_status = "Read"
+                    notification_status = "read"
                 },
                 new Notification
                 {
                     notification_id = 3,
-                    notification_user_id = 3,
+                    notification_user_id = userId3,
                     notification_company_id = 2,
                     notification_text = "Thank you for your application to Petronas Carigali. Your application is under review.",
                     notification_timestamp = DateTime.Now.AddDays(-5),
-                    notification_status = "Unread"
+                    notification_status = "unread"
                 }
            );
 
@@ -418,7 +557,7 @@ namespace AIJobCareer.Data
                 new CareerAnalysis
                 {
                     analysis_id = 1,
-                    analysis_user_id = 1,
+                    analysis_user_id = userId1,
                     analysis_ai_direction = "Based on your skills and experience, you have strong potential in software development. Consider specializing in energy sector applications or cloud technologies.",
                     analysis_ai_market_gap = "There is growing demand for developers with expertise in renewable energy systems in Sarawak. Consider upskilling in this area.",
                     analysis_ai_career_prospects = "High potential for career growth in Sarawak's emerging digital economy. Projected salary increase of 15-20% in the next 3 years."
@@ -426,7 +565,7 @@ namespace AIJobCareer.Data
                 new CareerAnalysis
                 {
                     analysis_id = 2,
-                    analysis_user_id = 2,
+                    analysis_user_id = userId2,
                     analysis_ai_direction = "Your environmental science background positions you well for conservation roles. Consider gaining project management certification.",
                     analysis_ai_market_gap = "Sarawak has increasing needs for environmental impact assessment specialists for sustainable development projects.",
                     analysis_ai_career_prospects = "Strong demand for conservation experts in both government and private sectors in Sarawak over the next 5 years."
@@ -434,7 +573,7 @@ namespace AIJobCareer.Data
                 new CareerAnalysis
                 {
                     analysis_id = 3,
-                    analysis_user_id = 3,
+                    analysis_user_id = userId3,
                     analysis_ai_direction = "Your petroleum engineering experience is valuable. Consider expanding into renewable energy transition projects.",
                     analysis_ai_market_gap = "There is growing need for engineers who can bridge traditional oil & gas with renewable energy projects in Sarawak.",
                     analysis_ai_career_prospects = "Stable career prospects in Miri, with opportunities to transition to leadership roles in the next 2-3 years."

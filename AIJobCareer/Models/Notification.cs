@@ -9,7 +9,7 @@ namespace AIJobCareer.Models
         [Key]
         public int notification_id { get; set; }
 
-        public int? notification_user_id { get; set; }
+        public Guid notification_user_id { get; set; }
 
         [ForeignKey("notification_user_id")]
         public virtual User user { get; set; }
@@ -20,7 +20,9 @@ namespace AIJobCareer.Models
         public virtual Company company { get; set; }
 
         public string notification_text { get; set; }
-        public DateTime notification_timestamp { get; set; }
-        public string notification_status { get; set; }
+        public DateTime notification_timestamp { get; set; } = DateTime.UtcNow;
+
+        [Column(TypeName = "enum('read', 'unread')")]
+        public string notification_status { get; set; } = "unread";
     }
 }

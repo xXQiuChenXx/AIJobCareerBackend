@@ -18,7 +18,7 @@ namespace AIJobCareer.Models
         [StringLength(255)]
         public string resume_file { get; set; }
 
-        public DateTime resume_last_modify_time { get; set; }
+        public DateTime resume_last_modify_time { get; set; } = DateTime.UtcNow;
 
         public virtual ICollection<JobApplicationTable> job_application_tables { get; set; }
     }
