@@ -457,9 +457,9 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "user_id", "last_login_at", "user_account_created_time", "user_age", "user_area_id", "user_contact_number", "user_email", "user_first_name", "user_icon", "user_intro", "user_last_name", "user_password", "user_privacy_status", "user_role", "username" },
                 values: new object[,]
                 {
-                    { new Guid("1bd45e81-339e-4df8-a5b1-06b30b5f6228"), null, new DateTime(2024, 12, 20, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9290), 32, 3, "0123456789", "siti@example.com", "Siti", "siti_profile.jpg", "Environmental scientist with expertise in tropical forest conservation.", "Nur Aminah", "hashed_password_2", "private", "job_seeker", "siti_aminah" },
-                    { new Guid("a1f089cc-6d39-420e-82b0-bf65a8536272"), null, new DateTime(2024, 6, 20, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9300), 35, 2, "0167890123", "rajesh@example.com", "Rajesh", "rajesh_profile.jpg", "Petroleum engineer with 10 years experience in offshore drilling.", "Kumar", "hashed_password_3", "public", "job_seeker", "rajesh_kumar" },
-                    { new Guid("ed4edb7d-4938-4b3f-b69a-1a6e157dced6"), null, new DateTime(2024, 9, 20, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9270), 28, 1, "0198765432", "ahmad@example.com", "Ahmad", "ahmad_profile.jpg", "Software developer with 5 years of experience in web technologies.", "bin Ibrahim", "hashed_password_1", "public", "job_seeker", "ahmad_ibrahim" }
+                    { new Guid("74bdc7b1-c60a-42a0-bd49-19b53ccbff2c"), null, new DateTime(2024, 12, 20, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1395), 32, 3, "0123456789", "siti@example.com", "Siti", "siti_profile.jpg", "Environmental scientist with expertise in tropical forest conservation.", "Nur Aminah", "hashed_password_2", "private", "job_seeker", "siti_aminah" },
+                    { new Guid("b081bdf0-85b1-4d5c-9184-3ba19a1a47b7"), null, new DateTime(2024, 9, 20, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1378), 28, 1, "0198765432", "ahmad@example.com", "Ahmad", "ahmad_profile.jpg", "Software developer with 5 years of experience in web technologies.", "bin Ibrahim", "hashed_password_1", "public", "job_seeker", "ahmad_ibrahim" },
+                    { new Guid("da2c7ded-9b61-4d4f-9611-dc2528863796"), null, new DateTime(2024, 6, 20, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1398), 35, 2, "0167890123", "rajesh@example.com", "Rajesh", "rajesh_profile.jpg", "Petroleum engineer with 10 years experience in offshore drilling.", "Kumar", "hashed_password_3", "public", "job_seeker", "rajesh_kumar" }
                 });
 
             migrationBuilder.InsertData(
@@ -467,9 +467,9 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "analysis_id", "analysis_ai_career_prospects", "analysis_ai_direction", "analysis_ai_market_gap", "analysis_user_id" },
                 values: new object[,]
                 {
-                    { 1, "High potential for career growth in Sarawak's emerging digital economy. Projected salary increase of 15-20% in the next 3 years.", "Based on your skills and experience, you have strong potential in software development. Consider specializing in energy sector applications or cloud technologies.", "There is growing demand for developers with expertise in renewable energy systems in Sarawak. Consider upskilling in this area.", new Guid("ed4edb7d-4938-4b3f-b69a-1a6e157dced6") },
-                    { 2, "Strong demand for conservation experts in both government and private sectors in Sarawak over the next 5 years.", "Your environmental science background positions you well for conservation roles. Consider gaining project management certification.", "Sarawak has increasing needs for environmental impact assessment specialists for sustainable development projects.", new Guid("1bd45e81-339e-4df8-a5b1-06b30b5f6228") },
-                    { 3, "Stable career prospects in Miri, with opportunities to transition to leadership roles in the next 2-3 years.", "Your petroleum engineering experience is valuable. Consider expanding into renewable energy transition projects.", "There is growing need for engineers who can bridge traditional oil & gas with renewable energy projects in Sarawak.", new Guid("a1f089cc-6d39-420e-82b0-bf65a8536272") }
+                    { 1, "High potential for career growth in Sarawak's emerging digital economy. Projected salary increase of 15-20% in the next 3 years.", "Based on your skills and experience, you have strong potential in software development. Consider specializing in energy sector applications or cloud technologies.", "There is growing demand for developers with expertise in renewable energy systems in Sarawak. Consider upskilling in this area.", new Guid("b081bdf0-85b1-4d5c-9184-3ba19a1a47b7") },
+                    { 2, "Strong demand for conservation experts in both government and private sectors in Sarawak over the next 5 years.", "Your environmental science background positions you well for conservation roles. Consider gaining project management certification.", "Sarawak has increasing needs for environmental impact assessment specialists for sustainable development projects.", new Guid("74bdc7b1-c60a-42a0-bd49-19b53ccbff2c") },
+                    { 3, "Stable career prospects in Miri, with opportunities to transition to leadership roles in the next 2-3 years.", "Your petroleum engineering experience is valuable. Consider expanding into renewable energy transition projects.", "There is growing need for engineers who can bridge traditional oil & gas with renewable energy projects in Sarawak.", new Guid("da2c7ded-9b61-4d4f-9611-dc2528863796") }
                 });
 
             migrationBuilder.InsertData(
@@ -490,9 +490,9 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "notification_id", "notification_company_id", "notification_status", "notification_text", "notification_timestamp", "notification_user_id" },
                 values: new object[,]
                 {
-                    { 1, 1, "unread", "Your application for Senior Software Developer has been received. We will review it shortly.", new DateTime(2025, 3, 10, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9418), new Guid("ed4edb7d-4938-4b3f-b69a-1a6e157dced6") },
-                    { 2, 3, "read", "You have been shortlisted for the Forest Conservation Officer position. Please prepare for an interview.", new DateTime(2025, 3, 12, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9419), new Guid("1bd45e81-339e-4df8-a5b1-06b30b5f6228") },
-                    { 3, 2, "unread", "Thank you for your application to Petronas Carigali. Your application is under review.", new DateTime(2025, 3, 15, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9421), new Guid("a1f089cc-6d39-420e-82b0-bf65a8536272") }
+                    { 1, 1, "unread", "Your application for Senior Software Developer has been received. We will review it shortly.", new DateTime(2025, 3, 10, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1547), new Guid("b081bdf0-85b1-4d5c-9184-3ba19a1a47b7") },
+                    { 2, 3, "read", "You have been shortlisted for the Forest Conservation Officer position. Please prepare for an interview.", new DateTime(2025, 3, 12, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1549), new Guid("74bdc7b1-c60a-42a0-bd49-19b53ccbff2c") },
+                    { 3, 2, "unread", "Thank you for your application to Petronas Carigali. Your application is under review.", new DateTime(2025, 3, 15, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1550), new Guid("da2c7ded-9b61-4d4f-9611-dc2528863796") }
                 });
 
             migrationBuilder.InsertData(
@@ -500,9 +500,9 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "resume_id", "resume_file", "resume_last_modify_time", "resume_text", "resume_user_id" },
                 values: new object[,]
                 {
-                    { 1, "ahmad_resume.pdf", new DateTime(2025, 3, 5, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9342), "Experienced software developer with expertise in .NET Core, React, and cloud technologies. Worked on enterprise applications for energy sector.", new Guid("ed4edb7d-4938-4b3f-b69a-1a6e157dced6") },
-                    { 2, "siti_resume.pdf", new DateTime(2025, 3, 13, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9345), "Environmental scientist focused on forest conservation. Experience in GIS mapping, biodiversity assessment, and sustainable forest management practices.", new Guid("1bd45e81-339e-4df8-a5b1-06b30b5f6228") },
-                    { 3, "rajesh_resume.pdf", new DateTime(2025, 2, 27, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9346), "Petroleum engineer with extensive experience in offshore drilling. Skills include reservoir analysis, production optimization, and HSE compliance.", new Guid("a1f089cc-6d39-420e-82b0-bf65a8536272") }
+                    { 1, "ahmad_resume.pdf", new DateTime(2025, 3, 5, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1439), "Experienced software developer with expertise in .NET Core, React, and cloud technologies. Worked on enterprise applications for energy sector.", new Guid("b081bdf0-85b1-4d5c-9184-3ba19a1a47b7") },
+                    { 2, "siti_resume.pdf", new DateTime(2025, 3, 13, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1442), "Environmental scientist focused on forest conservation. Experience in GIS mapping, biodiversity assessment, and sustainable forest management practices.", new Guid("74bdc7b1-c60a-42a0-bd49-19b53ccbff2c") },
+                    { 3, "rajesh_resume.pdf", new DateTime(2025, 2, 27, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1443), "Petroleum engineer with extensive experience in offshore drilling. Skills include reservoir analysis, production optimization, and HSE compliance.", new Guid("da2c7ded-9b61-4d4f-9611-dc2528863796") }
                 });
 
             migrationBuilder.InsertData(
@@ -510,9 +510,9 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "US_ID", "US_SKILL_ID", "US_USER_ID" },
                 values: new object[,]
                 {
-                    { 1, 1, new Guid("ed4edb7d-4938-4b3f-b69a-1a6e157dced6") },
-                    { 2, 7, new Guid("1bd45e81-339e-4df8-a5b1-06b30b5f6228") },
-                    { 3, 5, new Guid("a1f089cc-6d39-420e-82b0-bf65a8536272") }
+                    { 1, 1, new Guid("b081bdf0-85b1-4d5c-9184-3ba19a1a47b7") },
+                    { 2, 7, new Guid("74bdc7b1-c60a-42a0-bd49-19b53ccbff2c") },
+                    { 3, 5, new Guid("da2c7ded-9b61-4d4f-9611-dc2528863796") }
                 });
 
             migrationBuilder.InsertData(
@@ -520,9 +520,9 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "application_id", "application_job_id", "application_status", "application_submission_date", "application_type" },
                 values: new object[,]
                 {
-                    { 1, 1, "pending", new DateTime(2025, 3, 10, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9389), "full_time" },
-                    { 2, 3, "interview_scheduled", new DateTime(2025, 3, 5, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9390), "full_time" },
-                    { 3, 2, "pending", new DateTime(2025, 3, 15, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9392), "contract" }
+                    { 1, 1, "pending", new DateTime(2025, 3, 10, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1515), "full_time" },
+                    { 2, 3, "interview_scheduled", new DateTime(2025, 3, 5, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1517), "full_time" },
+                    { 3, 2, "pending", new DateTime(2025, 3, 15, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1518), "contract" }
                 });
 
             migrationBuilder.InsertData(
@@ -543,9 +543,9 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "review_id", "review_application_id", "review_company_id", "review_context", "review_date", "review_status" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, "Strong technical background and relevant experience. Recommended for interview.", new DateTime(2025, 3, 15, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9446), "Positive" },
-                    { 2, 2, 3, "Excellent match for the position. Scientific background and conservation experience are ideal.", new DateTime(2025, 3, 10, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9447), "Very Positive" },
-                    { 3, 3, 2, "Good experience but may need additional training in offshore safety protocols.", new DateTime(2025, 3, 17, 3, 29, 26, 302, DateTimeKind.Local).AddTicks(9449), "Neutral" }
+                    { 1, 1, 1, "Strong technical background and relevant experience. Recommended for interview.", new DateTime(2025, 3, 15, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1576), "Positive" },
+                    { 2, 2, 3, "Excellent match for the position. Scientific background and conservation experience are ideal.", new DateTime(2025, 3, 10, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1578), "Very Positive" },
+                    { 3, 3, 2, "Good experience but may need additional training in offshore safety protocols.", new DateTime(2025, 3, 17, 3, 41, 35, 559, DateTimeKind.Local).AddTicks(1579), "Neutral" }
                 });
 
             migrationBuilder.InsertData(
@@ -563,9 +563,9 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "UA_ID", "UA_APPLICATION_ID", "UA_USER_ID" },
                 values: new object[,]
                 {
-                    { 1, 1, new Guid("ed4edb7d-4938-4b3f-b69a-1a6e157dced6") },
-                    { 2, 2, new Guid("1bd45e81-339e-4df8-a5b1-06b30b5f6228") },
-                    { 3, 3, new Guid("a1f089cc-6d39-420e-82b0-bf65a8536272") }
+                    { 1, 1, new Guid("b081bdf0-85b1-4d5c-9184-3ba19a1a47b7") },
+                    { 2, 2, new Guid("74bdc7b1-c60a-42a0-bd49-19b53ccbff2c") },
+                    { 3, 3, new Guid("da2c7ded-9b61-4d4f-9611-dc2528863796") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -657,6 +657,12 @@ namespace AIJobCareer.Migrations
                 name: "IX_USERS_user_area_id",
                 table: "USERS",
                 column: "user_area_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_USERS_username",
+                table: "USERS",
+                column: "username",
+                unique: true);
         }
 
         /// <inheritdoc />

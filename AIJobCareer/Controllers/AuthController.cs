@@ -221,7 +221,7 @@ namespace AIJobCareer.Controllers
                     });
                 }
 
-                User user = await _authService.ValidateAsync(userId, username);
+                User? user = await _authService.ValidateAsync(userId, username);
 
                 // Success - token is valid and matches user information
                 return Ok(new TokenValidationResponse

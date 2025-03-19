@@ -46,9 +46,11 @@ namespace AIJobCareer.Services
                 username = input_user.username,
                 user_first_name = input_user.user_first_name,
                 user_last_name = input_user.user_last_name,
+                user_email = input_user.user_email,
+                user_password = input_user.user_password,
                 user_privacy_status = input_user.user_privacy_status,
-                user_role = input_user.user_role,
                 user_account_created_time = input_user.user_account_created_time,
+                user_role = input_user.user_role
             };
 
             // Hash the password

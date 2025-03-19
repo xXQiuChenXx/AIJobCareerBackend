@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace AIJobCareer.Models
 {
+    [Index(nameof(username), IsUnique = true)]
     public class User
     {
         [Key]
@@ -10,19 +12,19 @@ namespace AIJobCareer.Models
         public Guid user_id { get; set; } = Guid.NewGuid();
         [Required]
         [StringLength(50, MinimumLength = 3)]
-        public string username { get; set; } = string.Empty;
+        public string username { get; set; }
         [Required]
         [StringLength(150)]
-        public string user_first_name { get; set; } = string.Empty;
+        public string user_first_name { get; set; }
         [Required]
         [StringLength(150)]
-        public string user_last_name { get; set; } = string.Empty;
+        public string user_last_name { get; set; }
         public int? user_age { get; set; }
         public string? user_intro { get; set; }
         [StringLength(20)]
         public string? user_contact_number { get; set; }
         [StringLength(255)]
-        public string user_email { get; set; } = string.Empty;
+        public string user_email { get; set; }
         [StringLength(255)]
         public string user_password { get; set; } = string.Empty;
         [StringLength(255)]
