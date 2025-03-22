@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using AIJobCareer.Services;
 
 namespace AIJobCareer.Models
 {
@@ -26,13 +27,26 @@ namespace AIJobCareer.Models
         public decimal? job_salary_max { get; set; }
 
         [StringLength(255)]
-        public string job_location { get; set; } 
+        public string job_location { get; set; }
+
+        [Column(TypeName = "enum('internship', 'freelance', 'full_time', 'part_time', 'contract')")]
+        public JobType job_type { get; set; }
 
         [Column(TypeName = "enum('open', 'closed')")]
         public string job_status { get; set; } = "open";
+        public DateTime Posted_Date { get; set; }
         public string job_benefit { get; set; }
         public string job_requirement { get; set; } 
         public virtual ICollection<JobSkill> job_skills { get; set; } = new List<JobSkill>();
         public virtual ICollection<JobApplication> job_application { get; set; } = new List<JobApplication>();
+    }
+
+    public enum JobType
+    {
+        Full_Time,
+        Part_Time,
+        Contract,
+        Internship,
+        Freelance
     }
 }

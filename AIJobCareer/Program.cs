@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,7 +17,15 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
 // Configure Swagger/OpenAPI
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "JobCareer API",
+        Version = "v1",
+        Description = "API for job listings with filtering and pagination"
+    });
+});
 
 // Authentication
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
