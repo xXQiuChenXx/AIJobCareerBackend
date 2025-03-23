@@ -7,7 +7,7 @@ namespace AIJobCareer.Services
 {
     public interface IJobService
     {
-        Task<PaginatedResponse<Job>> GetJobsAsync(JobFilterRequest filter);
+        Task<PaginatedResponse<JobResponseDto>> GetJobsAsync(JobFilterRequest filter);
         Task<Job> GetJobByIdAsync(int id);
         Task<Job> CreateJobAsync(Job job);
         Task<bool> UpdateJobAsync(Job job);
@@ -23,9 +23,9 @@ namespace AIJobCareer.Services
             _dbContext = dbContext;
         }
 
-        public async Task<PaginatedResponse<Job>> GetJobsAsync(JobFilterRequest filter)
+        public async Task<PaginatedResponse<JobResponseDto>> GetJobsAsync(JobFilterRequest filter)
         {
-            var query = _dbContext.Job.AsQueryable();
+            var query = _dbContext.Job.Include(j => j.company).AsQueryable();
 
             // Apply filters
             if (!string.IsNullOrEmpty(filter.SearchTerm))
@@ -65,15 +65,38 @@ namespace AIJobCareer.Services
             };
 
             // Get total count for pagination
-            var totalCount = await query.CountAsync();
+            int totalCount = await query.CountAsync();
 
             // Apply pagination
-            var items = await query
+            List<JobResponseDto> items = await query
                 .Skip((filter.PageIndex - 1) * filter.PageSize)
                 .Take(filter.PageSize)
+                .Select(j => new JobResponseDto
+                {
+                    job_id = j.job_id,
+                    job_title = j.job_title,
+                    job_responsible = j.job_responsible,
+                    job_salary_min = j.job_salary_min,
+                    job_salary_max = j.job_salary_max,
+                    job_location = j.job_location,
+                    job_type = j.job_type,
+                    job_status = j.job_status,
+                    Posted_Date = j.Posted_Date,
+                    job_benefit = j.job_benefit,
+                    job_requirement = j.job_requirement,
+                    company = new CompanyDto
+                    {
+                        company_id = j.company.company_id,
+                        company_name = j.company.company_name,
+                        company_icon = j.company.company_icon,
+                        company_intro = j.company.company_intro,
+                        company_website = j.company.company_website
+                    },
+
+                })
                 .ToListAsync();
 
-            return new PaginatedResponse<Job>
+            return new PaginatedResponse<JobResponseDto>
             {
                 Items = items,
                 TotalCount = totalCount,
@@ -141,5 +164,33 @@ namespace AIJobCareer.Services
         public bool SortDescending { get; set; } = true; // Default newest first
         public int PageIndex { get; set; } = 1;
         public int PageSize { get; set; } = 10;
+    }
+
+    public class JobResponseDto
+    {
+        public int job_id { get; set; }
+        public string job_title { get; set; }
+        public string job_responsible { get; set; }
+        public decimal? job_salary_min { get; set; }
+        public decimal? job_salary_max { get; set; }
+        public string job_location { get; set; }
+        public JobType job_type { get; set; }
+        public string job_status { get; set; }
+        public DateTime Posted_Date { get; set; }
+        public string job_benefit { get; set; }
+        public string job_requirement { get; set; }
+
+        // Company without jobs collection
+        public CompanyDto company { get; set; }
+    }
+
+    public class CompanyDto
+    {
+        public int company_id { get; set; }
+        public string company_name { get; set; }
+        public string company_icon { get; set; }
+        public string company_intro { get; set; }
+        public string company_website { get; set; }
+        // No jobs collection here
     }
 }

@@ -7,7 +7,6 @@ namespace AIJobCareer.Controllers
 {
     [Route("[controller]")]
     [ApiController]
-    [Authorize]
     public class JobsController : ControllerBase
     {
         private readonly IJobService _jobService;
@@ -27,9 +26,9 @@ namespace AIJobCareer.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<PaginatedResponse<Job>>> GetJobs([FromQuery] JobFilterRequest filter)
+        public async Task<ActionResult<PaginatedResponse<JobResponseDto>>> GetJobs([FromQuery] JobFilterRequest filter)
         {
-            PaginatedResponse<Job>? result = await _jobService.GetJobsAsync(filter);
+            PaginatedResponse<JobResponseDto>? result = await _jobService.GetJobsAsync(filter);
             return Ok(result);
         }
 

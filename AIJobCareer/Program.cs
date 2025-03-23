@@ -47,6 +47,9 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+// Register services
+builder.Services.AddScoped<IJobService, JobService>();
+
 // Add Database Context
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
