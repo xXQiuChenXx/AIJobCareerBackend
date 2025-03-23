@@ -16,7 +16,11 @@ namespace AIJobCareer.Models
 
         [StringLength(255)]
         [Required]
-        public string job_title { get; set; } 
+        public string job_title { get; set; }
+
+        [StringLength(255)]
+        [Required]
+        public string job_description { get; set; }
 
         public string job_responsible { get; set; } 
 
@@ -35,6 +39,8 @@ namespace AIJobCareer.Models
         [Column(TypeName = "enum('open', 'closed')")]
         public string job_status { get; set; } = "open";
         public DateTime Posted_Date { get; set; }
+
+        public DateTime job_deadline { get; set; }
         public string job_benefit { get; set; }
         public string job_requirement { get; set; } 
         public virtual ICollection<JobSkill> job_skills { get; set; } = new List<JobSkill>();

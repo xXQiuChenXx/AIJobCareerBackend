@@ -44,9 +44,9 @@ namespace AIJobCareer.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult<Job>> GetJobById(int id)
+        public async Task<ActionResult<JobResponseDto>> GetJobById(int id)
         {
-            Job? job = await _jobService.GetJobByIdAsync(id);
+            JobResponseDto? job = await _jobService.GetJobByIdAsync(id);
             if (job == null)
                 return NotFound();
 

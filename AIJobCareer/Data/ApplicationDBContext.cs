@@ -207,44 +207,47 @@ namespace AIJobCareer.Data
 
             // Seed Companies (4)
             modelBuilder.Entity<Company>().HasData(
-                new Company
-                {
-                    company_id = 1,
-                    company_name = "Sarawak Energy Berhad",
-                    company_icon = "sarawak_energy_icon.png",
-                    company_intro = "Leading energy provider in Sarawak focusing on renewable energy sources.",
-                    company_website = "https://www.sarawakenergy.com",
-                    company_area_id = 1 // Kuching
-                },
-                new Company
-                {
-                    company_id = 2,
-                    company_name = "Petronas Carigali Sdn Bhd",
-                    company_icon = "petronas_icon.png",
-                    company_intro = "Oil and gas exploration company operating in Sarawak's offshore regions.",
-                    company_website = "https://www.petronas.com",
-                    company_area_id = 2 // Miri
-                },
-                new Company
-                {
-                    company_id = 3,
-                    company_name = "Sarawak Forestry Corporation",
-                    company_icon = "sfc_icon.png",
-                    company_intro = "Responsible for sustainable management of Sarawak's forest resources.",
-                    company_website = "https://www.sarawakforestry.com",
-                    company_area_id = 1 // Kuching
-                },
-                new Company
-                {
-                    company_id = 4,
-                    company_name = "Sarawak Digital Economy Corporation",
-                    company_icon = "sdec_icon.png",
-                    company_intro = "Driving digital transformation and innovation across Sarawak.",
-                    company_website = "https://www.sdec.com.my",
-                    company_area_id = 5 // Samarahan
-                }
-            );
-
+             new Company
+             {
+                 company_id = 1,
+                 company_name = "Sarawak Energy Berhad",
+                 company_icon = "sarawak_energy_icon.png",
+                 company_intro = "Leading energy provider in Sarawak focusing on renewable energy sources.",
+                 company_website = "https://www.sarawakenergy.com",
+                 company_area_id = 1, // Kuching
+                 company_industry = "Energy & Utilities"
+             },
+              new Company
+              {
+                  company_id = 2,
+                  company_name = "Petronas Carigali Sdn Bhd",
+                  company_icon = "petronas_icon.png",
+                  company_intro = "Oil and gas exploration company operating in Sarawak's offshore regions.",
+                  company_website = "https://www.petronas.com",
+                  company_area_id = 2, // Miri
+                  company_industry = "Oil & Gas"
+              },
+              new Company
+              {
+                  company_id = 3,
+                  company_name = "Sarawak Forestry Corporation",
+                  company_icon = "sfc_icon.png",
+                  company_intro = "Responsible for sustainable management of Sarawak's forest resources.",
+                  company_website = "https://www.sarawakforestry.com",
+                  company_area_id = 1, // Kuching
+                  company_industry = "Forestry & Environmental Services"
+              },
+              new Company
+              {
+                  company_id = 4,
+                  company_name = "Sarawak Digital Economy Corporation",
+                  company_icon = "sdec_icon.png",
+                  company_intro = "Driving digital transformation and innovation across Sarawak.",
+                  company_website = "https://www.sdec.com.my",
+                  company_area_id = 5, // Samarahan
+                  company_industry = "Technology & Digital Services"
+              }
+          );
             // Seed Users (3)
             modelBuilder.Entity<User>().HasData(
                 new User
@@ -302,26 +305,29 @@ namespace AIJobCareer.Data
 
             // Seed Jobs (6)
             modelBuilder.Entity<Job>().HasData(
-                new Job
-                {
-                    job_id = 1,
-                    job_company_id = 1,
-                    job_title = "Senior Software Developer",
-                    job_responsible = "Develop and maintain enterprise software applications for energy management systems.",
-                    job_salary_min = 5000.00M,
-                    job_salary_max = 7500.00M,
-                    job_type = JobType.Full_Time,
-                    job_location = "Kuching, Sarawak",
-                    job_status = "Open",
-                    Posted_Date = DateTime.Now.AddDays(-20),
-                    job_benefit = "Health insurance, performance bonus, professional development allowance.",
-                    job_requirement = "Bachelor's degree in Computer Science, 5+ years experience in software development."
-                },
+               new Job
+               {
+                   job_id = 1,
+                   job_company_id = 1,
+                   job_title = "Senior Software Developer",
+                   job_description = "Develop and maintain enterprise software applications for energy management systems.",
+                   job_responsible = "Lead software development projects, mentor junior developers, and collaborate with stakeholders.",
+                   job_salary_min = 5000.00M,
+                   job_salary_max = 7500.00M,
+                   job_type = JobType.Full_Time,
+                   job_location = "Kuching, Sarawak",
+                   job_status = "Open",
+                   Posted_Date = DateTime.Now.AddDays(-20),
+                   job_deadline = DateTime.Now.AddDays(30), // 45 days from posting
+                   job_benefit = "Health insurance, performance bonus, professional development allowance.",
+                   job_requirement = "Bachelor's degree in Computer Science, 5+ years experience in software development."
+               },
                 new Job
                 {
                     job_id = 2,
                     job_company_id = 2,
                     job_title = "Petroleum Engineer",
+                    job_description = "Design and implement strategies for efficient oil and gas extraction. Collaborate with multidisciplinary teams to solve complex drilling challenges.",
                     job_responsible = "Oversee drilling operations and optimize oil extraction processes.",
                     job_salary_min = 6500.00M,
                     job_salary_max = 9000.00M,
@@ -329,6 +335,7 @@ namespace AIJobCareer.Data
                     job_location = "Miri, Sarawak",
                     job_status = "Open",
                     Posted_Date = DateTime.Now.AddDays(-10),
+                    job_deadline = DateTime.Now.AddDays(34), // 40 days from posting
                     job_benefit = "Housing allowance, transportation, medical coverage, annual bonus.",
                     job_requirement = "Bachelor's degree in Petroleum Engineering, 5+ years field experience."
                 },
@@ -338,10 +345,12 @@ namespace AIJobCareer.Data
                     job_company_id = 3,
                     job_type = JobType.Part_Time,
                     job_title = "Forest Conservation Officer",
+                    job_description = "Monitor forest health, implement conservation programs, and work with local communities to promote sustainable forest management practices.",
                     job_responsible = "Implement and monitor forest conservation programs across Sarawak.",
                     job_salary_min = 4000.00M,
                     job_salary_max = 5500.00M,
                     Posted_Date = DateTime.Now.AddMonths(-2),
+                    job_deadline = DateTime.Now.AddMonths(1).AddDays(10), // 60 days from posting
                     job_location = "Kuching, Sarawak (with field work)",
                     job_status = "Open",
                     job_benefit = "Field allowance, government pension scheme, paid study leave.",
@@ -353,7 +362,9 @@ namespace AIJobCareer.Data
                     job_company_id = 4,
                     job_type = JobType.Full_Time,
                     job_title = "Digital Marketing Specialist",
+                    job_description = "Create and execute digital marketing campaigns to promote Sarawak's digital initiatives across various platforms and channels.",
                     Posted_Date = DateTime.Now.AddMonths(-4),
+                    job_deadline = DateTime.Now.AddMonths(-4).AddDays(30), // 30 days from posting
                     job_responsible = "Develop and implement digital marketing strategies for Sarawak's digital initiatives.",
                     job_salary_min = 3500.00M,
                     job_salary_max = 5000.00M,
@@ -368,8 +379,10 @@ namespace AIJobCareer.Data
                     job_company_id = 1,
                     job_type = JobType.Internship,
                     job_title = "Renewable Energy Analyst",
+                    job_description = "Evaluate renewable energy projects, conduct feasibility studies, and provide recommendations for sustainable energy solutions.",
                     job_responsible = "Analyze renewable energy projects and prepare feasibility reports.",
                     Posted_Date = DateTime.Now.AddDays(-40),
+                    job_deadline = DateTime.Now.AddDays(5), // 45 days from posting
                     job_salary_min = 4500.00M,
                     job_salary_max = 6000.00M,
                     job_location = "Kuching, Sarawak",
@@ -383,7 +396,9 @@ namespace AIJobCareer.Data
                     job_company_id = 4,
                     job_type = JobType.Full_Time,
                     job_title = "Full Stack Developer",
+                    job_description = "Develop and maintain web applications that support Sarawak's digital economy initiatives, from database design to user interface implementation.",
                     Posted_Date = DateTime.Now.AddDays(-34),
+                    job_deadline = DateTime.Now.AddDays(11), // 45 days from posting
                     job_responsible = "Design and develop web applications for Sarawak's digital economy initiatives.",
                     job_salary_min = 4800.00M,
                     job_salary_max = 7000.00M,

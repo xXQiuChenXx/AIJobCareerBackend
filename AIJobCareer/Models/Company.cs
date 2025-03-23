@@ -19,6 +19,8 @@ namespace AIJobCareer.Models
         [StringLength(255)]
         public string company_website { get; set; } = string.Empty;
 
+        public string company_industry { get; set; } = string.Empty;
+
         public int? company_area_id { get; set; }
 
         [ForeignKey("company_area_id")]

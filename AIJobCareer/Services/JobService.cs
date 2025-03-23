@@ -8,7 +8,7 @@ namespace AIJobCareer.Services
     public interface IJobService
     {
         Task<PaginatedResponse<JobResponseDto>> GetJobsAsync(JobFilterRequest filter);
-        Task<Job> GetJobByIdAsync(int id);
+        Task<JobResponseDto> GetJobByIdAsync(int id);
         Task<Job> CreateJobAsync(Job job);
         Task<bool> UpdateJobAsync(Job job);
         Task<bool> DeleteJobAsync(int id);
@@ -105,9 +105,38 @@ namespace AIJobCareer.Services
             };
         }
 
-        public async Task<Job> GetJobByIdAsync(int id)
+        public async Task<JobResponseDto?> GetJobByIdAsync(int id)
         {
-            return await _dbContext.Job.FindAsync(id);
+
+            Job? result = await _dbContext.Job.Include(j => j.company).FirstOrDefaultAsync(j => j.job_id == id);
+            if (result == null)
+                return null;
+
+            return new JobResponseDto
+            {
+                job_id = result.job_id,
+                job_title = result.job_title,
+                job_responsible = result.job_responsible,
+                job_salary_min = result.job_salary_min,
+                job_salary_max = result.job_salary_max,
+                job_location = result.job_location,
+                job_type = result.job_type,
+                job_status = result.job_status,
+                Posted_Date = result.Posted_Date,
+                job_deadline = result.job_deadline,
+                job_description = result.job_description,
+                job_benefit = result.job_benefit,
+                job_requirement = result.job_requirement,
+                company = new CompanyDto
+                {
+                    company_id = result.company.company_id,
+                    company_name = result.company.company_name,
+                    company_icon = result.company.company_icon,
+                    company_intro = result.company.company_intro,
+                    company_industry = result.company.company_industry,
+                    company_website = result.company.company_website
+                },
+            };
         }
 
         public async Task<Job> CreateJobAsync(Job job)
@@ -170,6 +199,7 @@ namespace AIJobCareer.Services
     {
         public int job_id { get; set; }
         public string job_title { get; set; }
+        public string job_description { get; set; }
         public string job_responsible { get; set; }
         public decimal? job_salary_min { get; set; }
         public decimal? job_salary_max { get; set; }
@@ -177,6 +207,7 @@ namespace AIJobCareer.Services
         public JobType job_type { get; set; }
         public string job_status { get; set; }
         public DateTime Posted_Date { get; set; }
+        public DateTime job_deadline { get; set; }
         public string job_benefit { get; set; }
         public string job_requirement { get; set; }
 
@@ -191,6 +222,6 @@ namespace AIJobCareer.Services
         public string company_icon { get; set; }
         public string company_intro { get; set; }
         public string company_website { get; set; }
-        // No jobs collection here
+        public string company_industry { get; set; }
     }
 }
