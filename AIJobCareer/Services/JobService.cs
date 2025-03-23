@@ -35,9 +35,9 @@ namespace AIJobCareer.Services
                                          j.company.company_name.ToLower().Contains(searchTerm));
             }
 
-            if (filter.JobType.HasValue)
+            if (filter.JobType != null && filter.JobType.Length > 0)
             {
-                query = query.Where(j => j.job_type == filter.JobType.Value);
+                query = query.Where(j => filter.JobType.Contains(j.job_type));
             }
 
             if (!string.IsNullOrEmpty(filter.Location))
@@ -156,7 +156,7 @@ namespace AIJobCareer.Services
     public class JobFilterRequest
     {
         public string? SearchTerm { get; set; }
-        public JobType? JobType { get; set; }
+        public JobType[]? JobType { get; set; }
         public string? Location { get; set; }
         public decimal? MinSalary { get; set; }
         public decimal? MaxSalary { get; set; }
