@@ -22,10 +22,10 @@ namespace AIJobCareer.Services
         {
             _logger = logger;
 
-            var accessKey = configuration["Cloudflare:R2:AccessKey"];
-            var secretKey = configuration["Cloudflare:R2:SecretKey"];
-            var accountId = configuration["Cloudflare:R2:AccountId"];
-            _bucketName = configuration["Cloudflare:R2:BucketName"];
+            var accessKey = Environment.GetEnvironmentVariable("CLOUDFLARE_R2_ACCESS_KEY") ?? configuration["Cloudflare:R2:AccessKey"];
+            var secretKey = Environment.GetEnvironmentVariable("CLOUDFLARE_R2_SECRET_KEY") ?? configuration["Cloudflare:R2:SecretKey"];
+            var accountId = Environment.GetEnvironmentVariable("CLOUDFLARE_R2_ACCOUNT_ID") ?? configuration["Cloudflare:R2:AccountId"];
+            _bucketName = Environment.GetEnvironmentVariable("CLOUDFLARE_R2_BUCKET_NAME") ?? configuration["Cloudflare:R2:BucketName"];
 
             var credentials = new BasicAWSCredentials(accessKey, secretKey);
             var config = new AmazonS3Config
