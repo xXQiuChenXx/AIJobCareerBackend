@@ -1,8 +1,10 @@
 ﻿using AIJobCareer.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AIJobCareer.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class FilesController : ControllerBase

@@ -27,7 +27,11 @@ namespace AIJobCareer.Data
         public DbSet<Skill> Skill { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<UserApplication> User_Application { get; set; }
-        public DbSet<UserSkill> USer_Skill { get; set; }
+        public DbSet<Project> Project { get; set; }
+        public DbSet<Education> Education { get; set; }
+        public DbSet<Publication> Publication { get; set; }
+        public DbSet<Certification> Certification { get; set; }
+        public DbSet<WorkExperience> Work_Experience { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
 
@@ -78,6 +82,12 @@ namespace AIJobCareer.Data
                 .HasForeignKey(n => n.notification_user_id)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // WorkExperience relationships
+            modelBuilder.Entity<WorkExperience>()
+                .HasOne(we => we.User)
+                .WithMany(u => u.WorkExperiences)
+                .HasForeignKey(we => we.user_id);
+
             // Skill relationships
             modelBuilder.Entity<Skill>()
                 .HasMany(s => s.user_skills)
@@ -90,6 +100,24 @@ namespace AIJobCareer.Data
                 .WithOne(js => js.Skill)
                 .HasForeignKey(js => js.JS_SKILL_ID)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Education relationships
+            modelBuilder.Entity<Education>()
+                .HasOne(e => e.User)
+                .WithMany(u => u.Educations)
+                .HasForeignKey(e => e.user_id);
+
+            // Certification relationships
+            modelBuilder.Entity<Certification>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.Certifications)
+                .HasForeignKey(c => c.user_id);
+
+            // Project relationships
+            modelBuilder.Entity<Project>()
+                .HasOne(p => p.User)
+                .WithMany(u => u.Projects)
+                .HasForeignKey(p => p.user_id);
 
             // Company relationships
             modelBuilder.Entity<Company>()
