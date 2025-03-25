@@ -64,7 +64,7 @@ namespace AIJobCareer.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-                return Ok(new { message = "Profile updated successfully", user });
+                return Ok(new { message = "Profile updated successfully" });
             }
             catch (DbUpdateException ex)
             {
