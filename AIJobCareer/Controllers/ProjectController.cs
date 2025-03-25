@@ -143,9 +143,9 @@ namespace AIJobCareer.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteProject(Guid id)
         {
-            var userId = GetCurrentUserId();
+            Guid userId = GetCurrentUserId();
 
-            var project = await _context.Project.FindAsync(id);
+            Project? project = await _context.Project.FindAsync(id);
             if (project == null)
             {
                 return NotFound();

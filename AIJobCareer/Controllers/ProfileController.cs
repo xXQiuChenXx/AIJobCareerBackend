@@ -110,7 +110,8 @@ namespace AIJobCareer.Controllers
                 {
                     user_id = user.user_id,
                     username = user.username,
-                    full_name = user.user_first_name + " " + user.user_last_name,
+                    first_name = user.user_first_name,
+                    last_name = user.user_last_name,
                     email = user.user_email,
                     age = user.user_age,
                     intro = user.user_intro,
@@ -217,7 +218,8 @@ namespace AIJobCareer.Controllers
     {
         public Guid user_id { get; set; }
         public string username { get; set; }
-        public string full_name { get; set; }
+        public string first_name { get; set; }
+        public string last_name { get; set; }
         public string email { get; set; }
         public int? age { get; set; }
         public string intro { get; set; }
