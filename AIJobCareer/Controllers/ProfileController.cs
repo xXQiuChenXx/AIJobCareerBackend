@@ -1,5 +1,6 @@
 ﻿using AIJobCareer.Data;
 using AIJobCareer.Models;
+using AIJobCareer.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -13,17 +14,70 @@ namespace AIJobCareer.Controllers
     public class ProfileController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
+        private readonly ILogger<ProfileController> _logger;
 
-        public ProfileController(ApplicationDBContext context)
+        public ProfileController(ApplicationDBContext context, ILogger<ProfileController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
-        // GET: api/Profile/Complete
-        [HttpGet("Complete")]
+        /// <summary>
+        /// Updates a user's profile information
+        /// </summary>
+        /// <param name="updateDto">The profile data to update</param>
+        [HttpPut("Update")]
+        [Authorize]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateUserProfileDto updateDto)
+        {
+            Guid userId = GetCurrentUserId();
+
+            var user = await _context.User.FindAsync(userId);
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            // Update only the allowed fields
+            user.user_first_name = updateDto.user_first_name;
+            user.user_last_name = updateDto.user_last_name;
+            user.user_age = updateDto.user_age;
+            user.user_intro = updateDto.user_intro;
+            user.user_contact_number = updateDto.user_contact_number;
+            user.user_email = updateDto.user_email;
+            user.user_icon = updateDto.user_icon;
+
+            // Update area if area_name is provided
+            if (!string.IsNullOrEmpty(updateDto.area_name))
+            {
+                // Look up area by name
+                var area = await _context.Area.FirstOrDefaultAsync(a => a.area_name == updateDto.area_name);
+
+                if (area == null)
+                {
+                    return BadRequest(new { message = $"Area '{updateDto.area_name}' not found. Please choose a valid area." });
+                }
+
+                user.user_area_id = area.area_id;
+            }
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok(new { message = "Profile updated successfully", user });
+            }
+            catch (DbUpdateException ex)
+            {
+                return BadRequest(new { message = "Failed to update profile", error = ex.InnerException?.Message ?? ex.Message });
+            }
+        }
+
+        // POST: Profile/Complete
+        [HttpPost("Complete")]
         public async Task<ActionResult<UserProfileCompleteDto>> GetCompleteProfile()
         {
             var userId = GetCurrentUserId();
+            _logger.LogInformation("=================User {UserId} requested complete profile", userId);
             if (userId == Guid.Empty)
             {
                 return Unauthorized();
@@ -47,9 +101,42 @@ namespace AIJobCareer.Controllers
                 return NotFound();
             }
 
+
+
             // Map to DTO to avoid password exposure and control the response structure
             var completeProfile = new UserProfileCompleteDto
             {
+                BasicInfo = new UserBasicInfoDto
+                {
+                    user_id = user.user_id,
+                    username = user.username,
+                    full_name = user.user_first_name + " " + user.user_last_name,
+                    email = user.user_email,
+                    age = user.user_age,
+                    intro = user.user_intro,
+                    contact_number = user.user_contact_number,
+                    icon = user.user_icon,
+                    privacy_status = user.user_privacy_status,
+                    role = user.user_role,
+                    account_created_time = user.user_account_created_time,
+                    last_login_at = user.last_login_at,
+                    location = user.Area?.area_name,
+                },
+
+                // Add WorkExperiences mapping
+                WorkExperiences = user.WorkExperiences.Select(w => new WorkExperienceDto
+                {
+                    experience_id = w.experience_id,
+                    job_title = w.job_title,
+                    company_name = w.company_name,
+                    location = w.location,
+                    start_date = w.start_date,
+                    end_date = w.end_date,
+                    is_current = w.is_current,
+                    description = w.description,
+                    experience_skill = w.experience_skill
+                }).OrderByDescending(w => w.start_date).ToList(),
+
                 Education = user.Educations.Select(e => new EducationDto
                 {
                     education_id = e.education_id,
