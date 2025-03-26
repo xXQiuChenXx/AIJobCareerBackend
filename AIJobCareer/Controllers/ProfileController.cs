@@ -77,7 +77,6 @@ namespace AIJobCareer.Controllers
         public async Task<ActionResult<UserProfileCompleteDto>> GetCompleteProfile()
         {
             var userId = GetCurrentUserId();
-            _logger.LogInformation("=================User {UserId} requested complete profile", userId);
             if (userId == Guid.Empty)
             {
                 return Unauthorized();
@@ -145,7 +144,10 @@ namespace AIJobCareer.Controllers
                     institution_name = e.institution_name,
                     start_year = e.start_year,
                     end_year = e.end_year,
-                    description = e.description
+                    description = e.description,
+                    user_id = userId,
+                    created_at = e.created_at,
+                    updated_at = e.updated_at
                 }).OrderByDescending(e => e.start_year).ToList(),
 
                 Projects = user.Projects.Select(p => new ProjectDto
@@ -243,16 +245,6 @@ namespace AIJobCareer.Controllers
         public bool is_current { get; set; }
         public string description { get; set; }
         public string experience_skill { get; set; }
-    }
-
-    public class EducationDto
-    {
-        public Guid education_id { get; set; }
-        public string degree_name { get; set; }
-        public string institution_name { get; set; }
-        public int start_year { get; set; }
-        public int? end_year { get; set; }
-        public string description { get; set; }
     }
 
     public class ProjectDto

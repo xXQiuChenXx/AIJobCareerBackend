@@ -1,14 +1,16 @@
 ﻿using AIJobCareer.Data;
 using AIJobCareer.Models;
+using AIJobCareer.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace AIJobCareer.Controllers
 {
-    [Authorize]
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class EducationController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
@@ -18,16 +20,36 @@ namespace AIJobCareer.Controllers
             _context = context;
         }
 
-        // GET: api/Education
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Education>>> GetEducations()
+        // GET: api/Education/user/current
+        [HttpGet("user/current")]
+        public async Task<ActionResult<IEnumerable<EducationDto>>> GetCurrentUserEducations()
         {
-            return await _context.Education.ToListAsync();
+            Guid userId = GetCurrentUserId();
+
+            List<EducationDto> educations = await _context.Education
+                .Where(e => e.user_id == userId)
+                .Select(e => MapToDto(e))
+                .ToListAsync();
+
+
+            return educations;
         }
 
-        // GET: api/Education/5
+        // GET: api/Education/user/{userId}
+        [HttpGet("user/{userId}")]
+        public async Task<ActionResult<IEnumerable<EducationDto>>> GetEducationsByUserId(Guid userId)
+        {
+            var educations = await _context.Education
+                .Where(e => e.user_id == userId)
+                .Select(e => MapToDto(e))
+                .ToListAsync();
+
+            return educations;
+        }
+
+        // GET: api/Education/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<Education>> GetEducation(Guid id)
+        public async Task<ActionResult<EducationDto>> GetEducation(Guid id)
         {
             var education = await _context.Education.FindAsync(id);
 
@@ -36,43 +58,60 @@ namespace AIJobCareer.Controllers
                 return NotFound();
             }
 
-            return education;
-        }
-
-        // GET: api/Education/user/5
-        [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<Education>>> GetEducationsByUserId(Guid userId)
-        {
-            return await _context.Education
-                .Where(e => e.user_id == userId)
-                .ToListAsync();
+            return MapToDto(education);
         }
 
         // POST: api/Education
         [HttpPost]
-        public async Task<ActionResult<Education>> CreateEducation(Education education)
+        public async Task<ActionResult<EducationDto>> CreateEducation(EducationCreateDto educationDto)
         {
-            education.created_at = DateTime.UtcNow;
-            education.updated_at = DateTime.UtcNow;
+            var userId = GetCurrentUserId();
+
+            var education = new Education
+            {
+                user_id = userId,
+                degree_name = educationDto.degree_name,
+                institution_name = educationDto.institution_name,
+                start_year = educationDto.start_year,
+                end_year = educationDto.end_year,
+                description = educationDto.description,
+                created_at = DateTime.UtcNow,
+                updated_at = DateTime.UtcNow
+            };
 
             _context.Education.Add(education);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetEducation), new { id = education.education_id }, education);
+            var resultDto = MapToDto(education);
+
+            return CreatedAtAction(nameof(GetEducation), new { id = resultDto.education_id }, resultDto);
         }
 
         // PUT: api/Education/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateEducation(Guid id, Education education)
+        public async Task<IActionResult> UpdateEducation(Guid id, EducationUpdateDto educationDto)
         {
-            if (id != education.education_id)
+            var education = await _context.Education.FindAsync(id);
+
+            if (education == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
+            // Verify ownership
+            var currentUserId = GetCurrentUserId();
+            if (education.user_id != currentUserId)
+            {
+                return Forbid();
+            }
+
+            // Update fields
+            education.degree_name = educationDto.degree_name;
+            education.institution_name = educationDto.institution_name;
+            education.start_year = educationDto.start_year;
+            education.end_year = educationDto.end_year;
+            education.description = educationDto.description;
             education.updated_at = DateTime.UtcNow;
-            _context.Entry(education).State = EntityState.Modified;
-            _context.Entry(education).Property(x => x.created_at).IsModified = false;
 
             try
             {
@@ -103,6 +142,13 @@ namespace AIJobCareer.Controllers
                 return NotFound();
             }
 
+            // Verify ownership
+            var currentUserId = GetCurrentUserId();
+            if (education.user_id != currentUserId)
+            {
+                return Forbid();
+            }
+
             _context.Education.Remove(education);
             await _context.SaveChangesAsync();
 
@@ -112,6 +158,32 @@ namespace AIJobCareer.Controllers
         private bool EducationExists(Guid id)
         {
             return _context.Education.Any(e => e.education_id == id);
+        }
+
+        private Guid GetCurrentUserId()
+        {
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (Guid.TryParse(userIdClaim, out Guid userId))
+            {
+                return userId;
+            }
+            return Guid.Empty;
+        }
+
+        private static EducationDto MapToDto(Education education)
+        {
+            return new EducationDto
+            {
+                education_id = education.education_id,
+                user_id = education.user_id,
+                degree_name = education.degree_name,
+                institution_name = education.institution_name,
+                start_year = education.start_year,
+                end_year = education.end_year,
+                description = education.description,
+                created_at = education.created_at,
+                updated_at = education.updated_at
+            };
         }
     }
 }
