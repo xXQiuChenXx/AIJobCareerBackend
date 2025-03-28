@@ -1,5 +1,6 @@
 ﻿using AIJobCareer.Data;
 using AIJobCareer.Models;
+using AIJobCareer.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,17 +33,28 @@ namespace AIJobCareer.Controllers
 
         // GET: /Project
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Project>>> GetProjects()
+        public async Task<ActionResult<IEnumerable<ProjectResponseDto>>> GetProjects()
         {
             var userId = GetCurrentUserId();
-            return await _context.Project
+            var projects = await _context.Project
                 .Where(p => p.user_id == userId)
                 .ToListAsync();
+
+            return projects.Select(p => new ProjectResponseDto
+            {
+                ProjectId = p.project_id,
+                ProjectName = p.project_name,
+                ProjectYear = p.project_year,
+                Description = p.description,
+                ProjectUrl = p.project_url,
+                CreatedAt = p.created_at,
+                UpdatedAt = p.updated_at
+            }).ToList();
         }
 
         // GET: /Project/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Project>> GetProject(Guid id)
+        public async Task<ActionResult<ProjectResponseDto>> GetProject(Guid id)
         {
             var userId = GetCurrentUserId();
 
@@ -59,45 +71,76 @@ namespace AIJobCareer.Controllers
                 return Forbid();
             }
 
-            return project;
+            return new ProjectResponseDto
+            {
+                ProjectId = project.project_id,
+                ProjectName = project.project_name,
+                ProjectYear = project.project_year,
+                Description = project.description,
+                ProjectUrl = project.project_url,
+                CreatedAt = project.created_at,
+                UpdatedAt = project.updated_at
+            };
         }
 
-        // GET: /Project/user/{userId} - Admin only endpoint or for profile viewing
+        // GET: /Project/user/{userId}
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<Project>>> GetProjectsByUserId(Guid userId)
+        public async Task<ActionResult<IEnumerable<ProjectResponseDto>>> GetProjectsByUserId(Guid userId)
         {
-            // If viewing own projects or implement additional permission check here
-            return await _context.Project
+            var projects = await _context.Project
                 .Where(p => p.user_id == userId)
                 .ToListAsync();
+
+            return projects.Select(p => new ProjectResponseDto
+            {
+                ProjectId = p.project_id,
+                ProjectName = p.project_name,
+                ProjectYear = p.project_year,
+                Description = p.description,
+                ProjectUrl = p.project_url,
+                CreatedAt = p.created_at,
+                UpdatedAt = p.updated_at
+            }).ToList();
         }
 
         // POST: /Project
         [HttpPost]
-        public async Task<ActionResult<Project>> CreateProject(Project project)
+        public async Task<ActionResult<ProjectResponseDto>> CreateProject(ProjectRequestDto projectDto)
         {
             var userId = GetCurrentUserId();
 
-            // Override any user_id in the request with the authenticated user's ID
-            project.user_id = userId;
-            project.created_at = DateTime.UtcNow;
-            project.updated_at = DateTime.UtcNow;
+            var project = new Project
+            {
+                user_id = userId,
+                project_name = projectDto.ProjectName,
+                project_year = projectDto.ProjectYear,
+                description = projectDto.Description,
+                project_url = projectDto.ProjectUrl,
+                created_at = DateTime.UtcNow,
+                updated_at = DateTime.UtcNow
+            };
 
             _context.Project.Add(project);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetProject), new { id = project.project_id }, project);
+            var responseDto = new ProjectResponseDto
+            {
+                ProjectId = project.project_id,
+                ProjectName = project.project_name,
+                ProjectYear = project.project_year,
+                Description = project.description,
+                ProjectUrl = project.project_url,
+                CreatedAt = project.created_at,
+                UpdatedAt = project.updated_at
+            };
+
+            return CreatedAtAction(nameof(GetProject), new { id = project.project_id }, responseDto);
         }
 
         // PUT: /Project/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateProject(Guid id, Project project)
+        public async Task<IActionResult> UpdateProject(Guid id, ProjectRequestDto projectDto)
         {
-            if (id != project.project_id)
-            {
-                return BadRequest();
-            }
-
             var userId = GetCurrentUserId();
 
             // Verify the project exists and belongs to the current user
@@ -112,13 +155,12 @@ namespace AIJobCareer.Controllers
                 return Forbid();
             }
 
-            // Ensure the user can't change the user_id
-            project.user_id = userId;
-            project.updated_at = DateTime.UtcNow;
-
-            _context.Entry(existingProject).State = EntityState.Detached;
-            _context.Entry(project).State = EntityState.Modified;
-            _context.Entry(project).Property(x => x.created_at).IsModified = false;
+            // Update the project with DTO values
+            existingProject.project_name = projectDto.ProjectName;
+            existingProject.project_year = projectDto.ProjectYear;
+            existingProject.description = projectDto.Description;
+            existingProject.project_url = projectDto.ProjectUrl;
+            existingProject.updated_at = DateTime.UtcNow;
 
             try
             {
