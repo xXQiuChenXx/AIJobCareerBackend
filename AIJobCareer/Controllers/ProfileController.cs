@@ -1,5 +1,5 @@
 ﻿using AIJobCareer.Data;
-using AIJobCareer.Models;
+using AIJobCareer.DTOs.Publication;
 using AIJobCareer.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -254,16 +254,6 @@ namespace AIJobCareer.Controllers
         public int project_year { get; set; }
         public string description { get; set; }
         public string project_url { get; set; }
-    }
-
-    public class PublicationDto
-    {
-        public Guid publication_id { get; set; }
-        public string publication_title { get; set; }
-        public string publisher { get; set; }
-        public int publication_year { get; set; }
-        public string publication_url { get; set; }
-        public string description { get; set; }
     }
 
     public class SkillDto
