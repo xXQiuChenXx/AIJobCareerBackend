@@ -80,7 +80,7 @@ namespace AIJobCareer.Models.DTOs
         public int job_id { get; set; }
         public string job_title { get; set; }
         public string job_description { get; set; }
-        public string job_type { get; set; }
+        public JobType job_type { get; set; }
         public decimal? job_salary_min { get; set; }
         public decimal? job_salary_max { get; set; }
     }
