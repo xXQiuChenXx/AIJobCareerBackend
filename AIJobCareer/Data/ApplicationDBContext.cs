@@ -27,6 +27,7 @@ namespace AIJobCareer.Data
         public DbSet<Skill> Skill { get; set; }
         public DbSet<User> User { get; set; }
         public DbSet<UserApplication> User_Application { get; set; }
+        public DbSet<UserSkill> User_Skill { get; set; }
         public DbSet<Project> Project { get; set; }
         public DbSet<Education> Education { get; set; }
         public DbSet<Publication> Publication { get; set; }
@@ -147,28 +148,23 @@ namespace AIJobCareer.Data
 
             modelBuilder.Entity<Job>()
                 .HasMany(j => j.job_application)
-                .WithOne(ja => ja.job)
-                .HasForeignKey(ja => ja.application_job_id)
+                .WithOne(ja => ja.Job)
+                .HasForeignKey(ja => ja.Id)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // JobApplication relationships
-            modelBuilder.Entity<JobApplication>()
-                .HasMany(ja => ja.job_application_table)
-                .WithOne(jat => jat.JobApplication)
-                .HasForeignKey(jat => jat.TABLE_APPLICATION_ID)
+            // Fix for CS0266 and CS1662
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.UserApplications)
+                .WithOne(ua => ua.User)
+                .HasForeignKey(ua => ua.UA_USER_ID)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            // JobApplication to JobPosition (Many to One)
             modelBuilder.Entity<JobApplication>()
-                .HasMany(ja => ja.user_application)
-                .WithOne(ua => ua.job_application)
-                .HasForeignKey(ua => ua.UA_APPLICATION_ID)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<JobApplication>()
-                .HasMany(ja => ja.job_application_reviews)
-                .WithOne(jar => jar.job_application)
-                .HasForeignKey(jar => jar.review_application_id)
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasOne(a => a.Job)
+                .WithMany(p => p.job_application)
+                .HasForeignKey(a => a.JobId)
+                .OnDelete(DeleteBehavior.Restrict); // Don't cascade delete applications if position is deleted
 
             // Resume relationships
             modelBuilder.Entity<Resume>()
@@ -182,6 +178,12 @@ namespace AIJobCareer.Data
                .WithMany(u => u.Resumes)
                .HasForeignKey(r => r.resume_user_id)
                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+               .HasOne(u => u.Company)
+               .WithOne(c => c.User)
+               .HasForeignKey<User>(u => u.user_company_id)
+               .IsRequired(false); // Makes the relationship optional
 
             // Configure table names to match SQL
             modelBuilder.Entity<Area>().ToTable("AREA");
@@ -221,23 +223,23 @@ namespace AIJobCareer.Data
 
             // Seed Skills (10)
             modelBuilder.Entity<Skill>().HasData(
-                new Skill { skill_id = 1, skill_name = "C# Programming", skill_info = "Microsoft .NET framework development", skill_type = "Technical", skill_level = "Advanced" },
-                new Skill { skill_id = 2, skill_name = "Database Management", skill_info = "SQL Server, MySQL, PostgreSQL", skill_type = "Technical", skill_level = "Intermediate" },
-                new Skill { skill_id = 3, skill_name = "Project Management", skill_info = "Agile, Scrum, Kanban methodologies", skill_type = "Management", skill_level = "Advanced" },
-                new Skill { skill_id = 4, skill_name = "Web Development", skill_info = "HTML, CSS, JavaScript", skill_type = "Technical", skill_level = "Advanced" },
-                new Skill { skill_id = 5, skill_name = "Petroleum Engineering", skill_info = "Oil and gas extraction techniques", skill_type = "Technical", skill_level = "Expert" },
-                new Skill { skill_id = 6, skill_name = "Digital Marketing", skill_info = "SEO, SEM, Social Media Marketing", skill_type = "Marketing", skill_level = "Intermediate" },
-                new Skill { skill_id = 7, skill_name = "Forestry Management", skill_info = "Sustainable forest management practices", skill_type = "Environmental", skill_level = "Advanced" },
-                new Skill { skill_id = 8, skill_name = "Tourism & Hospitality", skill_info = "Customer service and hospitality management", skill_type = "Service", skill_level = "Intermediate" },
-                new Skill { skill_id = 9, skill_name = "Indigenous Culture Knowledge", skill_info = "Understanding of Sarawak's indigenous cultures", skill_type = "Cultural", skill_level = "Expert" },
-                new Skill { skill_id = 10, skill_name = "Agricultural Science", skill_info = "Tropical agriculture techniques", skill_type = "Agricultural", skill_level = "Advanced" }
+                new Skill { skill_id = 1, skill_name = "C# Programming", skill_level = "Advanced" },
+                new Skill { skill_id = 2, skill_name = "Database Management", skill_level = "Intermediate" },
+                new Skill { skill_id = 3, skill_name = "Project Management", skill_level = "Advanced" },
+                new Skill { skill_id = 4, skill_name = "Web Development", skill_level = "Advanced" },
+                new Skill { skill_id = 5, skill_name = "Petroleum Engineering", skill_level = "Expert" },
+                new Skill { skill_id = 6, skill_name = "Digital Marketing", skill_level = "Intermediate" },
+                new Skill { skill_id = 7, skill_name = "Forestry Management", skill_level = "Advanced" },
+                new Skill { skill_id = 8, skill_name = "Tourism & Hospitality", skill_level = "Intermediate" },
+                new Skill { skill_id = 9, skill_name = "Indigenous Culture Knowledge", skill_level = "Expert" },
+                new Skill { skill_id = 10, skill_name = "Agricultural Science", skill_level = "Advanced" }
             );
 
             // Seed Companies (4)
             modelBuilder.Entity<Company>().HasData(
              new Company
              {
-                 company_id = 1,
+                 company_id = "sarawakenergy",
                  company_name = "Sarawak Energy Berhad",
                  company_icon = "sarawak_energy_icon.png",
                  company_intro = "Leading energy provider in Sarawak focusing on renewable energy sources.",
@@ -247,7 +249,7 @@ namespace AIJobCareer.Data
              },
               new Company
               {
-                  company_id = 2,
+                  company_id = "petronas",
                   company_name = "Petronas Carigali Sdn Bhd",
                   company_icon = "petronas_icon.png",
                   company_intro = "Oil and gas exploration company operating in Sarawak's offshore regions.",
@@ -257,7 +259,7 @@ namespace AIJobCareer.Data
               },
               new Company
               {
-                  company_id = 3,
+                  company_id = "sarawakforestrycorporation",
                   company_name = "Sarawak Forestry Corporation",
                   company_icon = "sfc_icon.png",
                   company_intro = "Responsible for sustainable management of Sarawak's forest resources.",
@@ -267,7 +269,7 @@ namespace AIJobCareer.Data
               },
               new Company
               {
-                  company_id = 4,
+                  company_id = "sdec",
                   company_name = "Sarawak Digital Economy Corporation",
                   company_icon = "sdec_icon.png",
                   company_intro = "Driving digital transformation and innovation across Sarawak.",
@@ -336,7 +338,7 @@ namespace AIJobCareer.Data
                new Job
                {
                    job_id = 1,
-                   job_company_id = 1,
+                   job_company_id = "sarawakenergy",
                    job_title = "Senior Software Developer",
                    job_description = "Develop and maintain enterprise software applications for energy management systems.",
                    job_responsible = "Lead software development projects, mentor junior developers, and collaborate with stakeholders.",
@@ -353,7 +355,7 @@ namespace AIJobCareer.Data
                 new Job
                 {
                     job_id = 2,
-                    job_company_id = 2,
+                    job_company_id = "petronas",
                     job_title = "Petroleum Engineer",
                     job_description = "Design and implement strategies for efficient oil and gas extraction. Collaborate with multidisciplinary teams to solve complex drilling challenges.",
                     job_responsible = "Oversee drilling operations and optimize oil extraction processes.",
@@ -370,7 +372,7 @@ namespace AIJobCareer.Data
                 new Job
                 {
                     job_id = 3,
-                    job_company_id = 3,
+                    job_company_id = "sarawakforestrycorporation",
                     job_type = JobType.Part_Time,
                     job_title = "Forest Conservation Officer",
                     job_description = "Monitor forest health, implement conservation programs, and work with local communities to promote sustainable forest management practices.",
@@ -387,7 +389,7 @@ namespace AIJobCareer.Data
                 new Job
                 {
                     job_id = 4,
-                    job_company_id = 4,
+                    job_company_id = "sdec",
                     job_type = JobType.Full_Time,
                     job_title = "Digital Marketing Specialist",
                     job_description = "Create and execute digital marketing campaigns to promote Sarawak's digital initiatives across various platforms and channels.",
@@ -404,7 +406,7 @@ namespace AIJobCareer.Data
                 new Job
                 {
                     job_id = 5,
-                    job_company_id = 1,
+                    job_company_id = "sarawakenergy",
                     job_type = JobType.Internship,
                     job_title = "Renewable Energy Analyst",
                     job_description = "Evaluate renewable energy projects, conduct feasibility studies, and provide recommendations for sustainable energy solutions.",
@@ -421,7 +423,7 @@ namespace AIJobCareer.Data
                 new Job
                 {
                     job_id = 6,
-                    job_company_id = 4,
+                    job_company_id = "sarawakforestrycorporation",
                     job_type = JobType.Full_Time,
                     job_title = "Full Stack Developer",
                     job_description = "Develop and maintain web applications that support Sarawak's digital economy initiatives, from database design to user interface implementation.",
@@ -527,34 +529,6 @@ namespace AIJobCareer.Data
                 }
             );
 
-            // Seed JobApplication (3)
-            modelBuilder.Entity<JobApplication>().HasData(
-                new JobApplication
-                {
-                    application_id = 1,
-                    application_job_id = 1,
-                    application_type = "full_time",
-                    application_status = "pending",
-                    application_submission_date = DateTime.Now.AddDays(-10)
-                },
-                new JobApplication
-                {
-                    application_id = 2,
-                    application_job_id = 3,
-                    application_type = "full_time",
-                    application_status = "interview_scheduled",
-                    application_submission_date = DateTime.Now.AddDays(-15)
-                },
-                new JobApplication
-                {
-                    application_id = 3,
-                    application_job_id = 2,
-                    application_type = "contract",
-                    application_status = "pending",
-                    application_submission_date = DateTime.Now.AddDays(-5)
-                }
-            );
-
             // Seed UserApplication (3)
             modelBuilder.Entity<UserApplication>().HasData(
                 new UserApplication
@@ -582,7 +556,7 @@ namespace AIJobCareer.Data
                 {
                     notification_id = 1,
                     notification_user_id = userId1,
-                    notification_company_id = 1,
+                    notification_company_id = "sarawakenergy",
                     notification_text = "Your application for Senior Software Developer has been received. We will review it shortly.",
                     notification_timestamp = DateTime.Now.AddDays(-10),
                     notification_status = "unread"
@@ -591,7 +565,7 @@ namespace AIJobCareer.Data
                 {
                     notification_id = 2,
                     notification_user_id = userId2,
-                    notification_company_id = 3,
+                    notification_company_id = "sarawakforestrycorporation",
                     notification_text = "You have been shortlisted for the Forest Conservation Officer position. Please prepare for an interview.",
                     notification_timestamp = DateTime.Now.AddDays(-8),
                     notification_status = "read"
@@ -600,7 +574,7 @@ namespace AIJobCareer.Data
                 {
                     notification_id = 3,
                     notification_user_id = userId3,
-                    notification_company_id = 2,
+                    notification_company_id = "petronas",
                     notification_text = "Thank you for your application to Petronas Carigali. Your application is under review.",
                     notification_timestamp = DateTime.Now.AddDays(-5),
                     notification_status = "unread"
@@ -641,7 +615,7 @@ namespace AIJobCareer.Data
                 {
                     review_id = 1,
                     review_application_id = 1,
-                    review_company_id = 1,
+                    review_company_id = "sarawakenergy",
                     review_status = "Positive",
                     review_context = "Strong technical background and relevant experience. Recommended for interview.",
                     review_date = DateTime.Now.AddDays(-5)
@@ -650,7 +624,7 @@ namespace AIJobCareer.Data
                 {
                     review_id = 2,
                     review_application_id = 2,
-                    review_company_id = 3,
+                    review_company_id = "petronas",
                     review_status = "Very Positive",
                     review_context = "Excellent match for the position. Scientific background and conservation experience are ideal.",
                     review_date = DateTime.Now.AddDays(-10)
@@ -659,7 +633,7 @@ namespace AIJobCareer.Data
                 {
                     review_id = 3,
                     review_application_id = 3,
-                    review_company_id = 2,
+                    review_company_id = "sdec",
                     review_status = "Neutral",
                     review_context = "Good experience but may need additional training in offshore safety protocols.",
                     review_date = DateTime.Now.AddDays(-3)

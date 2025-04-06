@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace AIJobCareer.Migrations
 {
     /// <inheritdoc />
-    public partial class change_profile : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -40,10 +40,6 @@ namespace AIJobCareer.Migrations
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     skill_name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    skill_info = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    skill_type = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
                     skill_level = table.Column<string>(type: "enum('beginner', 'intermediate', 'proficient', 'advanced', 'expert')", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
@@ -57,11 +53,11 @@ namespace AIJobCareer.Migrations
                 name: "COMPANY",
                 columns: table => new
                 {
-                    company_id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    company_id = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     company_name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    company_icon = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                    company_icon = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     company_intro = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -80,6 +76,47 @@ namespace AIJobCareer.Migrations
                         principalTable: "AREA",
                         principalColumn: "area_id",
                         onDelete: ReferentialAction.Restrict);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "JOB",
+                columns: table => new
+                {
+                    job_id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    job_company_id = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    job_title = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    job_description = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    job_responsible = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    job_salary_min = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
+                    job_salary_max = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
+                    job_location = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    job_type = table.Column<string>(type: "enum('internship', 'freelance', 'full_time', 'part_time', 'contract')", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    job_status = table.Column<string>(type: "enum('open', 'closed')", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Posted_Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    job_deadline = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    job_benefit = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    job_requirement = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JOB", x => x.job_id);
+                    table.ForeignKey(
+                        name: "FK_JOB_COMPANY_job_company_id",
+                        column: x => x.job_company_id,
+                        principalTable: "COMPANY",
+                        principalColumn: "company_id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -111,7 +148,9 @@ namespace AIJobCareer.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     user_account_created_time = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     last_login_at = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    user_area_id = table.Column<int>(type: "int", nullable: true)
+                    user_area_id = table.Column<int>(type: "int", nullable: true),
+                    user_company_id = table.Column<string>(type: "varchar(255)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
@@ -122,45 +161,37 @@ namespace AIJobCareer.Migrations
                         principalTable: "AREA",
                         principalColumn: "area_id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_USERS_COMPANY_user_company_id",
+                        column: x => x.user_company_id,
+                        principalTable: "COMPANY",
+                        principalColumn: "company_id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "JOB",
+                name: "JOB_SKILL",
                 columns: table => new
                 {
-                    job_id = table.Column<int>(type: "int", nullable: false)
+                    JS_ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    job_company_id = table.Column<int>(type: "int", nullable: false),
-                    job_title = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    job_description = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    job_responsible = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    job_salary_min = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
-                    job_salary_max = table.Column<decimal>(type: "decimal(10,2)", nullable: true),
-                    job_location = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    job_type = table.Column<string>(type: "enum('internship', 'freelance', 'full_time', 'part_time', 'contract')", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    job_status = table.Column<string>(type: "enum('open', 'closed')", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    Posted_Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    job_deadline = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    job_benefit = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    job_requirement = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    JS_JOB_ID = table.Column<int>(type: "int", nullable: false),
+                    JS_SKILL_ID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_JOB", x => x.job_id);
+                    table.PrimaryKey("PK_JOB_SKILL", x => x.JS_ID);
                     table.ForeignKey(
-                        name: "FK_JOB_COMPANY_job_company_id",
-                        column: x => x.job_company_id,
-                        principalTable: "COMPANY",
-                        principalColumn: "company_id",
+                        name: "FK_JOB_SKILL_JOB_JS_JOB_ID",
+                        column: x => x.JS_JOB_ID,
+                        principalTable: "JOB",
+                        principalColumn: "job_id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_JOB_SKILL_SKILL_JS_SKILL_ID",
+                        column: x => x.JS_SKILL_ID,
+                        principalTable: "SKILL",
+                        principalColumn: "skill_id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -252,13 +283,71 @@ namespace AIJobCareer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
+                name: "JOB_APPLICATION",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    JobId = table.Column<int>(type: "int", nullable: false),
+                    FirstName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LastName = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Email = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Phone = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    LinkedIn = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Portfolio = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Experience = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Education = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Skills = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Availability = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Relocate = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    Salary = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    CoverLetter = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    ResumeUrl = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Status = table.Column<int>(type: "int", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_JOB_APPLICATION", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_JOB_APPLICATION_JOB_JobId",
+                        column: x => x.JobId,
+                        principalTable: "JOB",
+                        principalColumn: "job_id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_JOB_APPLICATION_USERS_UserId",
+                        column: x => x.UserId,
+                        principalTable: "USERS",
+                        principalColumn: "user_id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
                 name: "NOTIFICATION",
                 columns: table => new
                 {
                     notification_id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     notification_user_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    notification_company_id = table.Column<int>(type: "int", nullable: true),
+                    notification_company_id = table.Column<string>(type: "varchar(255)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     notification_text = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     notification_timestamp = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -428,65 +517,14 @@ namespace AIJobCareer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "JOB_APPLICATION",
-                columns: table => new
-                {
-                    application_id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    application_job_id = table.Column<int>(type: "int", nullable: false),
-                    application_type = table.Column<string>(type: "enum('internship', 'freelance', 'full_time', 'part_time', 'contract')", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    application_status = table.Column<string>(type: "enum('pending','interview_scheduled', 'accepted', 'rejected')", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    application_submission_date = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_JOB_APPLICATION", x => x.application_id);
-                    table.ForeignKey(
-                        name: "FK_JOB_APPLICATION_JOB_application_job_id",
-                        column: x => x.application_job_id,
-                        principalTable: "JOB",
-                        principalColumn: "job_id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "JOB_SKILL",
-                columns: table => new
-                {
-                    JS_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    JS_JOB_ID = table.Column<int>(type: "int", nullable: false),
-                    JS_SKILL_ID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_JOB_SKILL", x => x.JS_ID);
-                    table.ForeignKey(
-                        name: "FK_JOB_SKILL_JOB_JS_JOB_ID",
-                        column: x => x.JS_JOB_ID,
-                        principalTable: "JOB",
-                        principalColumn: "job_id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_JOB_SKILL_SKILL_JS_SKILL_ID",
-                        column: x => x.JS_SKILL_ID,
-                        principalTable: "SKILL",
-                        principalColumn: "skill_id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "JOB_APPLICATION_REVIEW",
                 columns: table => new
                 {
                     review_id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     review_application_id = table.Column<int>(type: "int", nullable: false),
-                    review_company_id = table.Column<int>(type: "int", nullable: false),
+                    review_company_id = table.Column<string>(type: "varchar(255)", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     review_status = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     review_context = table.Column<string>(type: "longtext", nullable: false)
@@ -506,7 +544,34 @@ namespace AIJobCareer.Migrations
                         name: "FK_JOB_APPLICATION_REVIEW_JOB_APPLICATION_review_application_id",
                         column: x => x.review_application_id,
                         principalTable: "JOB_APPLICATION",
-                        principalColumn: "application_id",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "USER_APPLICATION",
+                columns: table => new
+                {
+                    UA_ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UA_USER_ID = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    UA_APPLICATION_ID = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_USER_APPLICATION", x => x.UA_ID);
+                    table.ForeignKey(
+                        name: "FK_USER_APPLICATION_JOB_APPLICATION_UA_APPLICATION_ID",
+                        column: x => x.UA_APPLICATION_ID,
+                        principalTable: "JOB_APPLICATION",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_USER_APPLICATION_USERS_UA_USER_ID",
+                        column: x => x.UA_USER_ID,
+                        principalTable: "USERS",
+                        principalColumn: "user_id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -529,7 +594,7 @@ namespace AIJobCareer.Migrations
                         name: "FK_JOB_APPLICATION_TABLE_JOB_APPLICATION_TABLE_APPLICATION_ID",
                         column: x => x.TABLE_APPLICATION_ID,
                         principalTable: "JOB_APPLICATION",
-                        principalColumn: "application_id",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_JOB_APPLICATION_TABLE_RESUME_TABLE_RESUME_ID",
@@ -537,33 +602,6 @@ namespace AIJobCareer.Migrations
                         principalTable: "RESUME",
                         principalColumn: "resume_id",
                         onDelete: ReferentialAction.Restrict);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "USER_APPLICATION",
-                columns: table => new
-                {
-                    UA_ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UA_USER_ID = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    UA_APPLICATION_ID = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_USER_APPLICATION", x => x.UA_ID);
-                    table.ForeignKey(
-                        name: "FK_USER_APPLICATION_JOB_APPLICATION_UA_APPLICATION_ID",
-                        column: x => x.UA_APPLICATION_ID,
-                        principalTable: "JOB_APPLICATION",
-                        principalColumn: "application_id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_USER_APPLICATION_USERS_UA_USER_ID",
-                        column: x => x.UA_USER_ID,
-                        principalTable: "USERS",
-                        principalColumn: "user_id",
-                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -586,19 +624,19 @@ namespace AIJobCareer.Migrations
 
             migrationBuilder.InsertData(
                 table: "SKILL",
-                columns: new[] { "skill_id", "skill_info", "skill_level", "skill_name", "skill_type" },
+                columns: new[] { "skill_id", "skill_level", "skill_name" },
                 values: new object[,]
                 {
-                    { 1, "Microsoft .NET framework development", "Advanced", "C# Programming", "Technical" },
-                    { 2, "SQL Server, MySQL, PostgreSQL", "Intermediate", "Database Management", "Technical" },
-                    { 3, "Agile, Scrum, Kanban methodologies", "Advanced", "Project Management", "Management" },
-                    { 4, "HTML, CSS, JavaScript", "Advanced", "Web Development", "Technical" },
-                    { 5, "Oil and gas extraction techniques", "Expert", "Petroleum Engineering", "Technical" },
-                    { 6, "SEO, SEM, Social Media Marketing", "Intermediate", "Digital Marketing", "Marketing" },
-                    { 7, "Sustainable forest management practices", "Advanced", "Forestry Management", "Environmental" },
-                    { 8, "Customer service and hospitality management", "Intermediate", "Tourism & Hospitality", "Service" },
-                    { 9, "Understanding of Sarawak's indigenous cultures", "Expert", "Indigenous Culture Knowledge", "Cultural" },
-                    { 10, "Tropical agriculture techniques", "Advanced", "Agricultural Science", "Agricultural" }
+                    { 1, "Advanced", "C# Programming" },
+                    { 2, "Intermediate", "Database Management" },
+                    { 3, "Advanced", "Project Management" },
+                    { 4, "Advanced", "Web Development" },
+                    { 5, "Expert", "Petroleum Engineering" },
+                    { 6, "Intermediate", "Digital Marketing" },
+                    { 7, "Advanced", "Forestry Management" },
+                    { 8, "Intermediate", "Tourism & Hospitality" },
+                    { 9, "Expert", "Indigenous Culture Knowledge" },
+                    { 10, "Advanced", "Agricultural Science" }
                 });
 
             migrationBuilder.InsertData(
@@ -606,20 +644,20 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "company_id", "company_area_id", "company_icon", "company_industry", "company_intro", "company_name", "company_website" },
                 values: new object[,]
                 {
-                    { 1, 1, "sarawak_energy_icon.png", "Energy & Utilities", "Leading energy provider in Sarawak focusing on renewable energy sources.", "Sarawak Energy Berhad", "https://www.sarawakenergy.com" },
-                    { 2, 2, "petronas_icon.png", "Oil & Gas", "Oil and gas exploration company operating in Sarawak's offshore regions.", "Petronas Carigali Sdn Bhd", "https://www.petronas.com" },
-                    { 3, 1, "sfc_icon.png", "Forestry & Environmental Services", "Responsible for sustainable management of Sarawak's forest resources.", "Sarawak Forestry Corporation", "https://www.sarawakforestry.com" },
-                    { 4, 5, "sdec_icon.png", "Technology & Digital Services", "Driving digital transformation and innovation across Sarawak.", "Sarawak Digital Economy Corporation", "https://www.sdec.com.my" }
+                    { "petronas", 2, "petronas_icon.png", "Oil & Gas", "Oil and gas exploration company operating in Sarawak's offshore regions.", "Petronas Carigali Sdn Bhd", "https://www.petronas.com" },
+                    { "sarawakenergy", 1, "sarawak_energy_icon.png", "Energy & Utilities", "Leading energy provider in Sarawak focusing on renewable energy sources.", "Sarawak Energy Berhad", "https://www.sarawakenergy.com" },
+                    { "sarawakforestrycorporation", 1, "sfc_icon.png", "Forestry & Environmental Services", "Responsible for sustainable management of Sarawak's forest resources.", "Sarawak Forestry Corporation", "https://www.sarawakforestry.com" },
+                    { "sdec", 5, "sdec_icon.png", "Technology & Digital Services", "Driving digital transformation and innovation across Sarawak.", "Sarawak Digital Economy Corporation", "https://www.sdec.com.my" }
                 });
 
             migrationBuilder.InsertData(
                 table: "USERS",
-                columns: new[] { "user_id", "last_login_at", "user_account_created_time", "user_age", "user_area_id", "user_contact_number", "user_email", "user_first_name", "user_icon", "user_intro", "user_last_name", "user_password", "user_privacy_status", "user_role", "username" },
+                columns: new[] { "user_id", "last_login_at", "user_account_created_time", "user_age", "user_area_id", "user_company_id", "user_contact_number", "user_email", "user_first_name", "user_icon", "user_intro", "user_last_name", "user_password", "user_privacy_status", "user_role", "username" },
                 values: new object[,]
                 {
-                    { new Guid("8593a4e6-c5de-4d1e-a9fa-49167e2fc6d2"), null, new DateTime(2024, 12, 24, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4217), 32, 3, "0123456789", "siti@example.com", "Siti", "siti_profile.jpg", "Environmental scientist with expertise in tropical forest conservation.", "Nur Aminah", "hashed_password_2", "private", "job_seeker", "siti_aminah" },
-                    { new Guid("8ba23ecc-cd6c-4eae-8369-1af38da03608"), null, new DateTime(2024, 9, 24, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4200), 28, 1, "0198765432", "ahmad@example.com", "Ahmad", "ahmad_profile.jpg", "Software developer with 5 years of experience in web technologies.", "bin Ibrahim", "hashed_password_1", "public", "job_seeker", "ahmad_ibrahim" },
-                    { new Guid("bf1965e0-bc25-4048-b36f-a267b9542aab"), null, new DateTime(2024, 6, 24, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4221), 35, 2, "0167890123", "rajesh@example.com", "Rajesh", "rajesh_profile.jpg", "Petroleum engineer with 10 years experience in offshore drilling.", "Kumar", "hashed_password_3", "public", "job_seeker", "rajesh_kumar" }
+                    { new Guid("07539b5a-211e-4cf6-82cf-a7e63a6b35ba"), null, new DateTime(2025, 1, 6, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6525), 32, 3, null, "0123456789", "siti@example.com", "Siti", "siti_profile.jpg", "Environmental scientist with expertise in tropical forest conservation.", "Nur Aminah", "hashed_password_2", "private", "job_seeker", "siti_aminah" },
+                    { new Guid("7946f549-ec15-4b67-9018-978d10c9b563"), null, new DateTime(2024, 7, 6, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6530), 35, 2, null, "0167890123", "rajesh@example.com", "Rajesh", "rajesh_profile.jpg", "Petroleum engineer with 10 years experience in offshore drilling.", "Kumar", "hashed_password_3", "public", "job_seeker", "rajesh_kumar" },
+                    { new Guid("86114f09-326a-4cd8-8625-1e90f857ce87"), null, new DateTime(2024, 10, 6, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6506), 28, 1, null, "0198765432", "ahmad@example.com", "Ahmad", "ahmad_profile.jpg", "Software developer with 5 years of experience in web technologies.", "bin Ibrahim", "hashed_password_1", "public", "job_seeker", "ahmad_ibrahim" }
                 });
 
             migrationBuilder.InsertData(
@@ -627,9 +665,9 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "analysis_id", "analysis_ai_career_prospects", "analysis_ai_direction", "analysis_ai_market_gap", "analysis_user_id" },
                 values: new object[,]
                 {
-                    { 1, "High potential for career growth in Sarawak's emerging digital economy. Projected salary increase of 15-20% in the next 3 years.", "Based on your skills and experience, you have strong potential in software development. Consider specializing in energy sector applications or cloud technologies.", "There is growing demand for developers with expertise in renewable energy systems in Sarawak. Consider upskilling in this area.", new Guid("8ba23ecc-cd6c-4eae-8369-1af38da03608") },
-                    { 2, "Strong demand for conservation experts in both government and private sectors in Sarawak over the next 5 years.", "Your environmental science background positions you well for conservation roles. Consider gaining project management certification.", "Sarawak has increasing needs for environmental impact assessment specialists for sustainable development projects.", new Guid("8593a4e6-c5de-4d1e-a9fa-49167e2fc6d2") },
-                    { 3, "Stable career prospects in Miri, with opportunities to transition to leadership roles in the next 2-3 years.", "Your petroleum engineering experience is valuable. Consider expanding into renewable energy transition projects.", "There is growing need for engineers who can bridge traditional oil & gas with renewable energy projects in Sarawak.", new Guid("bf1965e0-bc25-4048-b36f-a267b9542aab") }
+                    { 1, "High potential for career growth in Sarawak's emerging digital economy. Projected salary increase of 15-20% in the next 3 years.", "Based on your skills and experience, you have strong potential in software development. Consider specializing in energy sector applications or cloud technologies.", "There is growing demand for developers with expertise in renewable energy systems in Sarawak. Consider upskilling in this area.", new Guid("86114f09-326a-4cd8-8625-1e90f857ce87") },
+                    { 2, "Strong demand for conservation experts in both government and private sectors in Sarawak over the next 5 years.", "Your environmental science background positions you well for conservation roles. Consider gaining project management certification.", "Sarawak has increasing needs for environmental impact assessment specialists for sustainable development projects.", new Guid("07539b5a-211e-4cf6-82cf-a7e63a6b35ba") },
+                    { 3, "Stable career prospects in Miri, with opportunities to transition to leadership roles in the next 2-3 years.", "Your petroleum engineering experience is valuable. Consider expanding into renewable energy transition projects.", "There is growing need for engineers who can bridge traditional oil & gas with renewable energy projects in Sarawak.", new Guid("7946f549-ec15-4b67-9018-978d10c9b563") }
                 });
 
             migrationBuilder.InsertData(
@@ -637,65 +675,12 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "job_id", "Posted_Date", "job_benefit", "job_company_id", "job_deadline", "job_description", "job_location", "job_requirement", "job_responsible", "job_salary_max", "job_salary_min", "job_status", "job_title", "job_type" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 3, 4, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4240), "Health insurance, performance bonus, professional development allowance.", 1, new DateTime(2025, 4, 23, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4243), "Develop and maintain enterprise software applications for energy management systems.", "Kuching, Sarawak", "Bachelor's degree in Computer Science, 5+ years experience in software development.", "Lead software development projects, mentor junior developers, and collaborate with stakeholders.", 7500.00m, 5000.00m, "Open", "Senior Software Developer", "Full_Time" },
-                    { 2, new DateTime(2025, 3, 14, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4251), "Housing allowance, transportation, medical coverage, annual bonus.", 2, new DateTime(2025, 4, 27, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4252), "Design and implement strategies for efficient oil and gas extraction. Collaborate with multidisciplinary teams to solve complex drilling challenges.", "Miri, Sarawak", "Bachelor's degree in Petroleum Engineering, 5+ years field experience.", "Oversee drilling operations and optimize oil extraction processes.", 9000.00m, 6500.00m, "Open", "Petroleum Engineer", "Contract" },
-                    { 3, new DateTime(2025, 1, 24, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4255), "Field allowance, government pension scheme, paid study leave.", 3, new DateTime(2025, 5, 4, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4257), "Monitor forest health, implement conservation programs, and work with local communities to promote sustainable forest management practices.", "Kuching, Sarawak (with field work)", "Bachelor's degree in Forestry or Environmental Science, knowledge of local ecosystems.", "Implement and monitor forest conservation programs across Sarawak.", 5500.00m, 4000.00m, "Open", "Forest Conservation Officer", "Part_Time" },
-                    { 4, new DateTime(2024, 11, 24, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4259), "Performance bonuses, flexible working arrangements, training opportunities.", 4, new DateTime(2024, 12, 24, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4260), "Create and execute digital marketing campaigns to promote Sarawak's digital initiatives across various platforms and channels.", "Samarahan, Sarawak", "Bachelor's degree in Marketing or Communications, experience with digital marketing tools.", "Develop and implement digital marketing strategies for Sarawak's digital initiatives.", 5000.00m, 3500.00m, "closed", "Digital Marketing Specialist", "Full_Time" },
-                    { 5, new DateTime(2025, 2, 12, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4263), "Professional development fund, health insurance, performance bonus.", 1, new DateTime(2025, 3, 29, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4264), "Evaluate renewable energy projects, conduct feasibility studies, and provide recommendations for sustainable energy solutions.", "Kuching, Sarawak", "Bachelor's degree in Environmental Engineering or related field, knowledge of renewable energy technologies.", "Analyze renewable energy projects and prepare feasibility reports.", 6000.00m, 4500.00m, "Open", "Renewable Energy Analyst", "Internship" },
-                    { 6, new DateTime(2025, 2, 18, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4266), "Remote work options, medical coverage, professional development.", 4, new DateTime(2025, 4, 4, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4267), "Develop and maintain web applications that support Sarawak's digital economy initiatives, from database design to user interface implementation.", "Samarahan, Sarawak", "Bachelor's degree in Computer Science, proficiency in front-end and back-end technologies.", "Design and develop web applications for Sarawak's digital economy initiatives.", 7000.00m, 4800.00m, "Open", "Full Stack Developer", "Full_Time" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "NOTIFICATION",
-                columns: new[] { "notification_id", "notification_company_id", "notification_status", "notification_text", "notification_timestamp", "notification_user_id" },
-                values: new object[,]
-                {
-                    { 1, 1, "unread", "Your application for Senior Software Developer has been received. We will review it shortly.", new DateTime(2025, 3, 14, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4371), new Guid("8ba23ecc-cd6c-4eae-8369-1af38da03608") },
-                    { 2, 3, "read", "You have been shortlisted for the Forest Conservation Officer position. Please prepare for an interview.", new DateTime(2025, 3, 16, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4374), new Guid("8593a4e6-c5de-4d1e-a9fa-49167e2fc6d2") },
-                    { 3, 2, "unread", "Thank you for your application to Petronas Carigali. Your application is under review.", new DateTime(2025, 3, 19, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4375), new Guid("bf1965e0-bc25-4048-b36f-a267b9542aab") }
-                });
-
-            migrationBuilder.InsertData(
-                table: "RESUME",
-                columns: new[] { "resume_id", "resume_file", "resume_last_modify_time", "resume_text", "resume_user_id" },
-                values: new object[,]
-                {
-                    { 1, "ahmad_resume.pdf", new DateTime(2025, 3, 9, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4285), "Experienced software developer with expertise in .NET Core, React, and cloud technologies. Worked on enterprise applications for energy sector.", new Guid("8ba23ecc-cd6c-4eae-8369-1af38da03608") },
-                    { 2, "siti_resume.pdf", new DateTime(2025, 3, 17, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4287), "Environmental scientist focused on forest conservation. Experience in GIS mapping, biodiversity assessment, and sustainable forest management practices.", new Guid("8593a4e6-c5de-4d1e-a9fa-49167e2fc6d2") },
-                    { 3, "rajesh_resume.pdf", new DateTime(2025, 3, 3, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4288), "Petroleum engineer with extensive experience in offshore drilling. Skills include reservoir analysis, production optimization, and HSE compliance.", new Guid("bf1965e0-bc25-4048-b36f-a267b9542aab") }
-                });
-
-            migrationBuilder.InsertData(
-                table: "USER_SKILL",
-                columns: new[] { "US_ID", "US_SKILL_ID", "US_USER_ID" },
-                values: new object[,]
-                {
-                    { 1, 1, new Guid("8ba23ecc-cd6c-4eae-8369-1af38da03608") },
-                    { 2, 7, new Guid("8593a4e6-c5de-4d1e-a9fa-49167e2fc6d2") },
-                    { 3, 5, new Guid("bf1965e0-bc25-4048-b36f-a267b9542aab") }
-                });
-
-            migrationBuilder.InsertData(
-                table: "JOB_APPLICATION",
-                columns: new[] { "application_id", "application_job_id", "application_status", "application_submission_date", "application_type" },
-                values: new object[,]
-                {
-                    { 1, 1, "pending", new DateTime(2025, 3, 14, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4340), "full_time" },
-                    { 2, 3, "interview_scheduled", new DateTime(2025, 3, 9, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4342), "full_time" },
-                    { 3, 2, "pending", new DateTime(2025, 3, 19, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4343), "contract" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "JOB_SKILL",
-                columns: new[] { "JS_ID", "JS_JOB_ID", "JS_SKILL_ID" },
-                values: new object[,]
-                {
-                    { 1, 1, 1 },
-                    { 2, 1, 4 },
-                    { 3, 2, 5 },
-                    { 4, 3, 7 },
-                    { 5, 4, 6 },
-                    { 6, 6, 4 }
+                    { 1, new DateTime(2025, 3, 17, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6551), "Health insurance, performance bonus, professional development allowance.", "sarawakenergy", new DateTime(2025, 5, 6, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6556), "Develop and maintain enterprise software applications for energy management systems.", "Kuching, Sarawak", "Bachelor's degree in Computer Science, 5+ years experience in software development.", "Lead software development projects, mentor junior developers, and collaborate with stakeholders.", 7500.00m, 5000.00m, "Open", "Senior Software Developer", "Full_Time" },
+                    { 2, new DateTime(2025, 3, 27, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6560), "Housing allowance, transportation, medical coverage, annual bonus.", "petronas", new DateTime(2025, 5, 10, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6561), "Design and implement strategies for efficient oil and gas extraction. Collaborate with multidisciplinary teams to solve complex drilling challenges.", "Miri, Sarawak", "Bachelor's degree in Petroleum Engineering, 5+ years field experience.", "Oversee drilling operations and optimize oil extraction processes.", 9000.00m, 6500.00m, "Open", "Petroleum Engineer", "Contract" },
+                    { 3, new DateTime(2025, 2, 6, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6564), "Field allowance, government pension scheme, paid study leave.", "sarawakforestrycorporation", new DateTime(2025, 5, 16, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6565), "Monitor forest health, implement conservation programs, and work with local communities to promote sustainable forest management practices.", "Kuching, Sarawak (with field work)", "Bachelor's degree in Forestry or Environmental Science, knowledge of local ecosystems.", "Implement and monitor forest conservation programs across Sarawak.", 5500.00m, 4000.00m, "Open", "Forest Conservation Officer", "Part_Time" },
+                    { 4, new DateTime(2024, 12, 6, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6568), "Performance bonuses, flexible working arrangements, training opportunities.", "sdec", new DateTime(2025, 1, 5, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6569), "Create and execute digital marketing campaigns to promote Sarawak's digital initiatives across various platforms and channels.", "Samarahan, Sarawak", "Bachelor's degree in Marketing or Communications, experience with digital marketing tools.", "Develop and implement digital marketing strategies for Sarawak's digital initiatives.", 5000.00m, 3500.00m, "closed", "Digital Marketing Specialist", "Full_Time" },
+                    { 5, new DateTime(2025, 2, 25, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6572), "Professional development fund, health insurance, performance bonus.", "sarawakenergy", new DateTime(2025, 4, 11, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6573), "Evaluate renewable energy projects, conduct feasibility studies, and provide recommendations for sustainable energy solutions.", "Kuching, Sarawak", "Bachelor's degree in Environmental Engineering or related field, knowledge of renewable energy technologies.", "Analyze renewable energy projects and prepare feasibility reports.", 6000.00m, 4500.00m, "Open", "Renewable Energy Analyst", "Internship" },
+                    { 6, new DateTime(2025, 3, 3, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6575), "Remote work options, medical coverage, professional development.", "sarawakforestrycorporation", new DateTime(2025, 4, 17, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6576), "Develop and maintain web applications that support Sarawak's digital economy initiatives, from database design to user interface implementation.", "Samarahan, Sarawak", "Bachelor's degree in Computer Science, proficiency in front-end and back-end technologies.", "Design and develop web applications for Sarawak's digital economy initiatives.", 7000.00m, 4800.00m, "Open", "Full Stack Developer", "Full_Time" }
                 });
 
             migrationBuilder.InsertData(
@@ -703,9 +688,49 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "review_id", "review_application_id", "review_company_id", "review_context", "review_date", "review_status" },
                 values: new object[,]
                 {
-                    { 1, 1, 1, "Strong technical background and relevant experience. Recommended for interview.", new DateTime(2025, 3, 19, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4404), "Positive" },
-                    { 2, 2, 3, "Excellent match for the position. Scientific background and conservation experience are ideal.", new DateTime(2025, 3, 14, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4406), "Very Positive" },
-                    { 3, 3, 2, "Good experience but may need additional training in offshore safety protocols.", new DateTime(2025, 3, 21, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4407), "Neutral" }
+                    { 1, 1, "sarawakenergy", "Strong technical background and relevant experience. Recommended for interview.", new DateTime(2025, 4, 1, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6729), "Positive" },
+                    { 2, 2, "petronas", "Excellent match for the position. Scientific background and conservation experience are ideal.", new DateTime(2025, 3, 27, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6732), "Very Positive" },
+                    { 3, 3, "sdec", "Good experience but may need additional training in offshore safety protocols.", new DateTime(2025, 4, 3, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6733), "Neutral" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "NOTIFICATION",
+                columns: new[] { "notification_id", "notification_company_id", "notification_status", "notification_text", "notification_timestamp", "notification_user_id" },
+                values: new object[,]
+                {
+                    { 1, "sarawakenergy", "unread", "Your application for Senior Software Developer has been received. We will review it shortly.", new DateTime(2025, 3, 27, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6694), new Guid("86114f09-326a-4cd8-8625-1e90f857ce87") },
+                    { 2, "sarawakforestrycorporation", "read", "You have been shortlisted for the Forest Conservation Officer position. Please prepare for an interview.", new DateTime(2025, 3, 29, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6697), new Guid("07539b5a-211e-4cf6-82cf-a7e63a6b35ba") },
+                    { 3, "petronas", "unread", "Thank you for your application to Petronas Carigali. Your application is under review.", new DateTime(2025, 4, 1, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6699), new Guid("7946f549-ec15-4b67-9018-978d10c9b563") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "RESUME",
+                columns: new[] { "resume_id", "resume_file", "resume_last_modify_time", "resume_text", "resume_user_id" },
+                values: new object[,]
+                {
+                    { 1, "ahmad_resume.pdf", new DateTime(2025, 3, 22, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6595), "Experienced software developer with expertise in .NET Core, React, and cloud technologies. Worked on enterprise applications for energy sector.", new Guid("86114f09-326a-4cd8-8625-1e90f857ce87") },
+                    { 2, "siti_resume.pdf", new DateTime(2025, 3, 30, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6597), "Environmental scientist focused on forest conservation. Experience in GIS mapping, biodiversity assessment, and sustainable forest management practices.", new Guid("07539b5a-211e-4cf6-82cf-a7e63a6b35ba") },
+                    { 3, "rajesh_resume.pdf", new DateTime(2025, 3, 16, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6599), "Petroleum engineer with extensive experience in offshore drilling. Skills include reservoir analysis, production optimization, and HSE compliance.", new Guid("7946f549-ec15-4b67-9018-978d10c9b563") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "USER_APPLICATION",
+                columns: new[] { "UA_ID", "UA_APPLICATION_ID", "UA_USER_ID" },
+                values: new object[,]
+                {
+                    { 1, 1, new Guid("86114f09-326a-4cd8-8625-1e90f857ce87") },
+                    { 2, 2, new Guid("07539b5a-211e-4cf6-82cf-a7e63a6b35ba") },
+                    { 3, 3, new Guid("7946f549-ec15-4b67-9018-978d10c9b563") }
+                });
+
+            migrationBuilder.InsertData(
+                table: "USER_SKILL",
+                columns: new[] { "US_ID", "US_SKILL_ID", "US_USER_ID" },
+                values: new object[,]
+                {
+                    { 1, 1, new Guid("86114f09-326a-4cd8-8625-1e90f857ce87") },
+                    { 2, 7, new Guid("07539b5a-211e-4cf6-82cf-a7e63a6b35ba") },
+                    { 3, 5, new Guid("7946f549-ec15-4b67-9018-978d10c9b563") }
                 });
 
             migrationBuilder.InsertData(
@@ -719,13 +744,16 @@ namespace AIJobCareer.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "USER_APPLICATION",
-                columns: new[] { "UA_ID", "UA_APPLICATION_ID", "UA_USER_ID" },
+                table: "JOB_SKILL",
+                columns: new[] { "JS_ID", "JS_JOB_ID", "JS_SKILL_ID" },
                 values: new object[,]
                 {
-                    { 1, 1, new Guid("8ba23ecc-cd6c-4eae-8369-1af38da03608") },
-                    { 2, 2, new Guid("8593a4e6-c5de-4d1e-a9fa-49167e2fc6d2") },
-                    { 3, 3, new Guid("bf1965e0-bc25-4048-b36f-a267b9542aab") }
+                    { 1, 1, 1 },
+                    { 2, 1, 4 },
+                    { 3, 2, 5 },
+                    { 4, 3, 7 },
+                    { 5, 4, 6 },
+                    { 6, 6, 4 }
                 });
 
             migrationBuilder.CreateIndex(
@@ -754,9 +782,14 @@ namespace AIJobCareer.Migrations
                 column: "job_company_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_JOB_APPLICATION_application_job_id",
+                name: "IX_JOB_APPLICATION_JobId",
                 table: "JOB_APPLICATION",
-                column: "application_job_id");
+                column: "JobId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_JOB_APPLICATION_UserId",
+                table: "JOB_APPLICATION",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_JOB_APPLICATION_REVIEW_review_application_id",
@@ -839,6 +872,12 @@ namespace AIJobCareer.Migrations
                 column: "user_area_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_USERS_user_company_id",
+                table: "USERS",
+                column: "user_company_id",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_USERS_username",
                 table: "USERS",
                 column: "username",
@@ -899,10 +938,10 @@ namespace AIJobCareer.Migrations
                 name: "SKILL");
 
             migrationBuilder.DropTable(
-                name: "USERS");
+                name: "JOB");
 
             migrationBuilder.DropTable(
-                name: "JOB");
+                name: "USERS");
 
             migrationBuilder.DropTable(
                 name: "COMPANY");

@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using AIJobCareer.Services;
 
 namespace AIJobCareer.Models
 {
@@ -9,7 +8,7 @@ namespace AIJobCareer.Models
         [Key]
         public int job_id { get; set; }
 
-        public int job_company_id { get; set; }
+        public string job_company_id { get; set; }
 
         [ForeignKey("job_company_id")]
         public virtual Company company { get; set; } = null;

@@ -13,7 +13,7 @@ namespace AIJobCareer.Models
         [ForeignKey("review_application_id")]
         public virtual JobApplication job_application { get; set; }
 
-        public int review_company_id { get; set; }
+        public string review_company_id { get; set; }
 
         [ForeignKey("review_company_id")]
         public virtual Company company { get; set; }

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AIJobCareer.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20250324114311_change_profile")]
-    partial class change_profile
+    [Migration("20250406121707_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -131,7 +131,7 @@ namespace AIJobCareer.Migrations
                             analysis_ai_career_prospects = "High potential for career growth in Sarawak's emerging digital economy. Projected salary increase of 15-20% in the next 3 years.",
                             analysis_ai_direction = "Based on your skills and experience, you have strong potential in software development. Consider specializing in energy sector applications or cloud technologies.",
                             analysis_ai_market_gap = "There is growing demand for developers with expertise in renewable energy systems in Sarawak. Consider upskilling in this area.",
-                            analysis_user_id = new Guid("8ba23ecc-cd6c-4eae-8369-1af38da03608")
+                            analysis_user_id = new Guid("86114f09-326a-4cd8-8625-1e90f857ce87")
                         },
                         new
                         {
@@ -139,7 +139,7 @@ namespace AIJobCareer.Migrations
                             analysis_ai_career_prospects = "Strong demand for conservation experts in both government and private sectors in Sarawak over the next 5 years.",
                             analysis_ai_direction = "Your environmental science background positions you well for conservation roles. Consider gaining project management certification.",
                             analysis_ai_market_gap = "Sarawak has increasing needs for environmental impact assessment specialists for sustainable development projects.",
-                            analysis_user_id = new Guid("8593a4e6-c5de-4d1e-a9fa-49167e2fc6d2")
+                            analysis_user_id = new Guid("07539b5a-211e-4cf6-82cf-a7e63a6b35ba")
                         },
                         new
                         {
@@ -147,7 +147,7 @@ namespace AIJobCareer.Migrations
                             analysis_ai_career_prospects = "Stable career prospects in Miri, with opportunities to transition to leadership roles in the next 2-3 years.",
                             analysis_ai_direction = "Your petroleum engineering experience is valuable. Consider expanding into renewable energy transition projects.",
                             analysis_ai_market_gap = "There is growing need for engineers who can bridge traditional oil & gas with renewable energy projects in Sarawak.",
-                            analysis_user_id = new Guid("bf1965e0-bc25-4048-b36f-a267b9542aab")
+                            analysis_user_id = new Guid("7946f549-ec15-4b67-9018-978d10c9b563")
                         });
                 });
 
@@ -201,17 +201,13 @@ namespace AIJobCareer.Migrations
 
             modelBuilder.Entity("AIJobCareer.Models.Company", b =>
                 {
-                    b.Property<int>("company_id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("company_id"));
+                    b.Property<string>("company_id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<int?>("company_area_id")
                         .HasColumnType("int");
 
                     b.Property<string>("company_icon")
-                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
@@ -242,7 +238,7 @@ namespace AIJobCareer.Migrations
                     b.HasData(
                         new
                         {
-                            company_id = 1,
+                            company_id = "sarawakenergy",
                             company_area_id = 1,
                             company_icon = "sarawak_energy_icon.png",
                             company_industry = "Energy & Utilities",
@@ -252,7 +248,7 @@ namespace AIJobCareer.Migrations
                         },
                         new
                         {
-                            company_id = 2,
+                            company_id = "petronas",
                             company_area_id = 2,
                             company_icon = "petronas_icon.png",
                             company_industry = "Oil & Gas",
@@ -262,7 +258,7 @@ namespace AIJobCareer.Migrations
                         },
                         new
                         {
-                            company_id = 3,
+                            company_id = "sarawakforestrycorporation",
                             company_area_id = 1,
                             company_icon = "sfc_icon.png",
                             company_industry = "Forestry & Environmental Services",
@@ -272,7 +268,7 @@ namespace AIJobCareer.Migrations
                         },
                         new
                         {
-                            company_id = 4,
+                            company_id = "sdec",
                             company_area_id = 5,
                             company_icon = "sdec_icon.png",
                             company_industry = "Technology & Digital Services",
@@ -339,8 +335,9 @@ namespace AIJobCareer.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<int>("job_company_id")
-                        .HasColumnType("int");
+                    b.Property<string>("job_company_id")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<DateTime>("job_deadline")
                         .HasColumnType("datetime(6)");
@@ -392,10 +389,10 @@ namespace AIJobCareer.Migrations
                         new
                         {
                             job_id = 1,
-                            Posted_Date = new DateTime(2025, 3, 4, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4240),
+                            Posted_Date = new DateTime(2025, 3, 17, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6551),
                             job_benefit = "Health insurance, performance bonus, professional development allowance.",
-                            job_company_id = 1,
-                            job_deadline = new DateTime(2025, 4, 23, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4243),
+                            job_company_id = "sarawakenergy",
+                            job_deadline = new DateTime(2025, 5, 6, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6556),
                             job_description = "Develop and maintain enterprise software applications for energy management systems.",
                             job_location = "Kuching, Sarawak",
                             job_requirement = "Bachelor's degree in Computer Science, 5+ years experience in software development.",
@@ -409,10 +406,10 @@ namespace AIJobCareer.Migrations
                         new
                         {
                             job_id = 2,
-                            Posted_Date = new DateTime(2025, 3, 14, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4251),
+                            Posted_Date = new DateTime(2025, 3, 27, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6560),
                             job_benefit = "Housing allowance, transportation, medical coverage, annual bonus.",
-                            job_company_id = 2,
-                            job_deadline = new DateTime(2025, 4, 27, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4252),
+                            job_company_id = "petronas",
+                            job_deadline = new DateTime(2025, 5, 10, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6561),
                             job_description = "Design and implement strategies for efficient oil and gas extraction. Collaborate with multidisciplinary teams to solve complex drilling challenges.",
                             job_location = "Miri, Sarawak",
                             job_requirement = "Bachelor's degree in Petroleum Engineering, 5+ years field experience.",
@@ -426,10 +423,10 @@ namespace AIJobCareer.Migrations
                         new
                         {
                             job_id = 3,
-                            Posted_Date = new DateTime(2025, 1, 24, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4255),
+                            Posted_Date = new DateTime(2025, 2, 6, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6564),
                             job_benefit = "Field allowance, government pension scheme, paid study leave.",
-                            job_company_id = 3,
-                            job_deadline = new DateTime(2025, 5, 4, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4257),
+                            job_company_id = "sarawakforestrycorporation",
+                            job_deadline = new DateTime(2025, 5, 16, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6565),
                             job_description = "Monitor forest health, implement conservation programs, and work with local communities to promote sustainable forest management practices.",
                             job_location = "Kuching, Sarawak (with field work)",
                             job_requirement = "Bachelor's degree in Forestry or Environmental Science, knowledge of local ecosystems.",
@@ -443,10 +440,10 @@ namespace AIJobCareer.Migrations
                         new
                         {
                             job_id = 4,
-                            Posted_Date = new DateTime(2024, 11, 24, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4259),
+                            Posted_Date = new DateTime(2024, 12, 6, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6568),
                             job_benefit = "Performance bonuses, flexible working arrangements, training opportunities.",
-                            job_company_id = 4,
-                            job_deadline = new DateTime(2024, 12, 24, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4260),
+                            job_company_id = "sdec",
+                            job_deadline = new DateTime(2025, 1, 5, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6569),
                             job_description = "Create and execute digital marketing campaigns to promote Sarawak's digital initiatives across various platforms and channels.",
                             job_location = "Samarahan, Sarawak",
                             job_requirement = "Bachelor's degree in Marketing or Communications, experience with digital marketing tools.",
@@ -460,10 +457,10 @@ namespace AIJobCareer.Migrations
                         new
                         {
                             job_id = 5,
-                            Posted_Date = new DateTime(2025, 2, 12, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4263),
+                            Posted_Date = new DateTime(2025, 2, 25, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6572),
                             job_benefit = "Professional development fund, health insurance, performance bonus.",
-                            job_company_id = 1,
-                            job_deadline = new DateTime(2025, 3, 29, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4264),
+                            job_company_id = "sarawakenergy",
+                            job_deadline = new DateTime(2025, 4, 11, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6573),
                             job_description = "Evaluate renewable energy projects, conduct feasibility studies, and provide recommendations for sustainable energy solutions.",
                             job_location = "Kuching, Sarawak",
                             job_requirement = "Bachelor's degree in Environmental Engineering or related field, knowledge of renewable energy technologies.",
@@ -477,10 +474,10 @@ namespace AIJobCareer.Migrations
                         new
                         {
                             job_id = 6,
-                            Posted_Date = new DateTime(2025, 2, 18, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4266),
+                            Posted_Date = new DateTime(2025, 3, 3, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6575),
                             job_benefit = "Remote work options, medical coverage, professional development.",
-                            job_company_id = 4,
-                            job_deadline = new DateTime(2025, 4, 4, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4267),
+                            job_company_id = "sarawakforestrycorporation",
+                            job_deadline = new DateTime(2025, 4, 17, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6576),
                             job_description = "Develop and maintain web applications that support Sarawak's digital economy initiatives, from database design to user interface implementation.",
                             job_location = "Samarahan, Sarawak",
                             job_requirement = "Bachelor's degree in Computer Science, proficiency in front-end and back-end technologies.",
@@ -495,57 +492,86 @@ namespace AIJobCareer.Migrations
 
             modelBuilder.Entity("AIJobCareer.Models.JobApplication", b =>
                 {
-                    b.Property<int>("application_id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("application_id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("application_job_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("application_status")
+                    b.Property<string>("Availability")
                         .IsRequired()
-                        .HasColumnType("enum('pending','interview_scheduled', 'accepted', 'rejected')");
+                        .HasColumnType("longtext");
 
-                    b.Property<DateTime>("application_submission_date")
+                    b.Property<string>("CoverLetter")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("application_type")
+                    b.Property<string>("Education")
                         .IsRequired()
-                        .HasColumnType("enum('internship', 'freelance', 'full_time', 'part_time', 'contract')");
+                        .HasColumnType("longtext");
 
-                    b.HasKey("application_id");
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.HasIndex("application_job_id");
+                    b.Property<string>("Experience")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LinkedIn")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Portfolio")
+                        .HasColumnType("longtext");
+
+                    b.Property<bool>("Relocate")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("ResumeUrl")
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Salary")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("Skills")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("JobId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("JOB_APPLICATION", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            application_id = 1,
-                            application_job_id = 1,
-                            application_status = "pending",
-                            application_submission_date = new DateTime(2025, 3, 14, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4340),
-                            application_type = "full_time"
-                        },
-                        new
-                        {
-                            application_id = 2,
-                            application_job_id = 3,
-                            application_status = "interview_scheduled",
-                            application_submission_date = new DateTime(2025, 3, 9, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4342),
-                            application_type = "full_time"
-                        },
-                        new
-                        {
-                            application_id = 3,
-                            application_job_id = 2,
-                            application_status = "pending",
-                            application_submission_date = new DateTime(2025, 3, 19, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4343),
-                            application_type = "contract"
-                        });
                 });
 
             modelBuilder.Entity("AIJobCareer.Models.JobApplicationReview", b =>
@@ -559,8 +585,9 @@ namespace AIJobCareer.Migrations
                     b.Property<int>("review_application_id")
                         .HasColumnType("int");
 
-                    b.Property<int>("review_company_id")
-                        .HasColumnType("int");
+                    b.Property<string>("review_company_id")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("review_context")
                         .IsRequired()
@@ -586,27 +613,27 @@ namespace AIJobCareer.Migrations
                         {
                             review_id = 1,
                             review_application_id = 1,
-                            review_company_id = 1,
+                            review_company_id = "sarawakenergy",
                             review_context = "Strong technical background and relevant experience. Recommended for interview.",
-                            review_date = new DateTime(2025, 3, 19, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4404),
+                            review_date = new DateTime(2025, 4, 1, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6729),
                             review_status = "Positive"
                         },
                         new
                         {
                             review_id = 2,
                             review_application_id = 2,
-                            review_company_id = 3,
+                            review_company_id = "petronas",
                             review_context = "Excellent match for the position. Scientific background and conservation experience are ideal.",
-                            review_date = new DateTime(2025, 3, 14, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4406),
+                            review_date = new DateTime(2025, 3, 27, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6732),
                             review_status = "Very Positive"
                         },
                         new
                         {
                             review_id = 3,
                             review_application_id = 3,
-                            review_company_id = 2,
+                            review_company_id = "sdec",
                             review_context = "Good experience but may need additional training in offshore safety protocols.",
-                            review_date = new DateTime(2025, 3, 21, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4407),
+                            review_date = new DateTime(2025, 4, 3, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6733),
                             review_status = "Neutral"
                         });
                 });
@@ -730,8 +757,8 @@ namespace AIJobCareer.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("notification_id"));
 
-                    b.Property<int?>("notification_company_id")
-                        .HasColumnType("int");
+                    b.Property<string>("notification_company_id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("notification_status")
                         .IsRequired()
@@ -759,29 +786,29 @@ namespace AIJobCareer.Migrations
                         new
                         {
                             notification_id = 1,
-                            notification_company_id = 1,
+                            notification_company_id = "sarawakenergy",
                             notification_status = "unread",
                             notification_text = "Your application for Senior Software Developer has been received. We will review it shortly.",
-                            notification_timestamp = new DateTime(2025, 3, 14, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4371),
-                            notification_user_id = new Guid("8ba23ecc-cd6c-4eae-8369-1af38da03608")
+                            notification_timestamp = new DateTime(2025, 3, 27, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6694),
+                            notification_user_id = new Guid("86114f09-326a-4cd8-8625-1e90f857ce87")
                         },
                         new
                         {
                             notification_id = 2,
-                            notification_company_id = 3,
+                            notification_company_id = "sarawakforestrycorporation",
                             notification_status = "read",
                             notification_text = "You have been shortlisted for the Forest Conservation Officer position. Please prepare for an interview.",
-                            notification_timestamp = new DateTime(2025, 3, 16, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4374),
-                            notification_user_id = new Guid("8593a4e6-c5de-4d1e-a9fa-49167e2fc6d2")
+                            notification_timestamp = new DateTime(2025, 3, 29, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6697),
+                            notification_user_id = new Guid("07539b5a-211e-4cf6-82cf-a7e63a6b35ba")
                         },
                         new
                         {
                             notification_id = 3,
-                            notification_company_id = 2,
+                            notification_company_id = "petronas",
                             notification_status = "unread",
                             notification_text = "Thank you for your application to Petronas Carigali. Your application is under review.",
-                            notification_timestamp = new DateTime(2025, 3, 19, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4375),
-                            notification_user_id = new Guid("bf1965e0-bc25-4048-b36f-a267b9542aab")
+                            notification_timestamp = new DateTime(2025, 4, 1, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6699),
+                            notification_user_id = new Guid("7946f549-ec15-4b67-9018-978d10c9b563")
                         });
                 });
 
@@ -902,25 +929,25 @@ namespace AIJobCareer.Migrations
                         {
                             resume_id = 1,
                             resume_file = "ahmad_resume.pdf",
-                            resume_last_modify_time = new DateTime(2025, 3, 9, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4285),
+                            resume_last_modify_time = new DateTime(2025, 3, 22, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6595),
                             resume_text = "Experienced software developer with expertise in .NET Core, React, and cloud technologies. Worked on enterprise applications for energy sector.",
-                            resume_user_id = new Guid("8ba23ecc-cd6c-4eae-8369-1af38da03608")
+                            resume_user_id = new Guid("86114f09-326a-4cd8-8625-1e90f857ce87")
                         },
                         new
                         {
                             resume_id = 2,
                             resume_file = "siti_resume.pdf",
-                            resume_last_modify_time = new DateTime(2025, 3, 17, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4287),
+                            resume_last_modify_time = new DateTime(2025, 3, 30, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6597),
                             resume_text = "Environmental scientist focused on forest conservation. Experience in GIS mapping, biodiversity assessment, and sustainable forest management practices.",
-                            resume_user_id = new Guid("8593a4e6-c5de-4d1e-a9fa-49167e2fc6d2")
+                            resume_user_id = new Guid("07539b5a-211e-4cf6-82cf-a7e63a6b35ba")
                         },
                         new
                         {
                             resume_id = 3,
                             resume_file = "rajesh_resume.pdf",
-                            resume_last_modify_time = new DateTime(2025, 3, 3, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4288),
+                            resume_last_modify_time = new DateTime(2025, 3, 16, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6599),
                             resume_text = "Petroleum engineer with extensive experience in offshore drilling. Skills include reservoir analysis, production optimization, and HSE compliance.",
-                            resume_user_id = new Guid("bf1965e0-bc25-4048-b36f-a267b9542aab")
+                            resume_user_id = new Guid("7946f549-ec15-4b67-9018-978d10c9b563")
                         });
                 });
 
@@ -932,10 +959,6 @@ namespace AIJobCareer.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("skill_id"));
 
-                    b.Property<string>("skill_info")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<string>("skill_level")
                         .IsRequired()
                         .HasColumnType("enum('beginner', 'intermediate', 'proficient', 'advanced', 'expert')");
@@ -945,11 +968,6 @@ namespace AIJobCareer.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("skill_type")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
-
                     b.HasKey("skill_id");
 
                     b.ToTable("SKILL", (string)null);
@@ -958,82 +976,62 @@ namespace AIJobCareer.Migrations
                         new
                         {
                             skill_id = 1,
-                            skill_info = "Microsoft .NET framework development",
                             skill_level = "Advanced",
-                            skill_name = "C# Programming",
-                            skill_type = "Technical"
+                            skill_name = "C# Programming"
                         },
                         new
                         {
                             skill_id = 2,
-                            skill_info = "SQL Server, MySQL, PostgreSQL",
                             skill_level = "Intermediate",
-                            skill_name = "Database Management",
-                            skill_type = "Technical"
+                            skill_name = "Database Management"
                         },
                         new
                         {
                             skill_id = 3,
-                            skill_info = "Agile, Scrum, Kanban methodologies",
                             skill_level = "Advanced",
-                            skill_name = "Project Management",
-                            skill_type = "Management"
+                            skill_name = "Project Management"
                         },
                         new
                         {
                             skill_id = 4,
-                            skill_info = "HTML, CSS, JavaScript",
                             skill_level = "Advanced",
-                            skill_name = "Web Development",
-                            skill_type = "Technical"
+                            skill_name = "Web Development"
                         },
                         new
                         {
                             skill_id = 5,
-                            skill_info = "Oil and gas extraction techniques",
                             skill_level = "Expert",
-                            skill_name = "Petroleum Engineering",
-                            skill_type = "Technical"
+                            skill_name = "Petroleum Engineering"
                         },
                         new
                         {
                             skill_id = 6,
-                            skill_info = "SEO, SEM, Social Media Marketing",
                             skill_level = "Intermediate",
-                            skill_name = "Digital Marketing",
-                            skill_type = "Marketing"
+                            skill_name = "Digital Marketing"
                         },
                         new
                         {
                             skill_id = 7,
-                            skill_info = "Sustainable forest management practices",
                             skill_level = "Advanced",
-                            skill_name = "Forestry Management",
-                            skill_type = "Environmental"
+                            skill_name = "Forestry Management"
                         },
                         new
                         {
                             skill_id = 8,
-                            skill_info = "Customer service and hospitality management",
                             skill_level = "Intermediate",
-                            skill_name = "Tourism & Hospitality",
-                            skill_type = "Service"
+                            skill_name = "Tourism & Hospitality"
                         },
                         new
                         {
                             skill_id = 9,
-                            skill_info = "Understanding of Sarawak's indigenous cultures",
                             skill_level = "Expert",
-                            skill_name = "Indigenous Culture Knowledge",
-                            skill_type = "Cultural"
+                            skill_name = "Indigenous Culture Knowledge"
                         },
                         new
                         {
                             skill_id = 10,
-                            skill_info = "Tropical agriculture techniques",
                             skill_level = "Advanced",
-                            skill_name = "Agricultural Science",
-                            skill_type = "Agricultural"
+                            skill_name = "Agricultural Science"
                         });
                 });
 
@@ -1054,6 +1052,9 @@ namespace AIJobCareer.Migrations
 
                     b.Property<int?>("user_area_id")
                         .HasColumnType("int");
+
+                    b.Property<string>("user_company_id")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("user_contact_number")
                         .HasMaxLength(20)
@@ -1103,6 +1104,9 @@ namespace AIJobCareer.Migrations
 
                     b.HasIndex("user_area_id");
 
+                    b.HasIndex("user_company_id")
+                        .IsUnique();
+
                     b.HasIndex("username")
                         .IsUnique();
 
@@ -1111,8 +1115,8 @@ namespace AIJobCareer.Migrations
                     b.HasData(
                         new
                         {
-                            user_id = new Guid("8ba23ecc-cd6c-4eae-8369-1af38da03608"),
-                            user_account_created_time = new DateTime(2024, 9, 24, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4200),
+                            user_id = new Guid("86114f09-326a-4cd8-8625-1e90f857ce87"),
+                            user_account_created_time = new DateTime(2024, 10, 6, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6506),
                             user_age = 28,
                             user_area_id = 1,
                             user_contact_number = "0198765432",
@@ -1128,8 +1132,8 @@ namespace AIJobCareer.Migrations
                         },
                         new
                         {
-                            user_id = new Guid("8593a4e6-c5de-4d1e-a9fa-49167e2fc6d2"),
-                            user_account_created_time = new DateTime(2024, 12, 24, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4217),
+                            user_id = new Guid("07539b5a-211e-4cf6-82cf-a7e63a6b35ba"),
+                            user_account_created_time = new DateTime(2025, 1, 6, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6525),
                             user_age = 32,
                             user_area_id = 3,
                             user_contact_number = "0123456789",
@@ -1145,8 +1149,8 @@ namespace AIJobCareer.Migrations
                         },
                         new
                         {
-                            user_id = new Guid("bf1965e0-bc25-4048-b36f-a267b9542aab"),
-                            user_account_created_time = new DateTime(2024, 6, 24, 19, 43, 10, 701, DateTimeKind.Local).AddTicks(4221),
+                            user_id = new Guid("7946f549-ec15-4b67-9018-978d10c9b563"),
+                            user_account_created_time = new DateTime(2024, 7, 6, 20, 17, 7, 147, DateTimeKind.Local).AddTicks(6530),
                             user_age = 35,
                             user_area_id = 2,
                             user_contact_number = "0167890123",
@@ -1189,19 +1193,19 @@ namespace AIJobCareer.Migrations
                         {
                             UA_ID = 1,
                             UA_APPLICATION_ID = 1,
-                            UA_USER_ID = new Guid("8ba23ecc-cd6c-4eae-8369-1af38da03608")
+                            UA_USER_ID = new Guid("86114f09-326a-4cd8-8625-1e90f857ce87")
                         },
                         new
                         {
                             UA_ID = 2,
                             UA_APPLICATION_ID = 2,
-                            UA_USER_ID = new Guid("8593a4e6-c5de-4d1e-a9fa-49167e2fc6d2")
+                            UA_USER_ID = new Guid("07539b5a-211e-4cf6-82cf-a7e63a6b35ba")
                         },
                         new
                         {
                             UA_ID = 3,
                             UA_APPLICATION_ID = 3,
-                            UA_USER_ID = new Guid("bf1965e0-bc25-4048-b36f-a267b9542aab")
+                            UA_USER_ID = new Guid("7946f549-ec15-4b67-9018-978d10c9b563")
                         });
                 });
 
@@ -1232,19 +1236,19 @@ namespace AIJobCareer.Migrations
                         {
                             US_ID = 1,
                             US_SKILL_ID = 1,
-                            US_USER_ID = new Guid("8ba23ecc-cd6c-4eae-8369-1af38da03608")
+                            US_USER_ID = new Guid("86114f09-326a-4cd8-8625-1e90f857ce87")
                         },
                         new
                         {
                             US_ID = 2,
                             US_SKILL_ID = 7,
-                            US_USER_ID = new Guid("8593a4e6-c5de-4d1e-a9fa-49167e2fc6d2")
+                            US_USER_ID = new Guid("07539b5a-211e-4cf6-82cf-a7e63a6b35ba")
                         },
                         new
                         {
                             US_ID = 3,
                             US_SKILL_ID = 5,
-                            US_USER_ID = new Guid("bf1965e0-bc25-4048-b36f-a267b9542aab")
+                            US_USER_ID = new Guid("7946f549-ec15-4b67-9018-978d10c9b563")
                         });
                 });
 
@@ -1358,19 +1362,27 @@ namespace AIJobCareer.Migrations
 
             modelBuilder.Entity("AIJobCareer.Models.JobApplication", b =>
                 {
-                    b.HasOne("AIJobCareer.Models.Job", "job")
+                    b.HasOne("AIJobCareer.Models.Job", "Job")
                         .WithMany("job_application")
-                        .HasForeignKey("application_job_id")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("AIJobCareer.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("job");
+                    b.Navigation("Job");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("AIJobCareer.Models.JobApplicationReview", b =>
                 {
                     b.HasOne("AIJobCareer.Models.JobApplication", "job_application")
-                        .WithMany("job_application_reviews")
+                        .WithMany()
                         .HasForeignKey("review_application_id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1389,7 +1401,7 @@ namespace AIJobCareer.Migrations
             modelBuilder.Entity("AIJobCareer.Models.JobApplicationTable", b =>
                 {
                     b.HasOne("AIJobCareer.Models.JobApplication", "JobApplication")
-                        .WithMany("job_application_table")
+                        .WithMany()
                         .HasForeignKey("TABLE_APPLICATION_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1482,13 +1494,19 @@ namespace AIJobCareer.Migrations
                         .HasForeignKey("user_area_id")
                         .OnDelete(DeleteBehavior.Restrict);
 
+                    b.HasOne("AIJobCareer.Models.Company", "Company")
+                        .WithOne("User")
+                        .HasForeignKey("AIJobCareer.Models.User", "user_company_id");
+
                     b.Navigation("Area");
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("AIJobCareer.Models.UserApplication", b =>
                 {
                     b.HasOne("AIJobCareer.Models.JobApplication", "job_application")
-                        .WithMany("user_application")
+                        .WithMany()
                         .HasForeignKey("UA_APPLICATION_ID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1543,6 +1561,8 @@ namespace AIJobCareer.Migrations
 
             modelBuilder.Entity("AIJobCareer.Models.Company", b =>
                 {
+                    b.Navigation("User");
+
                     b.Navigation("job_application_reviews");
 
                     b.Navigation("jobs");
@@ -1555,15 +1575,6 @@ namespace AIJobCareer.Migrations
                     b.Navigation("job_application");
 
                     b.Navigation("job_skills");
-                });
-
-            modelBuilder.Entity("AIJobCareer.Models.JobApplication", b =>
-                {
-                    b.Navigation("job_application_reviews");
-
-                    b.Navigation("job_application_table");
-
-                    b.Navigation("user_application");
                 });
 
             modelBuilder.Entity("AIJobCareer.Models.Resume", b =>

@@ -1,25 +1,75 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AIJobCareer.Models
 {
     public class JobApplication
     {
         [Key]
-        public int application_id { get; set; }
-        public int application_job_id { get; set; }
+        public int Id { get; set; }
+        [Required]
+        public Guid UserId { get; set; }
+        [Required]
+        public int JobId { get; set; }
 
-        [Column(TypeName = "enum('internship', 'freelance', 'full_time', 'part_time', 'contract')")]
-        public string application_type { get; set; }
+        [Required]
+        public string FirstName { get; set; }
+        
+        [Required]
+        public string LastName { get; set; }
+        
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+        
+        [Required]
+        public string Phone { get; set; }
+        
+        public string? LinkedIn { get; set; }
+        
+        public string? Portfolio { get; set; }
+        
+        [Required]
+        public string Experience { get; set; }
+        
+        [Required]
+        public string Education { get; set; }
+        
+        [Required]
+        public string Skills { get; set; }
+        
+        [Required]
+        public string Availability { get; set; }
+        
+        public bool Relocate { get; set; }
+        
+        [Required]
+        public string Salary { get; set; }
+        
+        [Required]
+        public string CoverLetter { get; set; }
+        
+        public string? ResumeUrl { get; set; }
+        
+        public ApplicationStatus Status { get; set; } = ApplicationStatus.New;
+        
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        
+        public DateTime? UpdatedAt { get; set; }
 
-        [Column(TypeName = "enum('pending','interview_scheduled', 'accepted', 'rejected')")]
-        public string application_status { get; set; } = "pending";
-        public DateTime application_submission_date { get; set; } = DateTime.UtcNow;
+        [ForeignKey("UserId")]
+        public virtual User User { get; set; }
 
-        [ForeignKey("application_job_id")]
-        public virtual Job job { get; set; }
-        public virtual ICollection<UserApplication> user_application { get; set; }
-        public virtual ICollection<JobApplicationReview> job_application_reviews { get; set; }
-        public virtual ICollection<JobApplicationTable> job_application_table { get; set; }
+        [ForeignKey("JobId")]
+        public virtual Job Job { get; set; }
+    }
+
+    public enum ApplicationStatus
+    {
+        New,
+        UnderReview,
+        Interview,
+        Rejected,
+        Accepted
     }
 }

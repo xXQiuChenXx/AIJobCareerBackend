@@ -9,9 +9,6 @@ namespace AIJobCareer.Models
         public int skill_id { get; set; }
         [StringLength(255)]
         public string skill_name { get; set; }
-        public string skill_info { get; set; }
-        [StringLength(100)]
-        public string skill_type { get; set; }
 
         [Column(TypeName = "enum('beginner', 'intermediate', 'proficient', 'advanced', 'expert')")]
         public string skill_level { get; set; }

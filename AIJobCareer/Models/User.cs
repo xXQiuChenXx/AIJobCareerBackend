@@ -38,9 +38,15 @@ namespace AIJobCareer.Models
         public string user_role { get; set; } = string.Empty;
         public DateTime user_account_created_time { get; set; } = DateTime.UtcNow;
         public DateTime? last_login_at { get; set; }
-        public int? user_area_id { get; set; }
+
         [ForeignKey("user_area_id")]
+        public int? user_area_id { get; set; }
+
+        [ForeignKey("user_company_id")]
+        public string? user_company_id { get; set; }
+
         public virtual Area Area { get; set; } = null!;
+        public Company? Company { get; set; } = null!;
         public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
         public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
         public virtual ICollection<UserSkill> UserSkills { get; set; } = new List<UserSkill>();

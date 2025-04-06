@@ -6,13 +6,14 @@ namespace AIJobCareer.Models
     public class Company
     {
         [Key]
-        public int company_id { get; set; }
+        public string company_id { get; set; }
 
         [StringLength(255)]
         public string company_name { get; set; } = string.Empty;
 
+
         [StringLength(255)]
-        public string company_icon { get; set; } = string.Empty;
+        public string? company_icon { get; set; } = string.Empty;
 
         public string company_intro { get; set; } = string.Empty;
 
@@ -25,7 +26,7 @@ namespace AIJobCareer.Models
 
         [ForeignKey("company_area_id")]
         public virtual Area Area { get; set; }
-
+        public User? User { get; set; }
         public virtual ICollection<Notification> notifications { get; set; } = new List<Notification>();
         public virtual ICollection<Job> jobs { get; set; } = new List<Job>();
         public virtual ICollection<JobApplicationReview> job_application_reviews { get; set; } = new List<JobApplicationReview>();

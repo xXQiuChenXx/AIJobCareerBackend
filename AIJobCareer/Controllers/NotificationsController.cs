@@ -220,7 +220,7 @@ namespace AIJobCareer.Controllers
         {
             public int notification_id { get; set; }
             public Guid notification_user_id { get; set; }
-            public int? notification_company_id { get; set; }
+            public string? notification_company_id { get; set; }
             public CompanyDto company { get; set; }
             public string notification_text { get; set; }
             public DateTime notification_timestamp { get; set; }
@@ -229,7 +229,7 @@ namespace AIJobCareer.Controllers
 
         public class CompanyDto
         {
-            public int company_id { get; set; }
+            public string company_id { get; set; }
             public string company_name { get; set; }
         }
     }

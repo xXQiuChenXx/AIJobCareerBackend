@@ -40,6 +40,11 @@ namespace AIJobCareer.Services
                 query = query.Where(j => filter.JobType.Contains(j.job_type));
             }
 
+            if (filter.Company != null)
+            {
+                query = query.Where(j => j.job_company_id == filter.Company);
+            }
+
             if (!string.IsNullOrEmpty(filter.Location))
             {
                 query = query.Where(j => j.job_location.Contains(filter.Location));
@@ -54,6 +59,7 @@ namespace AIJobCareer.Services
             {
                 query = query.Where(j => j.job_salary_min <= filter.MaxSalary.Value);
             }
+            
 
             // Apply sorting
             query = filter.SortBy?.ToLower() switch
@@ -81,7 +87,7 @@ namespace AIJobCareer.Services
                     job_location = j.job_location,
                     job_type = j.job_type,
                     job_status = j.job_status,
-                    Posted_Date = j.Posted_Date,
+                    posted_date = j.Posted_Date,
                     job_benefit = j.job_benefit,
                     job_requirement = j.job_requirement,
                     company = new CompanyDto
@@ -122,7 +128,7 @@ namespace AIJobCareer.Services
                 job_location = result.job_location,
                 job_type = result.job_type,
                 job_status = result.job_status,
-                Posted_Date = result.Posted_Date,
+                posted_date = result.Posted_Date,
                 job_deadline = result.job_deadline,
                 job_description = result.job_description,
                 job_benefit = result.job_benefit,
@@ -187,6 +193,7 @@ namespace AIJobCareer.Services
         public string? SearchTerm { get; set; }
         public JobType[]? JobType { get; set; }
         public string? Location { get; set; }
+        public string? Company { get; set; }
         public decimal? MinSalary { get; set; }
         public decimal? MaxSalary { get; set; }
         public string? SortBy { get; set; } = "PostedDate"; // Default sort by posted date
@@ -206,7 +213,7 @@ namespace AIJobCareer.Services
         public string job_location { get; set; }
         public JobType job_type { get; set; }
         public string job_status { get; set; }
-        public DateTime Posted_Date { get; set; }
+        public DateTime posted_date { get; set; }
         public DateTime job_deadline { get; set; }
         public string job_benefit { get; set; }
         public string job_requirement { get; set; }
@@ -217,7 +224,7 @@ namespace AIJobCareer.Services
 
     public class CompanyDto
     {
-        public int company_id { get; set; }
+        public string company_id { get; set; }
         public string company_name { get; set; }
         public string company_icon { get; set; }
         public string company_intro { get; set; }

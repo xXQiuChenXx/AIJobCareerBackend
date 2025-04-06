@@ -14,7 +14,7 @@ namespace AIJobCareer.Models
         [ForeignKey("notification_user_id")]
         public virtual User user { get; set; }
 
-        public int? notification_company_id { get; set; }
+        public string? notification_company_id { get; set; }
 
         [ForeignKey("notification_company_id")]
         public virtual Company company { get; set; }
