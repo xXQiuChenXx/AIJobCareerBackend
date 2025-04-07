@@ -55,6 +55,38 @@ namespace AIJobCareer.Controllers
             });
         }
 
+        [HttpPost("RegisterBusiness")]
+        public async Task<IActionResult> RegisterBusinessUser([FromBody] BusinessRegistrationModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            (bool Success, string Message, User? User) result = await _authService.RegisterBusinessAsync(model);
+
+            if (!result.Success)
+            {
+                return BadRequest(new { message = result.Message });
+            }
+
+            // Generate JWT token
+            string? token = GenerateJwtToken(result.User);
+
+            return Ok(new
+            {
+                message = result.Message,
+                token = token,
+                user = new
+                {
+                    userId = result.User.user_id,
+                    username = result.User.username,
+                    email = result.User.user_email,
+                    user_company_id = result.User.user_company_id
+                }
+            });
+        }
+
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
@@ -81,7 +113,8 @@ namespace AIJobCareer.Controllers
                 {
                     userId = result.User.user_id,
                     username = result.User.username,
-                    email = result.User.user_email
+                    email = result.User.user_email,
+                    user_company_id = result.User.user_company_id
                 }
             });
         }
@@ -89,7 +122,14 @@ namespace AIJobCareer.Controllers
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(Environment.GetEnvironmentVariable("JWT_SECRET") ?? _configuration["Jwt:Secret"]);
+            var secret = Environment.GetEnvironmentVariable("JWT_SECRET") ?? _configuration["Jwt:Secret"];
+
+            if (string.IsNullOrEmpty(secret))
+            {
+                throw new InvalidOperationException("JWT secret is not configured.");
+            }
+
+            var key = Encoding.ASCII.GetBytes(secret);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
@@ -231,7 +271,8 @@ namespace AIJobCareer.Controllers
                     {
                         userId = user.user_id.ToString(),
                         username = user.username,
-                        email = user.user_email
+                        email = user.user_email,
+                        user_company_id = user.user_company_id
                     }, 
                     ExpiresAt = GetExpirationDateFromToken(principal)
                 });
@@ -312,6 +353,7 @@ namespace AIJobCareer.Controllers
         public string username { get; set; }
         public string email { get; set; }
         public string userId { get; set; }
+        public string user_company_id { get; set; }
     }
 
     /// <summary>
@@ -365,4 +407,45 @@ namespace AIJobCareer.Controllers
         [Required]
         public string Password { get; set; }
     }
+
+    // View models for registration and updates
+    public class BusinessRegistrationModel
+    {
+        public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public int? Age { get; set; }
+        public int? UserAreaId { get; set; }
+
+        // Company information
+        public string CompanyId { get; set; }
+        public string CompanyName { get; set; }
+        public string CompanyIntro { get; set; }
+        public string CompanyWebsite { get; set; }
+        public string CompanyIndustry { get; set; }
+        public int? CompanyAreaId { get; set; }
+    }
+
+    public class BusinessUpdateModel
+    {
+        public string Username { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+        public int? Age { get; set; }
+        public string UserIntro { get; set; }
+        public string UserIcon { get; set; }
+        public int? UserAreaId { get; set; }
+
+        // Company information
+        public string CompanyName { get; set; }
+        public string CompanyIntro { get; set; }
+        public string CompanyWebsite { get; set; }
+        public string CompanyIndustry { get; set; }
+        public int? CompanyAreaId { get; set; }
+    }
 }
+

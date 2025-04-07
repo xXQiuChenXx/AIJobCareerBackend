@@ -241,6 +241,7 @@ namespace AIJobCareer.Data
              {
                  company_id = "sarawakenergy",
                  company_name = "Sarawak Energy Berhad",
+                 company_founded = DateTime.Now.AddYears(-10),
                  company_icon = "sarawak_energy_icon.png",
                  company_intro = "Leading energy provider in Sarawak focusing on renewable energy sources.",
                  company_website = "https://www.sarawakenergy.com",
@@ -251,6 +252,7 @@ namespace AIJobCareer.Data
               {
                   company_id = "petronas",
                   company_name = "Petronas Carigali Sdn Bhd",
+                  company_founded = DateTime.Now.AddYears(-8).AddMonths(-3),
                   company_icon = "petronas_icon.png",
                   company_intro = "Oil and gas exploration company operating in Sarawak's offshore regions.",
                   company_website = "https://www.petronas.com",
@@ -261,6 +263,7 @@ namespace AIJobCareer.Data
               {
                   company_id = "sarawakforestrycorporation",
                   company_name = "Sarawak Forestry Corporation",
+                  company_founded = DateTime.Now.AddYears(-5).AddMonths(-3),
                   company_icon = "sfc_icon.png",
                   company_intro = "Responsible for sustainable management of Sarawak's forest resources.",
                   company_website = "https://www.sarawakforestry.com",
@@ -271,6 +274,7 @@ namespace AIJobCareer.Data
               {
                   company_id = "sdec",
                   company_name = "Sarawak Digital Economy Corporation",
+                  company_founded = DateTime.Now.AddYears(-7).AddMonths(-3),
                   company_icon = "sdec_icon.png",
                   company_intro = "Driving digital transformation and innovation across Sarawak.",
                   company_website = "https://www.sdec.com.my",

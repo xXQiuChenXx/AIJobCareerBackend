@@ -24,6 +24,8 @@ namespace AIJobCareer.Models
 
         public int? company_area_id { get; set; }
 
+        public DateTime company_founded { get; set; }
+
         [ForeignKey("company_area_id")]
         public virtual Area Area { get; set; }
         public User? User { get; set; }

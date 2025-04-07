@@ -10,6 +10,7 @@ namespace AIJobCareer.Models.DTOs
         public string company_intro { get; set; }
         public string company_website { get; set; }
         public string company_industry { get; set; }
+        public DateTime company_founded { get; set; }
         public int? company_area_id { get; set; }
         public AreaDTO? Area { get; set; }
     }
@@ -19,6 +20,7 @@ namespace AIJobCareer.Models.DTOs
     {
         [Required]
         public string company_id { get; set; }
+        public DateTime company_founded { get; set; }
 
         [Required]
         [StringLength(255)]
@@ -57,6 +59,8 @@ namespace AIJobCareer.Models.DTOs
         [StringLength(255)]
         public string company_website { get; set; }
 
+        public DateTime company_founded { get; set; }
+
         [Required]
         public string company_industry { get; set; }
 
@@ -69,6 +73,7 @@ namespace AIJobCareer.Models.DTOs
         public string company_id { get; set; }
         public string company_name { get; set; }
         public string? company_icon { get; set; }
+        public DateTime company_founded { get; set; }
         public string company_intro { get; set; }
         public string company_website { get; set; }
         public string company_industry { get; set; }

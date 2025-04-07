@@ -10,6 +10,7 @@ namespace AIJobCareer.Services
     public interface IAuthService
     {
         Task<(bool Success, string Message, User? User)> RegisterAsync(RegisterModel input_user);
+        Task<(bool Success, string Message, User? User)> RegisterBusinessAsync(BusinessRegistrationModel input_user);
         Task<(bool Success, string Message, User? User)> LoginAsync(string usernameOrEmail, string password);
         Task<User?> ValidateAsync(string? userId, string? username);
     }
@@ -24,6 +25,77 @@ namespace AIJobCareer.Services
             _context = context;
             _passwordHasher = passwordHasher;
         }
+
+        public async Task<(bool Success, string Message, User? User)> RegisterBusinessAsync(BusinessRegistrationModel model)
+        {
+
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
+            try
+            {
+                // Check if username or email already exists
+                if (await _context.User.AnyAsync(u => u.username == model.Username))
+                {
+                    return (false, "Username already exists", null);
+                }
+
+                if (await _context.User.AnyAsync(u => u.user_email == model.Email))
+                {
+                    return (false, "Email already exists", null);
+                }
+
+                if (await _context.Company.AnyAsync(c => c.company_id == model.CompanyId))
+                {
+                    return (false, "Company ID already exists", null);
+                }
+
+                // Create company first
+                var company = new Company
+                {
+                    company_id = model.CompanyId,
+                    company_name = model.CompanyName,
+                    company_intro = model.CompanyIntro ?? string.Empty,
+                    company_website = model.CompanyWebsite ?? string.Empty,
+                    company_industry = model.CompanyIndustry ?? string.Empty,
+                    company_area_id = model.CompanyAreaId
+                };
+
+                _context.Company.Add(company);
+                await _context.SaveChangesAsync();
+
+                // Create user with reference to the new company
+                var user = new User
+                {
+                    username = model.Username,
+                    user_first_name = model.FirstName,
+                    user_last_name = model.LastName,
+                    user_email = model.Email,
+                    user_role = "business", // Set role as business
+                    user_company_id = company.company_id,
+                    user_area_id = model.UserAreaId ?? model.CompanyAreaId, // Use company area if user area not provided
+                    user_age = model.Age,
+                };
+
+                // Hash the password
+                user.user_password = _passwordHasher.HashPassword(user, model.Password);
+
+                _context.User.Add(user);
+                await _context.SaveChangesAsync();
+
+                await transaction.CommitAsync();
+
+                return (true, "User registered successfully", user);
+
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync();
+                return (false, $"Internal server error: {ex.Message}", null);
+            }
+
+        }
+
+
 
         public async Task<(bool Success, string Message, User? User)> RegisterAsync(RegisterModel input_user)
         {

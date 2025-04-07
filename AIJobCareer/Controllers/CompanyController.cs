@@ -1,13 +1,8 @@
 ﻿using AIJobCareer.Data;
 using AIJobCareer.Models;
-using AIJobCareer.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AIJobCareer.Models.DTOs;
 
 namespace AIJobCareer.Controllers
@@ -35,6 +30,7 @@ namespace AIJobCareer.Controllers
                     company_name = c.company_name,
                     company_icon = c.company_icon,
                     company_intro = c.company_intro,
+                    company_founded = c.company_founded,
                     company_website = c.company_website,
                     company_industry = c.company_industry,
                     company_area_id = c.company_area_id,
@@ -49,7 +45,7 @@ namespace AIJobCareer.Controllers
             return Ok(companies);
         }
 
-        // GET: api/Company/5
+        // GET: api/Company/:id
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCompany(string id)
         {
@@ -71,6 +67,7 @@ namespace AIJobCareer.Controllers
                 company_website = company.company_website,
                 company_industry = company.company_industry,
                 company_area_id = company.company_area_id,
+                company_founded = company.company_founded,
                 Area = company.Area != null ? new AreaDTO
                 {
                     area_id = company.Area.area_id,
@@ -102,6 +99,7 @@ namespace AIJobCareer.Controllers
                 company_icon = company.company_icon,
                 company_intro = company.company_intro,
                 company_website = company.company_website,
+                company_founded = company.company_founded,
                 company_industry = company.company_industry,
                 Area = company.Area != null ? new AreaDTO
                 {
@@ -148,6 +146,7 @@ namespace AIJobCareer.Controllers
                 {
                     company_id = companyDTO.company_id,
                     company_name = companyDTO.company_name,
+                    company_founded = companyDTO.company_founded,
                     company_icon = companyDTO.company_icon,
                     company_intro = companyDTO.company_intro,
                     company_website = companyDTO.company_website,
@@ -165,6 +164,7 @@ namespace AIJobCareer.Controllers
                     company_icon = company.company_icon,
                     company_intro = company.company_intro,
                     company_website = company.company_website,
+                    company_founded = company.company_founded,
                     company_industry = company.company_industry,
                     company_area_id = company.company_area_id
                 };
@@ -224,6 +224,7 @@ namespace AIJobCareer.Controllers
                 existingCompany.company_icon = companyDTO.company_icon;
                 existingCompany.company_intro = companyDTO.company_intro;
                 existingCompany.company_website = companyDTO.company_website;
+                existingCompany.company_founded = companyDTO.company_founded;
                 existingCompany.company_industry = companyDTO.company_industry;
                 existingCompany.company_area_id = companyDTO.company_area_id;
 
@@ -234,6 +235,7 @@ namespace AIJobCareer.Controllers
                     company_id = existingCompany.company_id,
                     company_name = existingCompany.company_name,
                     company_icon = existingCompany.company_icon,
+                    company_founded = existingCompany.company_founded,
                     company_intro = existingCompany.company_intro,
                     company_website = existingCompany.company_website,
                     company_industry = existingCompany.company_industry,
