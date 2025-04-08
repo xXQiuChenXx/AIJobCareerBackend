@@ -17,7 +17,6 @@ namespace AIJobCareer.Controllers
         private readonly ApplicationDBContext _context;
         private readonly ILogger<JobApplicationsController> _logger;
         private readonly IR2FileService _fileService;
-        private readonly string _uploadsFolder;
 
         public JobApplicationsController(
             ApplicationDBContext context,
