@@ -18,33 +18,6 @@ namespace AIJobCareer.Controllers
             _context = context;
         }
 
-        // GET: api/Company
-        [HttpGet]
-        public async Task<IActionResult> GetCompanies()
-        {
-            var companies = await _context.Company
-                .Include(c => c.Area)
-                .Select(c => new CompanyDTO
-                {
-                    company_id = c.company_id,
-                    company_name = c.company_name,
-                    company_icon = c.company_icon,
-                    company_intro = c.company_intro,
-                    company_founded = c.company_founded,
-                    company_website = c.company_website,
-                    company_industry = c.company_industry,
-                    company_area_id = c.company_area_id,
-                    Area = c.Area != null ? new AreaDTO
-                    {
-                        area_id = c.Area.area_id,
-                        area_name = c.Area.area_name
-                    } : null
-                })
-                .ToListAsync();
-
-            return Ok(companies);
-        }
-
         // GET: api/Company/:id
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCompany(string id)
@@ -66,13 +39,8 @@ namespace AIJobCareer.Controllers
                 company_intro = company.company_intro,
                 company_website = company.company_website,
                 company_industry = company.company_industry,
-                company_area_id = company.company_area_id,
+                company_area_name = company.Area.area_name,
                 company_founded = company.company_founded,
-                Area = company.Area != null ? new AreaDTO
-                {
-                    area_id = company.Area.area_id,
-                    area_name = company.Area.area_name
-                } : null
             };
 
             return Ok(companyDTO);
@@ -101,11 +69,7 @@ namespace AIJobCareer.Controllers
                 company_website = company.company_website,
                 company_founded = company.company_founded,
                 company_industry = company.company_industry,
-                Area = company.Area != null ? new AreaDTO
-                {
-                    area_id = company.Area.area_id,
-                    area_name = company.Area.area_name
-                } : null,
+                company_area_name = company?.Area?.area_name,
                 Jobs = company.jobs.Select(j => new JobBasicDTO
                 {
                     job_id = j.job_id,
@@ -113,7 +77,9 @@ namespace AIJobCareer.Controllers
                     job_description = j.job_description,
                     job_type = j.job_type,
                     job_salary_min = j.job_salary_min,
-                    job_salary_max = j.job_salary_max
+                    job_salary_max = j.job_salary_max,
+                    job_location = j.job_location,
+                    job_posted_date = j.Posted_Date
                 }).ToList()
             };
 
@@ -166,7 +132,7 @@ namespace AIJobCareer.Controllers
                     company_website = company.company_website,
                     company_founded = company.company_founded,
                     company_industry = company.company_industry,
-                    company_area_id = company.company_area_id
+                    company_area_name = company.Area.area_name
                 };
 
                 return CreatedAtAction(nameof(GetCompany), new { id = company.company_id }, createdCompanyDTO);
@@ -190,13 +156,14 @@ namespace AIJobCareer.Controllers
             try
             {
                 // Validate area exists if provided
-                if (companyDTO.company_area_id.HasValue)
+                if (!string.IsNullOrEmpty(companyDTO.company_area_name))
                 {
-                    var areaExists = await _context.Area.AnyAsync(a => a.area_id == companyDTO.company_area_id);
-                    if (!areaExists)
+                    var area = await _context.Area.FirstOrDefaultAsync(a => a.area_name == companyDTO.company_area_name);
+                    if (area == null)
                     {
                         return BadRequest("The specified area does not exist");
                     }
+                    companyDTO.company_area_id = area.area_id;
                 }
 
                 // Ensure company exists
@@ -239,7 +206,7 @@ namespace AIJobCareer.Controllers
                     company_intro = existingCompany.company_intro,
                     company_website = existingCompany.company_website,
                     company_industry = existingCompany.company_industry,
-                    company_area_id = existingCompany.company_area_id
+                    company_area_name = existingCompany.Area.area_name
                 };
 
                 return Ok(updatedCompanyDTO);

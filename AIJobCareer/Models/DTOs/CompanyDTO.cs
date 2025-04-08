@@ -11,8 +11,7 @@ namespace AIJobCareer.Models.DTOs
         public string company_website { get; set; }
         public string company_industry { get; set; }
         public DateTime company_founded { get; set; }
-        public int? company_area_id { get; set; }
-        public AreaDTO? Area { get; set; }
+        public string company_area_name { get; set; } = string.Empty;
     }
 
     // DTO for creating a new company
@@ -53,17 +52,18 @@ namespace AIJobCareer.Models.DTOs
         public string? company_icon { get; set; }
 
         [Required]
-        public string company_intro { get; set; }
+        public string? company_intro { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string company_website { get; set; }
+        public string? company_website { get; set; }
 
         public DateTime company_founded { get; set; }
 
         [Required]
-        public string company_industry { get; set; }
+        public string? company_industry { get; set; }
 
+        public string? company_area_name { get; set; }
         public int? company_area_id { get; set; }
     }
 
@@ -73,11 +73,11 @@ namespace AIJobCareer.Models.DTOs
         public string company_id { get; set; }
         public string company_name { get; set; }
         public string? company_icon { get; set; }
-        public DateTime company_founded { get; set; }
-        public string company_intro { get; set; }
-        public string company_website { get; set; }
-        public string company_industry { get; set; }
-        public AreaDTO? Area { get; set; }
+        public DateTime? company_founded { get; set; }
+        public string? company_intro { get; set; }
+        public string? company_website { get; set; }
+        public string? company_industry { get; set; }
+        public string? company_area_name { get; set; }
         public List<JobBasicDTO> Jobs { get; set; } = new List<JobBasicDTO>();
     }
     public class JobBasicDTO
@@ -88,6 +88,8 @@ namespace AIJobCareer.Models.DTOs
         public JobType job_type { get; set; }
         public decimal? job_salary_min { get; set; }
         public decimal? job_salary_max { get; set; }
+        public string job_location { get; set; }
+        public DateTime job_posted_date { get; set; }
     }
 
     public class AreaDTO

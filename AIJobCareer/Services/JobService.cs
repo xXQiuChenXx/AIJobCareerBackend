@@ -1,6 +1,7 @@
 ﻿
 using AIJobCareer.Data;
 using AIJobCareer.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 
 namespace AIJobCareer.Services
@@ -9,7 +10,7 @@ namespace AIJobCareer.Services
     {
         Task<PaginatedResponse<JobResponseDto>> GetJobsAsync(JobFilterRequest filter);
         Task<JobResponseDto> GetJobByIdAsync(int id);
-        Task<Job> CreateJobAsync(Job job);
+        Task<JobCreateDto> CreateJobAsync(JobCreateDto job);
         Task<bool> UpdateJobAsync(Job job);
         Task<bool> DeleteJobAsync(int id);
     }
@@ -145,12 +146,31 @@ namespace AIJobCareer.Services
             };
         }
 
-        public async Task<Job> CreateJobAsync(Job job)
+        public async Task<JobCreateDto> CreateJobAsync(JobCreateDto job)
         {
             job.Posted_Date = DateTime.UtcNow;
-            _dbContext.Job.Add(job);
+            var formatted = new Job
+            {
+                job_id = job.job_id,
+                job_title = job.job_title,
+                job_description = job.job_description,
+                job_company_id = job.job_company_id,
+                job_responsible = job.job_responsible,
+                job_salary_min = job.job_salary_min,
+                job_salary_max = job.job_salary_max,
+                job_location = job.job_location,
+                job_type = job.job_type,
+                job_status = job.job_status,
+                Posted_Date = job.Posted_Date,
+                job_deadline = job.job_deadline,
+                job_benefit = job.job_benefit,
+                job_requirement = job.job_requirement,
+                company = _dbContext.Company.Find(job.job_company_id)
+            };
+            _dbContext.Job.Add(formatted);
             await _dbContext.SaveChangesAsync();
             return job;
+            ;
         }
 
         public async Task<bool> UpdateJobAsync(Job job)
@@ -220,6 +240,24 @@ namespace AIJobCareer.Services
 
         // Company without jobs collection
         public CompanyDto company { get; set; }
+    }
+
+    public class JobCreateDto
+    {
+        public int job_id { get; set; }
+        public string job_title { get; set; }
+        public string job_description { get; set; }
+        public string job_company_id { get; set; }
+        public string job_responsible { get; set; }
+        public decimal? job_salary_min { get; set; }
+        public decimal? job_salary_max { get; set; }
+        public string job_location { get; set; }
+        public JobType job_type { get; set; }
+        public string job_status { get; set; }
+        public DateTime Posted_Date { get; set; }
+        public DateTime job_deadline { get; set; }
+        public string job_benefit { get; set; }
+        public string job_requirement { get; set; }
     }
 
     public class CompanyDto
