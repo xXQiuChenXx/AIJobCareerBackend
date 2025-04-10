@@ -17,7 +17,6 @@ namespace AIJobCareer.Models
         [Required]
         public string job_title { get; set; }
 
-        [StringLength(255)]
         [Required]
         public string job_description { get; set; }
 

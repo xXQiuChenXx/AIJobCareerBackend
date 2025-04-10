@@ -23,11 +23,6 @@ namespace AIJobCareer.Controllers
                 _configuration["Dify:BaseUrl"]
             );
         }
-        [HttpGet("test")]
-        public IActionResult Test()
-        {
-            return Ok(Environment.GetEnvironmentVariable("TESTING") + "demo");
-        }
 
         [HttpPost("message")]
         public async Task StreamChatMessage([FromBody] ChatRequest request)
@@ -41,7 +36,6 @@ namespace AIJobCareer.Controllers
                 query = request.query,
                 conversation_id = request.conversation_id,
                 user = request.user,
-                fileId = request.fileId,
                 auto_generate_name = true,
                 response_mode = "streaming",
                 inputs = request.inputs
@@ -61,23 +55,45 @@ namespace AIJobCareer.Controllers
         }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> UploadFile(IFormFile file)
+        public async Task<IActionResult> UploadFile(IFormFile file, string user_id)
         {
-            if (file == null || file.Length == 0)
+            if (!ModelState.IsValid)
             {
-                return BadRequest("No file uploaded");
+                return BadRequest(ModelState);
             }
 
             using var stream = file.OpenReadStream();
-            var fileId = await _difyClient.UploadFileAsync(stream, file.FileName, file.ContentType);
+            var fileId = await _difyClient.UploadFileAsync(stream, file.FileName, file.ContentType, user_id);
             return Ok(new { fileId });
         }
 
-        [HttpGet("conversation/{conversationId}")]
-        public async Task<IActionResult> GetConversation(string conversationId, [FromQuery] int firstId = 0, [FromQuery] int limit = 20)
+        /// <summary>
+        /// Gets suggestions based on message ID and username
+        /// </summary>
+        /// <param name="message_id">The ID of the message</param>
+        /// <param name="user_id">The username to filter suggestions</param>
+        /// <returns>A list of suggestions</returns>
+        [HttpGet("suggestions/{message_id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetSuggestions(string message_id, string user_id)
         {
-            var result = await _difyClient.GetConversationMessagesAsync(conversationId, firstId, limit);
-            return Ok(result);
+            if (string.IsNullOrWhiteSpace(message_id))
+            {
+                _logger.LogWarning("Invalid message ID provided");
+                return BadRequest("Message ID is required");
+            }
+
+            var (success, suggestions, errorMessage) = await _difyClient.GetSuggestions(message_id, user_id);
+            if (!success)
+            {
+                _logger.LogError("Error from Dify API: {ErrorMessage}", errorMessage);
+                return NotFound(errorMessage);
+            }
+
+
+            return Ok(suggestions);
         }
     }
 
