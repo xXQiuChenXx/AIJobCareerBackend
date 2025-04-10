@@ -69,7 +69,6 @@ namespace AIJobCareer.Services
                 endpoint += $"?user={Uri.EscapeDataString(user_id)}";
             }
 
-            _httpClient.DefaultRequestHeaders.Add("Content-Type", "application/json");
             HttpResponseMessage response = await _httpClient.GetAsync(endpoint);
 
             if (!response.IsSuccessStatusCode)

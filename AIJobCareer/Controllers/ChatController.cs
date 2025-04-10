@@ -38,6 +38,7 @@ namespace AIJobCareer.Controllers
                 user = request.user,
                 auto_generate_name = true,
                 response_mode = "streaming",
+                files = request.files,
                 inputs = request.inputs
             };
 
@@ -55,7 +56,7 @@ namespace AIJobCareer.Controllers
         }
 
         [HttpPost("upload")]
-        public async Task<IActionResult> UploadFile(IFormFile file, string user_id)
+        public async Task<IActionResult> UploadFile(IFormFile file, [FromForm] string user_id)
         {
             if (!ModelState.IsValid)
             {
