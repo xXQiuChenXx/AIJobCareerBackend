@@ -1,8 +1,6 @@
 ﻿using AIJobCareer.Services;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using System.Net.Http.Headers;
-using System.Net.Http;
 using System.Text.Json;
 
 namespace AIJobCareer.Controllers

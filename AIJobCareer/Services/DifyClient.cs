@@ -3,7 +3,6 @@ using System.Text;
 using System.Net.Http.Headers;
 using AIJobCareer.Controllers;
 using System.ComponentModel.DataAnnotations;
-using Amazon.S3.Model.Internal.MarshallTransformations;
 
 namespace AIJobCareer.Services
 {
@@ -100,9 +99,6 @@ namespace AIJobCareer.Services
 
                 requestUrl += $"&limit={limit}";
 
-                // Add authorization header
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _difyApiKey);
-
                 // Make the request to Dify API
                 var response = await _httpClient.GetAsync(requestUrl);
 
@@ -123,12 +119,13 @@ namespace AIJobCareer.Services
                 return (false, null, $"An error occurred: {ex.Message}");
             }
         }
+    }
 
     public class DifyFileObject
     {
         [RegularExpression("^(document|image|audio|video|custom)$", ErrorMessage = "Type must be one of: document, image, audio, video, custom")]
         public string type { get; set; }
-        
+
         [RegularExpression("^(remote_url|local_file)$", ErrorMessage = "Transfer method must be either remote_url or local_file")]
         public string transfer_method { get; set; }
         public string? url { get; set; }
@@ -160,4 +157,5 @@ namespace AIJobCareer.Services
         public string result { get; set; }
         public List<string> data { get; set; }
     }
+
 }
