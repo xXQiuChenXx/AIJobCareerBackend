@@ -1,6 +1,8 @@
 ﻿using AIJobCareer.Services;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
+using System.Net.Http;
 using System.Text.Json;
 
 namespace AIJobCareer.Controllers
@@ -94,6 +96,25 @@ namespace AIJobCareer.Controllers
 
 
             return Ok(suggestions);
+        }
+
+
+
+        [HttpGet("conversation_history")]
+        public async Task<IActionResult> GetConversationHistory(
+            [FromQuery] string conversationId,
+            [FromQuery] string user,
+            [FromQuery] string firstId = null,
+            [FromQuery] int limit = 20)
+        {
+            var (success, data, errorMessage) = await _difyClient.GetHistory(conversationId, user, firstId, limit);
+            if (!success || string.IsNullOrEmpty(data))
+            {
+                _logger.LogError("Error from Dify API: {ErrorMessage}", errorMessage);
+                return BadRequest(errorMessage);
+            }
+
+            return Content(data, "application/json");
         }
     }
 

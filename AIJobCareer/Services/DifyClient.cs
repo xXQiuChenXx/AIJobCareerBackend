@@ -3,6 +3,7 @@ using System.Text;
 using System.Net.Http.Headers;
 using AIJobCareer.Controllers;
 using System.ComponentModel.DataAnnotations;
+using Amazon.S3.Model.Internal.MarshallTransformations;
 
 namespace AIJobCareer.Services
 {
@@ -84,7 +85,44 @@ namespace AIJobCareer.Services
 
             return (data?.result == "success", data, null);
         }
-    }
+
+        public async Task<(bool success, string? data, string? errorMessage)> GetHistory(string conversationId, string user, string firstId = null, int limit = 20)
+        {
+            try
+            {
+                // Build the request URL with query parameters
+                var requestUrl = $"{_baseUrl}/messages?conversation_id={conversationId}&user={user}";
+
+                if (!string.IsNullOrEmpty(firstId))
+                {
+                    requestUrl += $"&first_id={firstId}";
+                }
+
+                requestUrl += $"&limit={limit}";
+
+                // Add authorization header
+                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", _difyApiKey);
+
+                // Make the request to Dify API
+                var response = await _httpClient.GetAsync(requestUrl);
+
+                // Check if the request was successful
+                if (response.IsSuccessStatusCode)
+                {
+                    // Read the response content
+                    string content = await response.Content.ReadAsStringAsync();
+                    return (true, content, null);
+                }
+                else
+                {
+                    return (false, null, $"Failed to retrieve conversation history. Status code: {response.StatusCode}");
+                }
+            }
+            catch (Exception ex)
+            {
+                return (false, null, $"An error occurred: {ex.Message}");
+            }
+        }
 
     public class DifyFileObject
     {
