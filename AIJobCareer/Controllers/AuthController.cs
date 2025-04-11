@@ -112,7 +112,7 @@ namespace AIJobCareer.Controllers
                 user = new
                 {
                     userId = result.User.user_id,
-                    username = result.User.username,
+                    user_name = result.User.user_first_name + " " + result.User.user_last_name,
                     email = result.User.user_email,
                     user_company_id = result.User.user_company_id
                 }
@@ -246,10 +246,10 @@ namespace AIJobCareer.Controllers
                     mismatchField = "User ID";
                 }
                 // Validate username if provided
-                else if (!string.IsNullOrEmpty(request.Username) && username != request.Username)
+                else if (!string.IsNullOrEmpty(request.Email) && email != request.Email)
                 {
                     userInfoMatches = false;
-                    mismatchField = "Username";
+                    mismatchField = "Email";
                 }
 
                 if (!userInfoMatches)
@@ -270,7 +270,7 @@ namespace AIJobCareer.Controllers
                     user = new UserResponse
                     {
                         userId = user.user_id.ToString(),
-                        username = user.username,
+                        user_name = user.user_first_name + " " + user.user_last_name,
                         email = user.user_email,
                         user_company_id = user.user_company_id
                     }, 
@@ -317,11 +317,6 @@ namespace AIJobCareer.Controllers
         public string UserId { get; set; }
 
         /// <summary>
-        /// Username to validate against token claims (optional)
-        /// </summary>
-        public string Username { get; set; }
-
-        /// <summary>
         /// Email to validate against token claims (optional)
         /// </summary>
         public string Email { get; set; }
@@ -350,7 +345,7 @@ namespace AIJobCareer.Controllers
 
     public class UserResponse
     {
-        public string username { get; set; }
+        public string user_name { get; set; }
         public string email { get; set; }
         public string userId { get; set; }
         public string user_company_id { get; set; }
