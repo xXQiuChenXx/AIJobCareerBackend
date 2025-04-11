@@ -46,6 +46,7 @@ namespace AIJobCareer.Controllers
             user.user_contact_number = updateDto.user_contact_number;
             user.user_email = updateDto.user_email;
             user.user_icon = updateDto.user_icon;
+            user.user_privacy_status = updateDto.privacy_status;
 
             // Update area if area_name is provided
             if (!string.IsNullOrEmpty(updateDto.area_name))
@@ -73,14 +74,10 @@ namespace AIJobCareer.Controllers
         }
 
         // POST: Profile/Complete
-        [HttpPost("Complete")]
-        public async Task<ActionResult<UserProfileCompleteDto>> GetCompleteProfile()
+        [HttpPost("Complete/{userId}")]
+        public async Task<ActionResult> GetCompleteProfile(Guid userId)
         {
-            var userId = GetCurrentUserId();
-            if (userId == Guid.Empty)
-            {
-                return Unauthorized();
-            }
+            Guid current_user_id = GetCurrentUserId();
 
             // Get user and all related information in a single query
             var user = await _context.User
@@ -100,7 +97,17 @@ namespace AIJobCareer.Controllers
                 return NotFound();
             }
 
-
+            if (user.user_privacy_status == "private" && user.user_id != current_user_id)
+            {
+                return Ok(new
+                {
+                    first_name = user.user_first_name,
+                    last_name = user.user_last_name,
+                    icon = user.user_icon,
+                    privacy_status = user.user_privacy_status,
+                    role = user.user_role,
+                });
+            }
 
             // Map to DTO to avoid password exposure and control the response structure
             var completeProfile = new UserProfileCompleteDto
@@ -188,7 +195,7 @@ namespace AIJobCareer.Controllers
                 }).OrderByDescending(c => c.issue_date).ToList(),
             };
 
-            return completeProfile;
+            return Ok(completeProfile);
         }
 
         // Helper methods
