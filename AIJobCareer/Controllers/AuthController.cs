@@ -50,7 +50,7 @@ namespace AIJobCareer.Controllers
                 {
                     userId = result.User.user_id,
                     username = result.User.username,
-                    email = result.User.user_email
+                    email = result.User.user_email,
                 }
             });
         }
@@ -81,7 +81,7 @@ namespace AIJobCareer.Controllers
                     userId = result.User.user_id,
                     username = result.User.username,
                     email = result.User.user_email,
-                    user_company_id = result.User.user_company_id
+                    user_company_id = result.User.user_company_id,
                 }
             });
         }
@@ -114,7 +114,8 @@ namespace AIJobCareer.Controllers
                     userId = result.User.user_id,
                     user_name = result.User.user_first_name + " " + result.User.user_last_name,
                     email = result.User.user_email,
-                    user_company_id = result.User.user_company_id
+                    user_company_id = result.User.user_company_id,
+                    user_icon = result.User.user_icon
                 }
             });
         }
@@ -272,7 +273,8 @@ namespace AIJobCareer.Controllers
                         userId = user.user_id.ToString(),
                         user_name = user.user_first_name + " " + user.user_last_name,
                         email = user.user_email,
-                        user_company_id = user.user_company_id
+                        user_company_id = user.user_company_id,
+                        user_icon = user.user_icon
                     }, 
                     ExpiresAt = GetExpirationDateFromToken(principal)
                 });
@@ -346,6 +348,7 @@ namespace AIJobCareer.Controllers
     public class UserResponse
     {
         public string user_name { get; set; }
+        public string user_icon { get; set; }
         public string email { get; set; }
         public string userId { get; set; }
         public string user_company_id { get; set; }
