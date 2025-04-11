@@ -49,7 +49,8 @@ namespace AIJobCareer.Models
         [Required]
         public string CoverLetter { get; set; }
         
-        public string? ResumeUrl { get; set; }
+        public int? resume_id { get; set; }
+        [ForeignKey("resume_id")]
         
         public ApplicationStatus Status { get; set; } = ApplicationStatus.New;
         
@@ -62,6 +63,8 @@ namespace AIJobCareer.Models
 
         [ForeignKey("JobId")]
         public virtual Job Job { get; set; }
+
+        public virtual Resume Resume { get; set; }
     }
 
     public enum ApplicationStatus

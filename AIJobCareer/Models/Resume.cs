@@ -13,13 +13,12 @@ namespace AIJobCareer.Models
         [ForeignKey("resume_user_id")]
         public virtual User user { get; set; }
 
-        public string resume_text { get; set; }
+        public string resume_url { get; set; }
+        public string resume_name { get; set; }
 
-        [StringLength(255)]
-        public string resume_file { get; set; }
+        public string job_application_id { get; set; }
+        [ForeignKey("job_application_id")]
 
-        public DateTime resume_last_modify_time { get; set; } = DateTime.UtcNow;
-
-        public virtual ICollection<JobApplicationTable> job_application_tables { get; set; }
+        public virtual JobApplication JobApplication { get; set; }
     }
 }

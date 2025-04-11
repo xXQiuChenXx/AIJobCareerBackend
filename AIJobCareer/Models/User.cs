@@ -50,8 +50,7 @@ namespace AIJobCareer.Models
         public virtual ICollection<Notification> Notifications { get; set; } = new List<Notification>();
         public virtual ICollection<Resume> Resumes { get; set; } = new List<Resume>();
         public virtual ICollection<UserSkill> UserSkills { get; set; } = new List<UserSkill>();
-        public virtual ICollection<UserApplication> UserApplications { get; set; } = new List<UserApplication>();
-        public virtual ICollection<CareerAnalysis> CareerAnalyses { get; set; } = new List<CareerAnalysis>();
+        public virtual ICollection<JobApplication> JobApplications { get; set; } = new List<JobApplication>();
 
         public virtual ICollection<WorkExperience> WorkExperiences { get; set; } = new List<WorkExperience>();
         public virtual ICollection<Education> Educations { get; set; } = new List<Education>();

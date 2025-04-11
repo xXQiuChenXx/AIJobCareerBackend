@@ -15,18 +15,14 @@ namespace AIJobCareer.Data
         }
 
         public DbSet<Area> Area { get; set; }
-        public DbSet<CareerAnalysis> Career_Analysis { get; set; }
         public DbSet<Company> Company { get; set; }
         public DbSet<Job> Job { get; set; }
         public DbSet<JobApplication> Job_Application { get; set; }
-        public DbSet<JobApplicationReview> Job_Application_Review { get; set; }
-        public DbSet<JobApplicationTable> Job_Application_Table { get; set; }
         public DbSet<JobSkill> Job_Skill { get; set; }
         public DbSet<Notification> Notification { get; set; }
         public DbSet<Resume> Resume { get; set; }
         public DbSet<Skill> Skill { get; set; }
         public DbSet<User> User { get; set; }
-        public DbSet<UserApplication> User_Application { get; set; }
         public DbSet<UserSkill> User_Skill { get; set; }
         public DbSet<Project> Project { get; set; }
         public DbSet<Education> Education { get; set; }
@@ -62,19 +58,13 @@ namespace AIJobCareer.Data
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Resumes)
                 .WithOne(r => r.user)
-                .HasForeignKey(r => r.resume_id)
+                .HasForeignKey(r => r.resume_user_id)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>()
-                .HasMany(u => u.CareerAnalyses)
-                .WithOne(ca => ca.User)
-                .HasForeignKey(ca => ca.analysis_user_id)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            modelBuilder.Entity<User>()
-                .HasMany(u => u.UserApplications)
-                .WithOne(ua => ua.User)
-                .HasForeignKey(ua => ua.UA_USER_ID)
+                .HasMany(u => u.JobApplications)
+                .WithOne(ja => ja.User)
+                .HasForeignKey(ja => ja.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<User>()
@@ -128,12 +118,6 @@ namespace AIJobCareer.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<Company>()
-                .HasMany(c => c.job_application_reviews)
-                .WithOne(jar => jar.company)
-                .HasForeignKey(jar => jar.review_company_id)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Company>()
                 .HasMany(c => c.notifications)
                 .WithOne(n => n.company)
                 .HasForeignKey(n => n.notification_company_id)
@@ -154,9 +138,9 @@ namespace AIJobCareer.Data
 
             // Fix for CS0266 and CS1662
             modelBuilder.Entity<User>()
-                .HasMany(u => u.UserApplications)
-                .WithOne(ua => ua.User)
-                .HasForeignKey(ua => ua.UA_USER_ID)
+                .HasMany(u => u.JobApplications)
+                .WithOne(ja => ja.User)
+                .HasForeignKey(ja => ja.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
             // JobApplication to JobPosition (Many to One)
@@ -166,18 +150,10 @@ namespace AIJobCareer.Data
                 .HasForeignKey(a => a.JobId)
                 .OnDelete(DeleteBehavior.Restrict); // Don't cascade delete applications if position is deleted
 
-            // Resume relationships
-            modelBuilder.Entity<Resume>()
-                .HasMany(r => r.job_application_tables)
-                .WithOne(jat => jat.Resume)
-                .HasForeignKey(jat => jat.TABLE_RESUME_ID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Resume>()
-               .HasOne(r => r.user)
-               .WithMany(u => u.Resumes)
-               .HasForeignKey(r => r.resume_user_id)
-               .OnDelete(DeleteBehavior.Cascade);
+            modelBuilder.Entity<JobApplication>()
+                .HasOne(ja => ja.Resume)
+                .WithOne(r => r.JobApplication)
+                .HasForeignKey<JobApplication>(ja => ja.resume_id);
 
             modelBuilder.Entity<User>()
                .HasOne(u => u.Company)
@@ -190,15 +166,10 @@ namespace AIJobCareer.Data
             modelBuilder.Entity<User>().ToTable("USERS");
             modelBuilder.Entity<Skill>().ToTable("SKILL");
             modelBuilder.Entity<UserSkill>().ToTable("USER_SKILL");
-            modelBuilder.Entity<Resume>().ToTable("RESUME");
-            modelBuilder.Entity<CareerAnalysis>().ToTable("CAREER_ANALYSIS");
             modelBuilder.Entity<Company>().ToTable("COMPANY");
             modelBuilder.Entity<Job>().ToTable("JOB");
             modelBuilder.Entity<JobSkill>().ToTable("JOB_SKILL");
             modelBuilder.Entity<JobApplication>().ToTable("JOB_APPLICATION");
-            modelBuilder.Entity<JobApplicationTable>().ToTable("JOB_APPLICATION_TABLE");
-            modelBuilder.Entity<UserApplication>().ToTable("USER_APPLICATION");
-            modelBuilder.Entity<JobApplicationReview>().ToTable("JOB_APPLICATION_REVIEW");
             modelBuilder.Entity<Notification>().ToTable("NOTIFICATION");
 
             // Seed data
@@ -443,34 +414,6 @@ namespace AIJobCareer.Data
                 }
             );
 
-            // Seed Resume (3)
-            modelBuilder.Entity<Resume>().HasData(
-                new Resume
-                {
-                    resume_id = 1,
-                    resume_user_id = userId1,
-                    resume_text = "Experienced software developer with expertise in .NET Core, React, and cloud technologies. Worked on enterprise applications for energy sector.",
-                    resume_file = "ahmad_resume.pdf",
-                    resume_last_modify_time = DateTime.Now.AddDays(-15)
-                },
-                new Resume
-                {
-                    resume_id = 2,
-                    resume_user_id = userId2,
-                    resume_text = "Environmental scientist focused on forest conservation. Experience in GIS mapping, biodiversity assessment, and sustainable forest management practices.",
-                    resume_file = "siti_resume.pdf",
-                    resume_last_modify_time = DateTime.Now.AddDays(-7)
-                },
-                new Resume
-                {
-                    resume_id = 3,
-                    resume_user_id = userId3,
-                    resume_text = "Petroleum engineer with extensive experience in offshore drilling. Skills include reservoir analysis, production optimization, and HSE compliance.",
-                    resume_file = "rajesh_resume.pdf",
-                    resume_last_modify_time = DateTime.Now.AddDays(-21)
-                }
-            );
-
             // Seed JobSkill (6)
             modelBuilder.Entity<JobSkill>().HasData(
                 new JobSkill
@@ -533,28 +476,6 @@ namespace AIJobCareer.Data
                 }
             );
 
-            // Seed UserApplication (3)
-            modelBuilder.Entity<UserApplication>().HasData(
-                new UserApplication
-                {
-                    UA_ID = 1,
-                    UA_USER_ID = userId1,
-                    UA_APPLICATION_ID = 1 // Ahmad applied for Senior Software Developer
-                },
-                new UserApplication
-                {
-                    UA_ID = 2,
-                    UA_USER_ID = userId2,
-                    UA_APPLICATION_ID = 2 // Siti applied for Forest Conservation Officer
-                },
-                new UserApplication
-                {
-                    UA_ID = 3,
-                    UA_USER_ID = userId3,
-                    UA_APPLICATION_ID = 3 // Rajesh applied for Petroleum Engineer
-                }
-            );
-
             modelBuilder.Entity<Notification>().HasData(
                 new Notification
                 {
@@ -585,89 +506,6 @@ namespace AIJobCareer.Data
                 }
            );
 
-            // Seed CareerAnalysis (3)
-            modelBuilder.Entity<CareerAnalysis>().HasData(
-                new CareerAnalysis
-                {
-                    analysis_id = 1,
-                    analysis_user_id = userId1,
-                    analysis_ai_direction = "Based on your skills and experience, you have strong potential in software development. Consider specializing in energy sector applications or cloud technologies.",
-                    analysis_ai_market_gap = "There is growing demand for developers with expertise in renewable energy systems in Sarawak. Consider upskilling in this area.",
-                    analysis_ai_career_prospects = "High potential for career growth in Sarawak's emerging digital economy. Projected salary increase of 15-20% in the next 3 years."
-                },
-                new CareerAnalysis
-                {
-                    analysis_id = 2,
-                    analysis_user_id = userId2,
-                    analysis_ai_direction = "Your environmental science background positions you well for conservation roles. Consider gaining project management certification.",
-                    analysis_ai_market_gap = "Sarawak has increasing needs for environmental impact assessment specialists for sustainable development projects.",
-                    analysis_ai_career_prospects = "Strong demand for conservation experts in both government and private sectors in Sarawak over the next 5 years."
-                },
-                new CareerAnalysis
-                {
-                    analysis_id = 3,
-                    analysis_user_id = userId3,
-                    analysis_ai_direction = "Your petroleum engineering experience is valuable. Consider expanding into renewable energy transition projects.",
-                    analysis_ai_market_gap = "There is growing need for engineers who can bridge traditional oil & gas with renewable energy projects in Sarawak.",
-                    analysis_ai_career_prospects = "Stable career prospects in Miri, with opportunities to transition to leadership roles in the next 2-3 years."
-                }
-            );
-
-            // Seed JobApplicationReview (3)
-            modelBuilder.Entity<JobApplicationReview>().HasData(
-                new JobApplicationReview
-                {
-                    review_id = 1,
-                    review_application_id = 1,
-                    review_company_id = "sarawakenergy",
-                    review_status = "Positive",
-                    review_context = "Strong technical background and relevant experience. Recommended for interview.",
-                    review_date = DateTime.Now.AddDays(-5)
-                },
-                new JobApplicationReview
-                {
-                    review_id = 2,
-                    review_application_id = 2,
-                    review_company_id = "petronas",
-                    review_status = "Very Positive",
-                    review_context = "Excellent match for the position. Scientific background and conservation experience are ideal.",
-                    review_date = DateTime.Now.AddDays(-10)
-                },
-                new JobApplicationReview
-                {
-                    review_id = 3,
-                    review_application_id = 3,
-                    review_company_id = "sdec",
-                    review_status = "Neutral",
-                    review_context = "Good experience but may need additional training in offshore safety protocols.",
-                    review_date = DateTime.Now.AddDays(-3)
-                }
-            );
-
-            // Seed JobApplicationTable (3)
-            modelBuilder.Entity<JobApplicationTable>().HasData(
-                new JobApplicationTable
-                {
-                    TABLE_ID = 1,
-                    TABLE_APPLICATION_ID = 1,
-                    TABLE_RESUME_ID = 1,
-                    TABLE_COVER_LETTER = "I am excited to apply for the Senior Software Developer position at Sarawak Energy. My experience developing enterprise applications aligns perfectly with your requirements."
-                },
-                new JobApplicationTable
-                {
-                    TABLE_ID = 2,
-                    TABLE_APPLICATION_ID = 2,
-                    TABLE_RESUME_ID = 2,
-                    TABLE_COVER_LETTER = "As an environmental scientist passionate about forest conservation, I am eager to contribute to Sarawak Forestry Corporation's mission of sustainable forest management."
-                },
-                new JobApplicationTable
-                {
-                    TABLE_ID = 3,
-                    TABLE_APPLICATION_ID = 3,
-                    TABLE_RESUME_ID = 3,
-                    TABLE_COVER_LETTER = "With my decade of experience in petroleum engineering, I am confident in my ability to contribute to Petronas Carigali's operations in Sarawak's offshore fields."
-                }
-            );
         }
     }
 }

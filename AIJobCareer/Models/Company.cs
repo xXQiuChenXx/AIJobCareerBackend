@@ -31,6 +31,5 @@ namespace AIJobCareer.Models
         public User? User { get; set; }
         public virtual ICollection<Notification> notifications { get; set; } = new List<Notification>();
         public virtual ICollection<Job> jobs { get; set; } = new List<Job>();
-        public virtual ICollection<JobApplicationReview> job_application_reviews { get; set; } = new List<JobApplicationReview>();
     }
 }

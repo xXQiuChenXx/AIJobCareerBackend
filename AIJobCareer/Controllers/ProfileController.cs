@@ -74,8 +74,8 @@ namespace AIJobCareer.Controllers
         }
 
         // POST: Profile/Complete
-        [HttpPost("Complete/{userId}")]
-        public async Task<ActionResult> GetCompleteProfile(Guid userId)
+        [HttpPost("Complete/{username}")]
+        public async Task<ActionResult> GetCompleteProfile(string username)
         {
             Guid current_user_id = GetCurrentUserId();
 
@@ -90,7 +90,7 @@ namespace AIJobCareer.Controllers
                 .Include(u => u.UserSkills)
                     .ThenInclude(us => us.Skill)
                 .AsNoTracking()
-                .FirstOrDefaultAsync(u => u.user_id == userId);
+                .FirstOrDefaultAsync(u => u.username == username);
 
             if (user == null)
             {
@@ -152,7 +152,7 @@ namespace AIJobCareer.Controllers
                     start_year = e.start_year,
                     end_year = e.end_year,
                     description = e.description,
-                    user_id = userId,
+                    user_id = user.user_id,
                     created_at = e.created_at,
                     updated_at = e.updated_at
                 }).OrderByDescending(e => e.start_year).ToList(),

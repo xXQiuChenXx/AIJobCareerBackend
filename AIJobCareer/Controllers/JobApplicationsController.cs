@@ -116,8 +116,18 @@ namespace AIJobCareer.Controllers
                     }
                     try
                     {
-                        var fileKey = await _fileService.UploadFileAsync(applicationDto.Resume, "resumes");
-                        application.ResumeUrl = "https://store.myitscm.com/" + fileKey;
+                        string fileKey = await _fileService.UploadFileAsync(applicationDto.Resume, "resumes");
+                        Resume resume = new Resume
+                        {
+                            resume_url = "https://store.myitscm.com/" + fileKey,
+                            resume_name = applicationDto.Resume.FileName,
+                            resume_user_id = userId,
+                        };
+
+                        // Save resume to database
+                        _context.Resume.Add(resume);
+                        await _context.SaveChangesAsync();
+                        application.resume_id = resume.resume_id;
                     }
                     catch (Exception ex)
                     {
@@ -250,7 +260,7 @@ namespace AIJobCareer.Controllers
                 Relocate = application.Relocate,
                 Salary = application.Salary,
                 CoverLetter = application.CoverLetter,
-                HasResume = !string.IsNullOrEmpty(application.ResumeUrl),
+                HasResume = !string.IsNullOrEmpty(application.Resume.resume_url),
                 Status = application.Status.ToString(),
                 SubmittedDate = application.CreatedAt,
                 JobPosition = new JobDto
