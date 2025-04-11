@@ -109,10 +109,11 @@ namespace AIJobCareer.Controllers
             {
                 message = result.Message,
                 token = token,
-                user = new
+                user = new UserResponse
                 {
-                    userId = result.User.user_id,
-                    user_name = result.User.user_first_name + " " + result.User.user_last_name,
+                    userId = result.User.user_id.ToString(),
+                    user_fullname = result.User.user_first_name + " " + result.User.user_last_name,
+                    username = result.User.username,
                     email = result.User.user_email,
                     user_company_id = result.User.user_company_id,
                     user_icon = result.User.user_icon
@@ -271,7 +272,8 @@ namespace AIJobCareer.Controllers
                     user = new UserResponse
                     {
                         userId = user.user_id.ToString(),
-                        user_name = user.user_first_name + " " + user.user_last_name,
+                        user_fullname = user.user_first_name + " " + user.user_last_name,
+                        username = user.username,
                         email = user.user_email,
                         user_company_id = user.user_company_id,
                         user_icon = user.user_icon
@@ -347,7 +349,8 @@ namespace AIJobCareer.Controllers
 
     public class UserResponse
     {
-        public string user_name { get; set; }
+        public string username { get; set; }
+        public string user_fullname { get; set; }
         public string user_icon { get; set; }
         public string email { get; set; }
         public string userId { get; set; }
