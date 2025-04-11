@@ -213,7 +213,7 @@ namespace AIJobCareer.Data
                  company_id = "sarawakenergy",
                  company_name = "Sarawak Energy Berhad",
                  company_founded = DateTime.Now.AddYears(-10),
-                 company_icon = "sarawak_energy_icon.png",
+                 company_icon = "/sarawak_energy_icon.png",
                  company_intro = "Leading energy provider in Sarawak focusing on renewable energy sources.",
                  company_website = "https://www.sarawakenergy.com",
                  company_area_id = 1, // Kuching
@@ -224,7 +224,7 @@ namespace AIJobCareer.Data
                   company_id = "petronas",
                   company_name = "Petronas Carigali Sdn Bhd",
                   company_founded = DateTime.Now.AddYears(-8).AddMonths(-3),
-                  company_icon = "petronas_icon.png",
+                  //company_icon = "/petronas_icon.png",
                   company_intro = "Oil and gas exploration company operating in Sarawak's offshore regions.",
                   company_website = "https://www.petronas.com",
                   company_area_id = 2, // Miri
@@ -235,7 +235,7 @@ namespace AIJobCareer.Data
                   company_id = "sarawakforestrycorporation",
                   company_name = "Sarawak Forestry Corporation",
                   company_founded = DateTime.Now.AddYears(-5).AddMonths(-3),
-                  company_icon = "sfc_icon.png",
+                  //company_icon = "/sfc_icon.png",
                   company_intro = "Responsible for sustainable management of Sarawak's forest resources.",
                   company_website = "https://www.sarawakforestry.com",
                   company_area_id = 1, // Kuching
@@ -246,7 +246,7 @@ namespace AIJobCareer.Data
                   company_id = "sdec",
                   company_name = "Sarawak Digital Economy Corporation",
                   company_founded = DateTime.Now.AddYears(-7).AddMonths(-3),
-                  company_icon = "sdec_icon.png",
+                  //company_icon = "/sdec_icon.png",
                   company_intro = "Driving digital transformation and innovation across Sarawak.",
                   company_website = "https://www.sdec.com.my",
                   company_area_id = 5, // Samarahan
@@ -308,111 +308,201 @@ namespace AIJobCareer.Data
                 }
             );
 
-            // Seed Jobs (6)
             modelBuilder.Entity<Job>().HasData(
-               new Job
-               {
-                   job_id = 1,
-                   job_company_id = "sarawakenergy",
-                   job_title = "Senior Software Developer",
-                   job_description = "Develop and maintain enterprise software applications for energy management systems.",
-                   job_responsible = "Lead software development projects, mentor junior developers, and collaborate with stakeholders.",
-                   job_salary_min = 5000.00M,
-                   job_salary_max = 7500.00M,
-                   job_type = JobType.Full_Time,
-                   job_location = "Kuching, Sarawak",
-                   job_status = "Open",
-                   Posted_Date = DateTime.Now.AddDays(-20),
-                   job_deadline = DateTime.Now.AddDays(30), // 45 days from posting
-                   job_benefit = "Health insurance, performance bonus, professional development allowance.",
-                   job_requirement = "Bachelor's degree in Computer Science, 5+ years experience in software development."
-               },
-                new Job
-                {
-                    job_id = 2,
-                    job_company_id = "petronas",
-                    job_title = "Petroleum Engineer",
-                    job_description = "Design and implement strategies for efficient oil and gas extraction. Collaborate with multidisciplinary teams to solve complex drilling challenges.",
-                    job_responsible = "Oversee drilling operations and optimize oil extraction processes.",
-                    job_salary_min = 6500.00M,
-                    job_salary_max = 9000.00M,
-                    job_type = JobType.Contract,
-                    job_location = "Miri, Sarawak",
-                    job_status = "Open",
-                    Posted_Date = DateTime.Now.AddDays(-10),
-                    job_deadline = DateTime.Now.AddDays(34), // 40 days from posting
-                    job_benefit = "Housing allowance, transportation, medical coverage, annual bonus.",
-                    job_requirement = "Bachelor's degree in Petroleum Engineering, 5+ years field experience."
-                },
-                new Job
-                {
-                    job_id = 3,
-                    job_company_id = "sarawakforestrycorporation",
-                    job_type = JobType.Part_Time,
-                    job_title = "Forest Conservation Officer",
-                    job_description = "Monitor forest health, implement conservation programs, and work with local communities to promote sustainable forest management practices.",
-                    job_responsible = "Implement and monitor forest conservation programs across Sarawak.",
-                    job_salary_min = 4000.00M,
-                    job_salary_max = 5500.00M,
-                    Posted_Date = DateTime.Now.AddMonths(-2),
-                    job_deadline = DateTime.Now.AddMonths(1).AddDays(10), // 60 days from posting
-                    job_location = "Kuching, Sarawak (with field work)",
-                    job_status = "Open",
-                    job_benefit = "Field allowance, government pension scheme, paid study leave.",
-                    job_requirement = "Bachelor's degree in Forestry or Environmental Science, knowledge of local ecosystems."
-                },
-                new Job
-                {
-                    job_id = 4,
-                    job_company_id = "sdec",
-                    job_type = JobType.Full_Time,
-                    job_title = "Digital Marketing Specialist",
-                    job_description = "Create and execute digital marketing campaigns to promote Sarawak's digital initiatives across various platforms and channels.",
-                    Posted_Date = DateTime.Now.AddMonths(-4),
-                    job_deadline = DateTime.Now.AddMonths(-4).AddDays(30), // 30 days from posting
-                    job_responsible = "Develop and implement digital marketing strategies for Sarawak's digital initiatives.",
-                    job_salary_min = 3500.00M,
-                    job_salary_max = 5000.00M,
-                    job_location = "Samarahan, Sarawak",
-                    job_status = "closed",
-                    job_benefit = "Performance bonuses, flexible working arrangements, training opportunities.",
-                    job_requirement = "Bachelor's degree in Marketing or Communications, experience with digital marketing tools."
-                },
-                new Job
-                {
-                    job_id = 5,
-                    job_company_id = "sarawakenergy",
-                    job_type = JobType.Internship,
-                    job_title = "Renewable Energy Analyst",
-                    job_description = "Evaluate renewable energy projects, conduct feasibility studies, and provide recommendations for sustainable energy solutions.",
-                    job_responsible = "Analyze renewable energy projects and prepare feasibility reports.",
-                    Posted_Date = DateTime.Now.AddDays(-40),
-                    job_deadline = DateTime.Now.AddDays(5), // 45 days from posting
-                    job_salary_min = 4500.00M,
-                    job_salary_max = 6000.00M,
-                    job_location = "Kuching, Sarawak",
-                    job_status = "Open",
-                    job_benefit = "Professional development fund, health insurance, performance bonus.",
-                    job_requirement = "Bachelor's degree in Environmental Engineering or related field, knowledge of renewable energy technologies."
-                },
-                new Job
-                {
-                    job_id = 6,
-                    job_company_id = "sarawakforestrycorporation",
-                    job_type = JobType.Full_Time,
-                    job_title = "Full Stack Developer",
-                    job_description = "Develop and maintain web applications that support Sarawak's digital economy initiatives, from database design to user interface implementation.",
-                    Posted_Date = DateTime.Now.AddDays(-34),
-                    job_deadline = DateTime.Now.AddDays(11), // 45 days from posting
-                    job_responsible = "Design and develop web applications for Sarawak's digital economy initiatives.",
-                    job_salary_min = 4800.00M,
-                    job_salary_max = 7000.00M,
-                    job_location = "Samarahan, Sarawak",
-                    job_status = "Open",
-                    job_benefit = "Remote work options, medical coverage, professional development.",
-                    job_requirement = "Bachelor's degree in Computer Science, proficiency in front-end and back-end technologies."
-                }
-            );
+             // 1
+             new Job
+             {
+                 job_id = 1,
+                 job_company_id = "sarawakenergy",
+                 job_title = "Senior Software Developer",
+                 job_description = "Develop and maintain enterprise software applications for energy management systems.",
+                 job_responsible = "Lead software development projects,\nMentor junior developers,\nCollaborate with stakeholders.",
+                 job_salary_min = 5000.00M,
+                 job_salary_max = 7500.00M,
+                 job_type = JobType.Full_Time,
+                 job_location = "Kuching, Sarawak",
+                 job_status = "Open",
+                 Posted_Date = DateTime.Now.AddDays(-20),
+                 job_deadline = DateTime.Now.AddDays(30), // 45 days from posting
+                 job_benefit = "Health insurance,\nPerformance bonus,\nProfessional development allowance.",
+                 job_requirement = "Bachelor's degree in Computer Science,\n5+ years experience in software development."
+             },
+
+             // 2
+             new Job
+             {
+                 job_id = 2,
+                 job_company_id = "petronas",
+                 job_title = "Petroleum Engineer",
+                 job_description = "Design and implement strategies for efficient oil and gas extraction. Collaborate with multidisciplinary teams to solve complex drilling challenges.",
+                 job_responsible = "Oversee drilling operations,\nOptimize oil extraction processes,\nCoordinate with field teams.",
+                 job_salary_min = 6500.00M,
+                 job_salary_max = 9000.00M,
+                 job_type = JobType.Contract,
+                 job_location = "Miri, Sarawak",
+                 job_status = "Open",
+                 Posted_Date = DateTime.Now.AddDays(-10),
+                 job_deadline = DateTime.Now.AddDays(34), // 40 days from posting
+                 job_benefit = "Housing allowance,\nTransportation,\nMedical coverage,\nAnnual bonus.",
+                 job_requirement = "Bachelor's degree in Petroleum Engineering,\n5+ years field experience."
+             },
+
+             // 3
+             new Job
+             {
+                 job_id = 3,
+                 job_company_id = "sarawakforestrycorporation",
+                 job_title = "Forest Conservation Officer",
+                 job_description = "Monitor forest health, implement conservation programs, and work with local communities to promote sustainable forest management practices.",
+                 job_responsible = "Implement and monitor conservation programs,\nEngage with local communities,\nReport on ecosystem health.",
+                 job_salary_min = 4000.00M,
+                 job_salary_max = 5500.00M,
+                 job_type = JobType.Part_Time,
+                 job_location = "Kuching, Sarawak (with field work)",
+                 job_status = "Open",
+                 Posted_Date = DateTime.Now.AddMonths(-2),
+                 job_deadline = DateTime.Now.AddMonths(1).AddDays(10), // 60 days from posting
+                 job_benefit = "Field allowance,\nGovernment pension scheme,\nPaid study leave.",
+                 job_requirement = "Bachelor's degree in Forestry or Environmental Science,\nKnowledge of local ecosystems."
+             },
+
+             // 4
+             new Job
+             {
+                 job_id = 4,
+                 job_company_id = "sdec",
+                 job_title = "Digital Marketing Specialist",
+                 job_description = "Create and execute digital marketing campaigns to promote Sarawak's digital initiatives across various platforms and channels.",
+                 job_responsible = "Develop digital marketing strategies,\nManage social media and PPC campaigns,\nAnalyze performance metrics.",
+                 job_salary_min = 3500.00M,
+                 job_salary_max = 5000.00M,
+                 job_type = JobType.Full_Time,
+                 job_location = "Samarahan, Sarawak",
+                 job_status = "Closed",
+                 Posted_Date = DateTime.Now.AddMonths(-4),
+                 job_deadline = DateTime.Now.AddMonths(-4).AddDays(30), // 30 days from posting
+                 job_benefit = "Performance bonuses,\nFlexible working arrangements,\nTraining opportunities.",
+                 job_requirement = "Bachelor's degree in Marketing or Communications,\nExperience with digital marketing tools."
+             },
+
+             // 5
+             new Job
+             {
+                 job_id = 5,
+                 job_company_id = "sarawakenergy",
+                 job_title = "Renewable Energy Analyst",
+                 job_description = "Evaluate renewable energy projects, conduct feasibility studies, and provide recommendations for sustainable energy solutions.",
+                 job_responsible = "Analyze project feasibility,\nModel energy outputs,\nPrepare recommendation reports.",
+                 job_salary_min = 4500.00M,
+                 job_salary_max = 6000.00M,
+                 job_type = JobType.Internship,
+                 job_location = "Kuching, Sarawak",
+                 job_status = "Open",
+                 Posted_Date = DateTime.Now.AddDays(-40),
+                 job_deadline = DateTime.Now.AddDays(5), // 45 days from posting
+                 job_benefit = "Professional development fund,\nHealth insurance,\nPerformance bonus.",
+                 job_requirement = "Bachelor's degree in Environmental Engineering or related field,\nKnowledge of renewable energy technologies."
+             },
+
+             // 6
+             new Job
+             {
+                 job_id = 6,
+                 job_company_id = "sarawakforestrycorporation",
+                 job_title = "Full Stack Developer",
+                 job_description = "Develop and maintain web applications that support Sarawak's digital economy initiatives, from database design to user interface implementation.",
+                 job_responsible = "Design and develop web applications,\nMaintain backend services,\nImplement user-friendly interfaces.",
+                 job_salary_min = 4800.00M,
+                 job_salary_max = 7000.00M,
+                 job_type = JobType.Full_Time,
+                 job_location = "Samarahan, Sarawak",
+                 job_status = "Open",
+                 Posted_Date = DateTime.Now.AddDays(-34),
+                 job_deadline = DateTime.Now.AddDays(11), // 45 days from posting
+                 job_benefit = "Remote work options,\nMedical coverage,\nProfessional development.",
+                 job_requirement = "Bachelor's degree in Computer Science,\nProficiency in front‑end and back‑end technologies."
+             },
+
+             // 7
+             new Job
+             {
+                 job_id = 7,
+                 job_company_id = "sarawakenergy",
+                 job_title = "Data Scientist",
+                 job_description = "Analyze large datasets to extract insights and build predictive models for energy demand forecasting.",
+                 job_responsible = "Develop data pipelines,\nBuild and validate predictive models,\nPresent findings to stakeholders.",
+                 job_salary_min = 6000.00M,
+                 job_salary_max = 8500.00M,
+                 job_type = JobType.Full_Time,
+                 job_location = "Kuching, Sarawak",
+                 job_status = "Open",
+                 Posted_Date = DateTime.Now.AddDays(-15),
+                 job_deadline = DateTime.Now.AddDays(30), // 45 days from posting
+                 job_benefit = "Health insurance,\nStock options,\nTraining budget.",
+                 job_requirement = "Bachelor's/Master's in Data Science or related,\n3+ years experience in data analytics,\nProficiency in Python and ML frameworks."
+             },
+
+             // 8
+             new Job
+             {
+                 job_id = 8,
+                 // Re-assigned to an existing company_id: petronas
+                 job_company_id = "petronas",
+                 job_title = "Civil Engineer",
+                 job_description = "Plan and supervise infrastructure projects including roads, bridges, and public facilities.",
+                 job_responsible = "Design structural plans,\nOversee construction sites,\nEnsure compliance with safety standards.",
+                 job_salary_min = 5500.00M,
+                 job_salary_max = 8000.00M,
+                 job_type = JobType.Full_Time,
+                 job_location = "Miri, Sarawak",
+                 job_status = "Open",
+                 Posted_Date = DateTime.Now.AddDays(-25),
+                 job_deadline = DateTime.Now.AddDays(15), // 40 days from posting
+                 job_benefit = "Housing allowance,\nMedical coverage,\nAnnual bonus.",
+                 job_requirement = "Bachelor's degree in Civil Engineering,\n4+ years site experience,\nKnowledge of local building codes."
+             },
+
+             // 9
+             new Job
+             {
+                 job_id = 9,
+                 job_company_id = "sarawakforestrycorporation",
+                 job_title = "GIS Specialist",
+                 job_description = "Manage GIS databases to support forestry conservation and land management.",
+                 job_responsible = "Develop and maintain GIS maps,\nConduct spatial analysis,\nTrain staff on GIS tools.",
+                 job_salary_min = 4500.00M,
+                 job_salary_max = 6500.00M,
+                 job_type = JobType.Contract,
+                 job_location = "Samarahan, Sarawak",
+                 job_status = "Open",
+                 Posted_Date = DateTime.Now.AddDays(-5),
+                 job_deadline = DateTime.Now.AddDays(35), // 40 days from posting
+                 job_benefit = "Field allowance,\nFlexible schedule,\nEquipment provision.",
+                 job_requirement = "Bachelor's in Geography/GIS,\nProficiency in ArcGIS/QGIS,\n2+ years GIS experience."
+             },
+
+             // 10
+             new Job
+             {
+                 job_id = 10,
+                 // Re-assigned to an existing company_id: sdec
+                 job_company_id = "sdec",
+                 job_title = "UX Designer",
+                 job_description = "Design intuitive user interfaces for web and mobile applications to enhance user experience.",
+                 job_responsible = "Create wireframes and prototypes,\nConduct user research,\nCollaborate with developers.",
+                 job_salary_min = 5000.00M,
+                 job_salary_max = 7000.00M,
+                 job_type = JobType.Full_Time,
+                 job_location = "Kuching, Sarawak",
+                 job_status = "Open",
+                 Posted_Date = DateTime.Now.AddDays(-12),
+                 job_deadline = DateTime.Now.AddDays(33), // 45 days from posting
+                 job_benefit = "Flexible working hours,\nHealth coverage,\nProfessional development.",
+                 job_requirement = "Bachelor's in Design or HCI,\n3+ years UX/UI experience,\nProficiency in Figma and Sketch."
+             }
+         );
+
+
 
             // Seed JobSkill (6)
             modelBuilder.Entity<JobSkill>().HasData(

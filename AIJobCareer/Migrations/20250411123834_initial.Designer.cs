@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AIJobCareer.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20250411122044_initial")]
+    [Migration("20250411123834_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -187,8 +187,8 @@ namespace AIJobCareer.Migrations
                         {
                             company_id = "sarawakenergy",
                             company_area_id = 1,
-                            company_founded = new DateTime(2015, 4, 11, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6482),
-                            company_icon = "sarawak_energy_icon.png",
+                            company_founded = new DateTime(2015, 4, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4466),
+                            company_icon = "/sarawak_energy_icon.png",
                             company_industry = "Energy & Utilities",
                             company_intro = "Leading energy provider in Sarawak focusing on renewable energy sources.",
                             company_name = "Sarawak Energy Berhad",
@@ -198,8 +198,8 @@ namespace AIJobCareer.Migrations
                         {
                             company_id = "petronas",
                             company_area_id = 2,
-                            company_founded = new DateTime(2017, 1, 11, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6500),
-                            company_icon = "petronas_icon.png",
+                            company_founded = new DateTime(2017, 1, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4483),
+                            company_icon = "",
                             company_industry = "Oil & Gas",
                             company_intro = "Oil and gas exploration company operating in Sarawak's offshore regions.",
                             company_name = "Petronas Carigali Sdn Bhd",
@@ -209,8 +209,8 @@ namespace AIJobCareer.Migrations
                         {
                             company_id = "sarawakforestrycorporation",
                             company_area_id = 1,
-                            company_founded = new DateTime(2020, 1, 11, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6505),
-                            company_icon = "sfc_icon.png",
+                            company_founded = new DateTime(2020, 1, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4487),
+                            company_icon = "",
                             company_industry = "Forestry & Environmental Services",
                             company_intro = "Responsible for sustainable management of Sarawak's forest resources.",
                             company_name = "Sarawak Forestry Corporation",
@@ -220,8 +220,8 @@ namespace AIJobCareer.Migrations
                         {
                             company_id = "sdec",
                             company_area_id = 5,
-                            company_founded = new DateTime(2018, 1, 11, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6508),
-                            company_icon = "sdec_icon.png",
+                            company_founded = new DateTime(2018, 1, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4490),
+                            company_icon = "",
                             company_industry = "Technology & Digital Services",
                             company_intro = "Driving digital transformation and innovation across Sarawak.",
                             company_name = "Sarawak Digital Economy Corporation",
@@ -339,14 +339,14 @@ namespace AIJobCareer.Migrations
                         new
                         {
                             job_id = 1,
-                            Posted_Date = new DateTime(2025, 3, 22, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6564),
-                            job_benefit = "Health insurance, performance bonus, professional development allowance.",
+                            Posted_Date = new DateTime(2025, 3, 22, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4540),
+                            job_benefit = "Health insurance,\nPerformance bonus,\nProfessional development allowance.",
                             job_company_id = "sarawakenergy",
-                            job_deadline = new DateTime(2025, 5, 11, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6567),
+                            job_deadline = new DateTime(2025, 5, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4542),
                             job_description = "Develop and maintain enterprise software applications for energy management systems.",
                             job_location = "Kuching, Sarawak",
-                            job_requirement = "Bachelor's degree in Computer Science, 5+ years experience in software development.",
-                            job_responsible = "Lead software development projects, mentor junior developers, and collaborate with stakeholders.",
+                            job_requirement = "Bachelor's degree in Computer Science,\n5+ years experience in software development.",
+                            job_responsible = "Lead software development projects,\nMentor junior developers,\nCollaborate with stakeholders.",
                             job_salary_max = 7500.00m,
                             job_salary_min = 5000.00m,
                             job_status = "Open",
@@ -356,14 +356,14 @@ namespace AIJobCareer.Migrations
                         new
                         {
                             job_id = 2,
-                            Posted_Date = new DateTime(2025, 4, 1, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6570),
-                            job_benefit = "Housing allowance, transportation, medical coverage, annual bonus.",
+                            Posted_Date = new DateTime(2025, 4, 1, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4545),
+                            job_benefit = "Housing allowance,\nTransportation,\nMedical coverage,\nAnnual bonus.",
                             job_company_id = "petronas",
-                            job_deadline = new DateTime(2025, 5, 15, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6570),
+                            job_deadline = new DateTime(2025, 5, 15, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4546),
                             job_description = "Design and implement strategies for efficient oil and gas extraction. Collaborate with multidisciplinary teams to solve complex drilling challenges.",
                             job_location = "Miri, Sarawak",
-                            job_requirement = "Bachelor's degree in Petroleum Engineering, 5+ years field experience.",
-                            job_responsible = "Oversee drilling operations and optimize oil extraction processes.",
+                            job_requirement = "Bachelor's degree in Petroleum Engineering,\n5+ years field experience.",
+                            job_responsible = "Oversee drilling operations,\nOptimize oil extraction processes,\nCoordinate with field teams.",
                             job_salary_max = 9000.00m,
                             job_salary_min = 6500.00m,
                             job_status = "Open",
@@ -373,14 +373,14 @@ namespace AIJobCareer.Migrations
                         new
                         {
                             job_id = 3,
-                            Posted_Date = new DateTime(2025, 2, 11, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6572),
-                            job_benefit = "Field allowance, government pension scheme, paid study leave.",
+                            Posted_Date = new DateTime(2025, 2, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4549),
+                            job_benefit = "Field allowance,\nGovernment pension scheme,\nPaid study leave.",
                             job_company_id = "sarawakforestrycorporation",
-                            job_deadline = new DateTime(2025, 5, 21, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6573),
+                            job_deadline = new DateTime(2025, 5, 21, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4550),
                             job_description = "Monitor forest health, implement conservation programs, and work with local communities to promote sustainable forest management practices.",
                             job_location = "Kuching, Sarawak (with field work)",
-                            job_requirement = "Bachelor's degree in Forestry or Environmental Science, knowledge of local ecosystems.",
-                            job_responsible = "Implement and monitor forest conservation programs across Sarawak.",
+                            job_requirement = "Bachelor's degree in Forestry or Environmental Science,\nKnowledge of local ecosystems.",
+                            job_responsible = "Implement and monitor conservation programs,\nEngage with local communities,\nReport on ecosystem health.",
                             job_salary_max = 5500.00m,
                             job_salary_min = 4000.00m,
                             job_status = "Open",
@@ -390,31 +390,31 @@ namespace AIJobCareer.Migrations
                         new
                         {
                             job_id = 4,
-                            Posted_Date = new DateTime(2024, 12, 11, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6575),
-                            job_benefit = "Performance bonuses, flexible working arrangements, training opportunities.",
+                            Posted_Date = new DateTime(2024, 12, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4554),
+                            job_benefit = "Performance bonuses,\nFlexible working arrangements,\nTraining opportunities.",
                             job_company_id = "sdec",
-                            job_deadline = new DateTime(2025, 1, 10, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6576),
+                            job_deadline = new DateTime(2025, 1, 10, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4555),
                             job_description = "Create and execute digital marketing campaigns to promote Sarawak's digital initiatives across various platforms and channels.",
                             job_location = "Samarahan, Sarawak",
-                            job_requirement = "Bachelor's degree in Marketing or Communications, experience with digital marketing tools.",
-                            job_responsible = "Develop and implement digital marketing strategies for Sarawak's digital initiatives.",
+                            job_requirement = "Bachelor's degree in Marketing or Communications,\nExperience with digital marketing tools.",
+                            job_responsible = "Develop digital marketing strategies,\nManage social media and PPC campaigns,\nAnalyze performance metrics.",
                             job_salary_max = 5000.00m,
                             job_salary_min = 3500.00m,
-                            job_status = "closed",
+                            job_status = "Closed",
                             job_title = "Digital Marketing Specialist",
                             job_type = "Full_Time"
                         },
                         new
                         {
                             job_id = 5,
-                            Posted_Date = new DateTime(2025, 3, 2, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6579),
-                            job_benefit = "Professional development fund, health insurance, performance bonus.",
+                            Posted_Date = new DateTime(2025, 3, 2, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4561),
+                            job_benefit = "Professional development fund,\nHealth insurance,\nPerformance bonus.",
                             job_company_id = "sarawakenergy",
-                            job_deadline = new DateTime(2025, 4, 16, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6579),
+                            job_deadline = new DateTime(2025, 4, 16, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4561),
                             job_description = "Evaluate renewable energy projects, conduct feasibility studies, and provide recommendations for sustainable energy solutions.",
                             job_location = "Kuching, Sarawak",
-                            job_requirement = "Bachelor's degree in Environmental Engineering or related field, knowledge of renewable energy technologies.",
-                            job_responsible = "Analyze renewable energy projects and prepare feasibility reports.",
+                            job_requirement = "Bachelor's degree in Environmental Engineering or related field,\nKnowledge of renewable energy technologies.",
+                            job_responsible = "Analyze project feasibility,\nModel energy outputs,\nPrepare recommendation reports.",
                             job_salary_max = 6000.00m,
                             job_salary_min = 4500.00m,
                             job_status = "Open",
@@ -424,18 +424,86 @@ namespace AIJobCareer.Migrations
                         new
                         {
                             job_id = 6,
-                            Posted_Date = new DateTime(2025, 3, 8, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6581),
-                            job_benefit = "Remote work options, medical coverage, professional development.",
+                            Posted_Date = new DateTime(2025, 3, 8, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4565),
+                            job_benefit = "Remote work options,\nMedical coverage,\nProfessional development.",
                             job_company_id = "sarawakforestrycorporation",
-                            job_deadline = new DateTime(2025, 4, 22, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6582),
+                            job_deadline = new DateTime(2025, 4, 22, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4565),
                             job_description = "Develop and maintain web applications that support Sarawak's digital economy initiatives, from database design to user interface implementation.",
                             job_location = "Samarahan, Sarawak",
-                            job_requirement = "Bachelor's degree in Computer Science, proficiency in front-end and back-end technologies.",
-                            job_responsible = "Design and develop web applications for Sarawak's digital economy initiatives.",
+                            job_requirement = "Bachelor's degree in Computer Science,\nProficiency in front‑end and back‑end technologies.",
+                            job_responsible = "Design and develop web applications,\nMaintain backend services,\nImplement user-friendly interfaces.",
                             job_salary_max = 7000.00m,
                             job_salary_min = 4800.00m,
                             job_status = "Open",
                             job_title = "Full Stack Developer",
+                            job_type = "Full_Time"
+                        },
+                        new
+                        {
+                            job_id = 7,
+                            Posted_Date = new DateTime(2025, 3, 27, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4567),
+                            job_benefit = "Health insurance,\nStock options,\nTraining budget.",
+                            job_company_id = "sarawakenergy",
+                            job_deadline = new DateTime(2025, 5, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4568),
+                            job_description = "Analyze large datasets to extract insights and build predictive models for energy demand forecasting.",
+                            job_location = "Kuching, Sarawak",
+                            job_requirement = "Bachelor's/Master's in Data Science or related,\n3+ years experience in data analytics,\nProficiency in Python and ML frameworks.",
+                            job_responsible = "Develop data pipelines,\nBuild and validate predictive models,\nPresent findings to stakeholders.",
+                            job_salary_max = 8500.00m,
+                            job_salary_min = 6000.00m,
+                            job_status = "Open",
+                            job_title = "Data Scientist",
+                            job_type = "Full_Time"
+                        },
+                        new
+                        {
+                            job_id = 8,
+                            Posted_Date = new DateTime(2025, 3, 17, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4570),
+                            job_benefit = "Housing allowance,\nMedical coverage,\nAnnual bonus.",
+                            job_company_id = "petronas",
+                            job_deadline = new DateTime(2025, 4, 26, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4570),
+                            job_description = "Plan and supervise infrastructure projects including roads, bridges, and public facilities.",
+                            job_location = "Miri, Sarawak",
+                            job_requirement = "Bachelor's degree in Civil Engineering,\n4+ years site experience,\nKnowledge of local building codes.",
+                            job_responsible = "Design structural plans,\nOversee construction sites,\nEnsure compliance with safety standards.",
+                            job_salary_max = 8000.00m,
+                            job_salary_min = 5500.00m,
+                            job_status = "Open",
+                            job_title = "Civil Engineer",
+                            job_type = "Full_Time"
+                        },
+                        new
+                        {
+                            job_id = 9,
+                            Posted_Date = new DateTime(2025, 4, 6, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4573),
+                            job_benefit = "Field allowance,\nFlexible schedule,\nEquipment provision.",
+                            job_company_id = "sarawakforestrycorporation",
+                            job_deadline = new DateTime(2025, 5, 16, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4574),
+                            job_description = "Manage GIS databases to support forestry conservation and land management.",
+                            job_location = "Samarahan, Sarawak",
+                            job_requirement = "Bachelor's in Geography/GIS,\nProficiency in ArcGIS/QGIS,\n2+ years GIS experience.",
+                            job_responsible = "Develop and maintain GIS maps,\nConduct spatial analysis,\nTrain staff on GIS tools.",
+                            job_salary_max = 6500.00m,
+                            job_salary_min = 4500.00m,
+                            job_status = "Open",
+                            job_title = "GIS Specialist",
+                            job_type = "Contract"
+                        },
+                        new
+                        {
+                            job_id = 10,
+                            Posted_Date = new DateTime(2025, 3, 30, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4576),
+                            job_benefit = "Flexible working hours,\nHealth coverage,\nProfessional development.",
+                            job_company_id = "sdec",
+                            job_deadline = new DateTime(2025, 5, 14, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4577),
+                            job_description = "Design intuitive user interfaces for web and mobile applications to enhance user experience.",
+                            job_location = "Kuching, Sarawak",
+                            job_requirement = "Bachelor's in Design or HCI,\n3+ years UX/UI experience,\nProficiency in Figma and Sketch.",
+                            job_responsible = "Create wireframes and prototypes,\nConduct user research,\nCollaborate with developers.",
+                            job_salary_max = 7000.00m,
+                            job_salary_min = 5000.00m,
+                            job_status = "Open",
+                            job_title = "UX Designer",
                             job_type = "Full_Time"
                         });
                 });
@@ -628,8 +696,8 @@ namespace AIJobCareer.Migrations
                             notification_company_id = "sarawakenergy",
                             notification_status = "unread",
                             notification_text = "Your application for Senior Software Developer has been received. We will review it shortly.",
-                            notification_timestamp = new DateTime(2025, 4, 1, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6627),
-                            notification_user_id = new Guid("d683f289-d5cd-47a1-834b-68dd0d806371")
+                            notification_timestamp = new DateTime(2025, 4, 1, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4628),
+                            notification_user_id = new Guid("a88d3687-6187-41c5-85ab-3a8006fc2ec6")
                         },
                         new
                         {
@@ -637,8 +705,8 @@ namespace AIJobCareer.Migrations
                             notification_company_id = "sarawakforestrycorporation",
                             notification_status = "read",
                             notification_text = "You have been shortlisted for the Forest Conservation Officer position. Please prepare for an interview.",
-                            notification_timestamp = new DateTime(2025, 4, 3, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6630),
-                            notification_user_id = new Guid("ca49b1ca-6b66-45e3-a712-539e66342676")
+                            notification_timestamp = new DateTime(2025, 4, 3, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4630),
+                            notification_user_id = new Guid("42a2ea04-87cb-41f6-94f3-3fcb088473e7")
                         },
                         new
                         {
@@ -646,8 +714,8 @@ namespace AIJobCareer.Migrations
                             notification_company_id = "petronas",
                             notification_status = "unread",
                             notification_text = "Thank you for your application to Petronas Carigali. Your application is under review.",
-                            notification_timestamp = new DateTime(2025, 4, 6, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6633),
-                            notification_user_id = new Guid("15ed8d25-9e29-471d-8716-d11c5836362e")
+                            notification_timestamp = new DateTime(2025, 4, 6, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4632),
+                            notification_user_id = new Guid("1610a93b-2b22-4c87-91bc-991ffdeece1a")
                         });
                 });
 
@@ -928,8 +996,8 @@ namespace AIJobCareer.Migrations
                     b.HasData(
                         new
                         {
-                            user_id = new Guid("d683f289-d5cd-47a1-834b-68dd0d806371"),
-                            user_account_created_time = new DateTime(2024, 10, 11, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6538),
+                            user_id = new Guid("a88d3687-6187-41c5-85ab-3a8006fc2ec6"),
+                            user_account_created_time = new DateTime(2024, 10, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4514),
                             user_age = 28,
                             user_area_id = 1,
                             user_contact_number = "0198765432",
@@ -945,8 +1013,8 @@ namespace AIJobCareer.Migrations
                         },
                         new
                         {
-                            user_id = new Guid("ca49b1ca-6b66-45e3-a712-539e66342676"),
-                            user_account_created_time = new DateTime(2025, 1, 11, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6543),
+                            user_id = new Guid("42a2ea04-87cb-41f6-94f3-3fcb088473e7"),
+                            user_account_created_time = new DateTime(2025, 1, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4519),
                             user_age = 32,
                             user_area_id = 3,
                             user_contact_number = "0123456789",
@@ -962,8 +1030,8 @@ namespace AIJobCareer.Migrations
                         },
                         new
                         {
-                            user_id = new Guid("15ed8d25-9e29-471d-8716-d11c5836362e"),
-                            user_account_created_time = new DateTime(2024, 7, 11, 20, 20, 44, 172, DateTimeKind.Local).AddTicks(6547),
+                            user_id = new Guid("1610a93b-2b22-4c87-91bc-991ffdeece1a"),
+                            user_account_created_time = new DateTime(2024, 7, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4522),
                             user_age = 35,
                             user_area_id = 2,
                             user_contact_number = "0167890123",
@@ -1006,19 +1074,19 @@ namespace AIJobCareer.Migrations
                         {
                             US_ID = 1,
                             US_SKILL_ID = 1,
-                            US_USER_ID = new Guid("d683f289-d5cd-47a1-834b-68dd0d806371")
+                            US_USER_ID = new Guid("a88d3687-6187-41c5-85ab-3a8006fc2ec6")
                         },
                         new
                         {
                             US_ID = 2,
                             US_SKILL_ID = 7,
-                            US_USER_ID = new Guid("ca49b1ca-6b66-45e3-a712-539e66342676")
+                            US_USER_ID = new Guid("42a2ea04-87cb-41f6-94f3-3fcb088473e7")
                         },
                         new
                         {
                             US_ID = 3,
                             US_SKILL_ID = 5,
-                            US_USER_ID = new Guid("15ed8d25-9e29-471d-8716-d11c5836362e")
+                            US_USER_ID = new Guid("1610a93b-2b22-4c87-91bc-991ffdeece1a")
                         });
                 });
 
