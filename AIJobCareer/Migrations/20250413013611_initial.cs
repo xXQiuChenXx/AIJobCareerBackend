@@ -18,7 +18,7 @@ namespace AIJobCareer.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "AREA",
+                name: "AREA",   
                 columns: table => new
                 {
                     area_id = table.Column<int>(type: "int", nullable: false)
@@ -193,37 +193,6 @@ namespace AIJobCareer.Migrations
                         column: x => x.JS_SKILL_ID,
                         principalTable: "SKILL",
                         principalColumn: "skill_id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
-                name: "Certification",
-                columns: table => new
-                {
-                    certification_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    user_id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    certification_name = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    issuing_organization = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    issue_date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    expiry_date = table.Column<DateTime>(type: "datetime(6)", nullable: true),
-                    credential_id = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    credential_url = table.Column<string>(type: "varchar(512)", maxLength: 512, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    created_at = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    updated_at = table.Column<DateTime>(type: "datetime(6)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Certification", x => x.certification_id);
-                    table.ForeignKey(
-                        name: "FK_Certification_USERS_user_id",
-                        column: x => x.user_id,
-                        principalTable: "USERS",
-                        principalColumn: "user_id",
                         onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
@@ -535,10 +504,10 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "company_id", "company_area_id", "company_founded", "company_icon", "company_industry", "company_intro", "company_name", "company_website" },
                 values: new object[,]
                 {
-                    { "petronas", 2, new DateTime(2017, 1, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4483), "", "Oil & Gas", "Oil and gas exploration company operating in Sarawak's offshore regions.", "Petronas Carigali Sdn Bhd", "https://www.petronas.com" },
-                    { "sarawakenergy", 1, new DateTime(2015, 4, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4466), "/sarawak_energy_icon.png", "Energy & Utilities", "Leading energy provider in Sarawak focusing on renewable energy sources.", "Sarawak Energy Berhad", "https://www.sarawakenergy.com" },
-                    { "sarawakforestrycorporation", 1, new DateTime(2020, 1, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4487), "", "Forestry & Environmental Services", "Responsible for sustainable management of Sarawak's forest resources.", "Sarawak Forestry Corporation", "https://www.sarawakforestry.com" },
-                    { "sdec", 5, new DateTime(2018, 1, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4490), "", "Technology & Digital Services", "Driving digital transformation and innovation across Sarawak.", "Sarawak Digital Economy Corporation", "https://www.sdec.com.my" }
+                    { "petronas", 2, new DateTime(2017, 1, 13, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3441), "", "Oil & Gas", "Oil and gas exploration company operating in Sarawak's offshore regions.", "Petronas Carigali Sdn Bhd", "https://www.petronas.com" },
+                    { "sarawakenergy", 1, new DateTime(2015, 4, 13, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3425), "", "Energy & Utilities", "Leading energy provider in Sarawak focusing on renewable energy sources.", "Sarawak Energy Berhad", "https://www.sarawakenergy.com" },
+                    { "sarawakforestrycorporation", 1, new DateTime(2020, 1, 13, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3444), "", "Forestry & Environmental Services", "Responsible for sustainable management of Sarawak's forest resources.", "Sarawak Forestry Corporation", "https://www.sarawakforestry.com" },
+                    { "sdec", 5, new DateTime(2018, 1, 13, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3446), "", "Technology & Digital Services", "Driving digital transformation and innovation across Sarawak.", "Sarawak Digital Economy Corporation", "https://www.sdec.com.my" }
                 });
 
             migrationBuilder.InsertData(
@@ -546,9 +515,9 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "user_id", "last_login_at", "user_account_created_time", "user_age", "user_area_id", "user_company_id", "user_contact_number", "user_email", "user_first_name", "user_icon", "user_intro", "user_last_name", "user_password", "user_privacy_status", "user_role", "username" },
                 values: new object[,]
                 {
-                    { new Guid("1610a93b-2b22-4c87-91bc-991ffdeece1a"), null, new DateTime(2024, 7, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4522), 35, 2, null, "0167890123", "rajesh@example.com", "Rajesh", "rajesh_profile.jpg", "Petroleum engineer with 10 years experience in offshore drilling.", "Kumar", "hashed_password_3", "public", "job_seeker", "rajesh_kumar" },
-                    { new Guid("42a2ea04-87cb-41f6-94f3-3fcb088473e7"), null, new DateTime(2025, 1, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4519), 32, 3, null, "0123456789", "siti@example.com", "Siti", "siti_profile.jpg", "Environmental scientist with expertise in tropical forest conservation.", "Nur Aminah", "hashed_password_2", "private", "job_seeker", "siti_aminah" },
-                    { new Guid("a88d3687-6187-41c5-85ab-3a8006fc2ec6"), null, new DateTime(2024, 10, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4514), 28, 1, null, "0198765432", "ahmad@example.com", "Ahmad", "ahmad_profile.jpg", "Software developer with 5 years of experience in web technologies.", "bin Ibrahim", "hashed_password_1", "public", "job_seeker", "ahmad_ibrahim" }
+                    { new Guid("10daf21c-8cdf-4cba-8cf7-28859c4da0f7"), null, new DateTime(2024, 7, 13, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3483), 35, 2, null, "0167890123", "rajesh@example.com", "Rajesh", "rajesh_profile.jpg", "Petroleum engineer with 10 years experience in offshore drilling.", "Kumar", "hashed_password_3", "public", "job_seeker", "rajesh_kumar" },
+                    { new Guid("77742591-68d6-40b3-81ab-1af77bce5c9d"), null, new DateTime(2025, 1, 13, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3478), 32, 3, null, "0123456789", "siti@example.com", "Siti", "siti_profile.jpg", "Environmental scientist with expertise in tropical forest conservation.", "Nur Aminah", "hashed_password_2", "private", "job_seeker", "siti_aminah" },
+                    { new Guid("e284ddf2-049e-4321-95d5-891009a97a7d"), null, new DateTime(2024, 10, 13, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3471), 28, 1, null, "0198765432", "ahmad@example.com", "Ahmad", "ahmad_profile.jpg", "Software developer with 5 years of experience in web technologies.", "bin Ibrahim", "hashed_password_1", "public", "job_seeker", "ahmad_ibrahim" }
                 });
 
             migrationBuilder.InsertData(
@@ -556,16 +525,16 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "job_id", "Posted_Date", "job_benefit", "job_company_id", "job_deadline", "job_description", "job_location", "job_requirement", "job_responsible", "job_salary_max", "job_salary_min", "job_status", "job_title", "job_type" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2025, 3, 22, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4540), "Health insurance,\nPerformance bonus,\nProfessional development allowance.", "sarawakenergy", new DateTime(2025, 5, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4542), "Develop and maintain enterprise software applications for energy management systems.", "Kuching, Sarawak", "Bachelor's degree in Computer Science,\n5+ years experience in software development.", "Lead software development projects,\nMentor junior developers,\nCollaborate with stakeholders.", 7500.00m, 5000.00m, "Open", "Senior Software Developer", "Full_Time" },
-                    { 2, new DateTime(2025, 4, 1, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4545), "Housing allowance,\nTransportation,\nMedical coverage,\nAnnual bonus.", "petronas", new DateTime(2025, 5, 15, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4546), "Design and implement strategies for efficient oil and gas extraction. Collaborate with multidisciplinary teams to solve complex drilling challenges.", "Miri, Sarawak", "Bachelor's degree in Petroleum Engineering,\n5+ years field experience.", "Oversee drilling operations,\nOptimize oil extraction processes,\nCoordinate with field teams.", 9000.00m, 6500.00m, "Open", "Petroleum Engineer", "Contract" },
-                    { 3, new DateTime(2025, 2, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4549), "Field allowance,\nGovernment pension scheme,\nPaid study leave.", "sarawakforestrycorporation", new DateTime(2025, 5, 21, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4550), "Monitor forest health, implement conservation programs, and work with local communities to promote sustainable forest management practices.", "Kuching, Sarawak (with field work)", "Bachelor's degree in Forestry or Environmental Science,\nKnowledge of local ecosystems.", "Implement and monitor conservation programs,\nEngage with local communities,\nReport on ecosystem health.", 5500.00m, 4000.00m, "Open", "Forest Conservation Officer", "Part_Time" },
-                    { 4, new DateTime(2024, 12, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4554), "Performance bonuses,\nFlexible working arrangements,\nTraining opportunities.", "sdec", new DateTime(2025, 1, 10, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4555), "Create and execute digital marketing campaigns to promote Sarawak's digital initiatives across various platforms and channels.", "Samarahan, Sarawak", "Bachelor's degree in Marketing or Communications,\nExperience with digital marketing tools.", "Develop digital marketing strategies,\nManage social media and PPC campaigns,\nAnalyze performance metrics.", 5000.00m, 3500.00m, "Closed", "Digital Marketing Specialist", "Full_Time" },
-                    { 5, new DateTime(2025, 3, 2, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4561), "Professional development fund,\nHealth insurance,\nPerformance bonus.", "sarawakenergy", new DateTime(2025, 4, 16, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4561), "Evaluate renewable energy projects, conduct feasibility studies, and provide recommendations for sustainable energy solutions.", "Kuching, Sarawak", "Bachelor's degree in Environmental Engineering or related field,\nKnowledge of renewable energy technologies.", "Analyze project feasibility,\nModel energy outputs,\nPrepare recommendation reports.", 6000.00m, 4500.00m, "Open", "Renewable Energy Analyst", "Internship" },
-                    { 6, new DateTime(2025, 3, 8, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4565), "Remote work options,\nMedical coverage,\nProfessional development.", "sarawakforestrycorporation", new DateTime(2025, 4, 22, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4565), "Develop and maintain web applications that support Sarawak's digital economy initiatives, from database design to user interface implementation.", "Samarahan, Sarawak", "Bachelor's degree in Computer Science,\nProficiency in front‑end and back‑end technologies.", "Design and develop web applications,\nMaintain backend services,\nImplement user-friendly interfaces.", 7000.00m, 4800.00m, "Open", "Full Stack Developer", "Full_Time" },
-                    { 7, new DateTime(2025, 3, 27, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4567), "Health insurance,\nStock options,\nTraining budget.", "sarawakenergy", new DateTime(2025, 5, 11, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4568), "Analyze large datasets to extract insights and build predictive models for energy demand forecasting.", "Kuching, Sarawak", "Bachelor's/Master's in Data Science or related,\n3+ years experience in data analytics,\nProficiency in Python and ML frameworks.", "Develop data pipelines,\nBuild and validate predictive models,\nPresent findings to stakeholders.", 8500.00m, 6000.00m, "Open", "Data Scientist", "Full_Time" },
-                    { 8, new DateTime(2025, 3, 17, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4570), "Housing allowance,\nMedical coverage,\nAnnual bonus.", "petronas", new DateTime(2025, 4, 26, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4570), "Plan and supervise infrastructure projects including roads, bridges, and public facilities.", "Miri, Sarawak", "Bachelor's degree in Civil Engineering,\n4+ years site experience,\nKnowledge of local building codes.", "Design structural plans,\nOversee construction sites,\nEnsure compliance with safety standards.", 8000.00m, 5500.00m, "Open", "Civil Engineer", "Full_Time" },
-                    { 9, new DateTime(2025, 4, 6, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4573), "Field allowance,\nFlexible schedule,\nEquipment provision.", "sarawakforestrycorporation", new DateTime(2025, 5, 16, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4574), "Manage GIS databases to support forestry conservation and land management.", "Samarahan, Sarawak", "Bachelor's in Geography/GIS,\nProficiency in ArcGIS/QGIS,\n2+ years GIS experience.", "Develop and maintain GIS maps,\nConduct spatial analysis,\nTrain staff on GIS tools.", 6500.00m, 4500.00m, "Open", "GIS Specialist", "Contract" },
-                    { 10, new DateTime(2025, 3, 30, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4576), "Flexible working hours,\nHealth coverage,\nProfessional development.", "sdec", new DateTime(2025, 5, 14, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4577), "Design intuitive user interfaces for web and mobile applications to enhance user experience.", "Kuching, Sarawak", "Bachelor's in Design or HCI,\n3+ years UX/UI experience,\nProficiency in Figma and Sketch.", "Create wireframes and prototypes,\nConduct user research,\nCollaborate with developers.", 7000.00m, 5000.00m, "Open", "UX Designer", "Full_Time" }
+                    { 1, new DateTime(2025, 3, 24, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3499), "Health insurance,\nPerformance bonus,\nProfessional development allowance.", "sarawakenergy", new DateTime(2025, 5, 13, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3501), "Develop and maintain enterprise software applications for energy management systems.", "Kuching, Sarawak", "Bachelor's degree in Computer Science,\n5+ years experience in software development.", "Lead software development projects,\nMentor junior developers,\nCollaborate with stakeholders.", 7500.00m, 5000.00m, "Open", "Senior Software Developer", "Full_Time" },
+                    { 2, new DateTime(2025, 4, 3, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3531), "Housing allowance,\nTransportation,\nMedical coverage,\nAnnual bonus.", "petronas", new DateTime(2025, 5, 17, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3532), "Design and implement strategies for efficient oil and gas extraction. Collaborate with multidisciplinary teams to solve complex drilling challenges.", "Miri, Sarawak", "Bachelor's degree in Petroleum Engineering,\n5+ years field experience.", "Oversee drilling operations,\nOptimize oil extraction processes,\nCoordinate with field teams.", 9000.00m, 6500.00m, "Open", "Petroleum Engineer", "Contract" },
+                    { 3, new DateTime(2025, 2, 13, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3535), "Field allowance,\nGovernment pension scheme,\nPaid study leave.", "sarawakforestrycorporation", new DateTime(2025, 5, 23, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3536), "Monitor forest health, implement conservation programs, and work with local communities to promote sustainable forest management practices.", "Kuching, Sarawak (with field work)", "Bachelor's degree in Forestry or Environmental Science,\nKnowledge of local ecosystems.", "Implement and monitor conservation programs,\nEngage with local communities,\nReport on ecosystem health.", 5500.00m, 4000.00m, "Open", "Forest Conservation Officer", "Part_Time" },
+                    { 4, new DateTime(2024, 12, 13, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3539), "Performance bonuses,\nFlexible working arrangements,\nTraining opportunities.", "sdec", new DateTime(2025, 1, 12, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3539), "Create and execute digital marketing campaigns to promote Sarawak's digital initiatives across various platforms and channels.", "Samarahan, Sarawak", "Bachelor's degree in Marketing or Communications,\nExperience with digital marketing tools.", "Develop digital marketing strategies,\nManage social media and PPC campaigns,\nAnalyze performance metrics.", 5000.00m, 3500.00m, "Closed", "Digital Marketing Specialist", "Full_Time" },
+                    { 5, new DateTime(2025, 3, 4, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3542), "Professional development fund,\nHealth insurance,\nPerformance bonus.", "sarawakenergy", new DateTime(2025, 4, 18, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3542), "Evaluate renewable energy projects, conduct feasibility studies, and provide recommendations for sustainable energy solutions.", "Kuching, Sarawak", "Bachelor's degree in Environmental Engineering or related field,\nKnowledge of renewable energy technologies.", "Analyze project feasibility,\nModel energy outputs,\nPrepare recommendation reports.", 6000.00m, 4500.00m, "Open", "Renewable Energy Analyst", "Internship" },
+                    { 6, new DateTime(2025, 3, 10, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3544), "Remote work options,\nMedical coverage,\nProfessional development.", "sarawakforestrycorporation", new DateTime(2025, 4, 24, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3545), "Develop and maintain web applications that support Sarawak's digital economy initiatives, from database design to user interface implementation.", "Samarahan, Sarawak", "Bachelor's degree in Computer Science,\nProficiency in front‑end and back‑end technologies.", "Design and develop web applications,\nMaintain backend services,\nImplement user-friendly interfaces.", 7000.00m, 4800.00m, "Open", "Full Stack Developer", "Full_Time" },
+                    { 7, new DateTime(2025, 3, 29, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3547), "Health insurance,\nStock options,\nTraining budget.", "sarawakenergy", new DateTime(2025, 5, 13, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3548), "Analyze large datasets to extract insights and build predictive models for energy demand forecasting.", "Kuching, Sarawak", "Bachelor's/Master's in Data Science or related,\n3+ years experience in data analytics,\nProficiency in Python and ML frameworks.", "Develop data pipelines,\nBuild and validate predictive models,\nPresent findings to stakeholders.", 8500.00m, 6000.00m, "Open", "Data Scientist", "Full_Time" },
+                    { 8, new DateTime(2025, 3, 19, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3551), "Housing allowance,\nMedical coverage,\nAnnual bonus.", "petronas", new DateTime(2025, 4, 28, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3551), "Plan and supervise infrastructure projects including roads, bridges, and public facilities.", "Miri, Sarawak", "Bachelor's degree in Civil Engineering,\n4+ years site experience,\nKnowledge of local building codes.", "Design structural plans,\nOversee construction sites,\nEnsure compliance with safety standards.", 8000.00m, 5500.00m, "Open", "Civil Engineer", "Full_Time" },
+                    { 9, new DateTime(2025, 4, 8, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3554), "Field allowance,\nFlexible schedule,\nEquipment provision.", "sarawakforestrycorporation", new DateTime(2025, 5, 18, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3554), "Manage GIS databases to support forestry conservation and land management.", "Samarahan, Sarawak", "Bachelor's in Geography/GIS,\nProficiency in ArcGIS/QGIS,\n2+ years GIS experience.", "Develop and maintain GIS maps,\nConduct spatial analysis,\nTrain staff on GIS tools.", 6500.00m, 4500.00m, "Open", "GIS Specialist", "Contract" },
+                    { 10, new DateTime(2025, 4, 1, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3556), "Flexible working hours,\nHealth coverage,\nProfessional development.", "sdec", new DateTime(2025, 5, 16, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3557), "Design intuitive user interfaces for web and mobile applications to enhance user experience.", "Kuching, Sarawak", "Bachelor's in Design or HCI,\n3+ years UX/UI experience,\nProficiency in Figma and Sketch.", "Create wireframes and prototypes,\nConduct user research,\nCollaborate with developers.", 7000.00m, 5000.00m, "Open", "UX Designer", "Full_Time" }
                 });
 
             migrationBuilder.InsertData(
@@ -573,9 +542,9 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "notification_id", "notification_company_id", "notification_status", "notification_text", "notification_timestamp", "notification_user_id" },
                 values: new object[,]
                 {
-                    { 1, "sarawakenergy", "unread", "Your application for Senior Software Developer has been received. We will review it shortly.", new DateTime(2025, 4, 1, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4628), new Guid("a88d3687-6187-41c5-85ab-3a8006fc2ec6") },
-                    { 2, "sarawakforestrycorporation", "read", "You have been shortlisted for the Forest Conservation Officer position. Please prepare for an interview.", new DateTime(2025, 4, 3, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4630), new Guid("42a2ea04-87cb-41f6-94f3-3fcb088473e7") },
-                    { 3, "petronas", "unread", "Thank you for your application to Petronas Carigali. Your application is under review.", new DateTime(2025, 4, 6, 20, 38, 33, 962, DateTimeKind.Local).AddTicks(4632), new Guid("1610a93b-2b22-4c87-91bc-991ffdeece1a") }
+                    { 1, "sarawakenergy", "unread", "Your application for Senior Software Developer has been received. We will review it shortly.", new DateTime(2025, 4, 3, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3606), new Guid("e284ddf2-049e-4321-95d5-891009a97a7d") },
+                    { 2, "sarawakforestrycorporation", "read", "You have been shortlisted for the Forest Conservation Officer position. Please prepare for an interview.", new DateTime(2025, 4, 5, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3608), new Guid("77742591-68d6-40b3-81ab-1af77bce5c9d") },
+                    { 3, "petronas", "unread", "Thank you for your application to Petronas Carigali. Your application is under review.", new DateTime(2025, 4, 8, 9, 36, 11, 442, DateTimeKind.Local).AddTicks(3610), new Guid("10daf21c-8cdf-4cba-8cf7-28859c4da0f7") }
                 });
 
             migrationBuilder.InsertData(
@@ -583,9 +552,9 @@ namespace AIJobCareer.Migrations
                 columns: new[] { "US_ID", "US_SKILL_ID", "US_USER_ID" },
                 values: new object[,]
                 {
-                    { 1, 1, new Guid("a88d3687-6187-41c5-85ab-3a8006fc2ec6") },
-                    { 2, 7, new Guid("42a2ea04-87cb-41f6-94f3-3fcb088473e7") },
-                    { 3, 5, new Guid("1610a93b-2b22-4c87-91bc-991ffdeece1a") }
+                    { 1, 1, new Guid("e284ddf2-049e-4321-95d5-891009a97a7d") },
+                    { 2, 7, new Guid("77742591-68d6-40b3-81ab-1af77bce5c9d") },
+                    { 3, 5, new Guid("10daf21c-8cdf-4cba-8cf7-28859c4da0f7") }
                 });
 
             migrationBuilder.InsertData(
@@ -600,11 +569,6 @@ namespace AIJobCareer.Migrations
                     { 5, 4, 6 },
                     { 6, 6, 4 }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Certification_user_id",
-                table: "Certification",
-                column: "user_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_COMPANY_company_area_id",
@@ -708,9 +672,6 @@ namespace AIJobCareer.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "Certification");
-
             migrationBuilder.DropTable(
                 name: "Education");
 

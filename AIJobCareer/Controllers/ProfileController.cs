@@ -86,7 +86,6 @@ namespace AIJobCareer.Controllers
                 .Include(u => u.Educations)
                 .Include(u => u.Projects)
                 .Include(u => u.Publications)
-                .Include(u => u.Certifications)
                 .Include(u => u.UserSkills)
                     .ThenInclude(us => us.Skill)
                 .AsNoTracking()
@@ -182,17 +181,6 @@ namespace AIJobCareer.Controllers
                     skill_name = us.Skill.skill_name,
                     skill_level = us.Skill.skill_level,
                 }).OrderByDescending(s => s.skill_level).ToList(),
-
-                Certifications = user.Certifications.Select(c => new CertificationDto
-                {
-                    certification_id = c.certification_id,
-                    certification_name = c.certification_name,
-                    issuing_organization = c.issuing_organization,
-                    issue_date = c.issue_date,
-                    expiry_date = c.expiry_date,
-                    credential_id = c.credential_id,
-                    credential_url = c.credential_url
-                }).OrderByDescending(c => c.issue_date).ToList(),
             };
 
             return Ok(completeProfile);

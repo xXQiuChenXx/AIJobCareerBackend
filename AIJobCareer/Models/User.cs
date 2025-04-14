@@ -54,7 +54,6 @@ namespace AIJobCareer.Models
 
         public virtual ICollection<WorkExperience> WorkExperiences { get; set; } = new List<WorkExperience>();
         public virtual ICollection<Education> Educations { get; set; } = new List<Education>();
-        public virtual ICollection<Certification> Certifications { get; set; } = new List<Certification>();
         public virtual ICollection<Project> Projects { get; set; } = new List<Project>();
         public virtual ICollection<Publication> Publications { get; set; } = new List<Publication>();
     }

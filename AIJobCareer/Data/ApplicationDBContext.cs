@@ -27,7 +27,6 @@ namespace AIJobCareer.Data
         public DbSet<Project> Project { get; set; }
         public DbSet<Education> Education { get; set; }
         public DbSet<Publication> Publication { get; set; }
-        public DbSet<Certification> Certification { get; set; }
         public DbSet<WorkExperience> Work_Experience { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -97,12 +96,6 @@ namespace AIJobCareer.Data
                 .HasOne(e => e.User)
                 .WithMany(u => u.Educations)
                 .HasForeignKey(e => e.user_id);
-
-            // Certification relationships
-            modelBuilder.Entity<Certification>()
-                .HasOne(c => c.User)
-                .WithMany(u => u.Certifications)
-                .HasForeignKey(c => c.user_id);
 
             // Project relationships
             modelBuilder.Entity<Project>()
@@ -213,7 +206,7 @@ namespace AIJobCareer.Data
                  company_id = "sarawakenergy",
                  company_name = "Sarawak Energy Berhad",
                  company_founded = DateTime.Now.AddYears(-10),
-                 company_icon = "/sarawak_energy_icon.png",
+                 //company_icon = "/sarawak_energy_icon.png",
                  company_intro = "Leading energy provider in Sarawak focusing on renewable energy sources.",
                  company_website = "https://www.sarawakenergy.com",
                  company_area_id = 1, // Kuching
