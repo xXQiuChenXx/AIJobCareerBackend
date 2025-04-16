@@ -225,40 +225,6 @@ namespace AIJobCareer.Controllers
             }
         }
 
-        // DELETE: api/Company/5
-        [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]  // Only admin can delete companies
-        public async Task<IActionResult> DeleteCompany(string id)
-        {
-            var company = await _context.Company.FindAsync(id);
-            if (company == null)
-            {
-                return NotFound("Company not found");
-            }
-
-            try
-            {
-                // Check if there are users associated with this company
-                var associatedUsers = await _context.User
-                    .Where(u => u.user_company_id == id)
-                    .ToListAsync();
-
-                if (associatedUsers.Any())
-                {
-                    return BadRequest("Cannot delete company with associated users");
-                }
-
-                _context.Company.Remove(company);
-                await _context.SaveChangesAsync();
-
-                return Ok("Company deleted successfully");
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
         private bool CompanyExists(string id)
         {
             return _context.Company.Any(e => e.company_id == id);

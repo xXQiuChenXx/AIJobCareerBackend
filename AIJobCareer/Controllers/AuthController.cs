@@ -264,6 +264,15 @@ namespace AIJobCareer.Controllers
 
                 User? user = await _authService.ValidateAsync(userId, username);
 
+                if(user == null)
+                {
+                    return Unauthorized(new ErrorResponse
+                    {
+                        IsValid = false,
+                        Message = "User not found"
+                    });
+                }
+
                 // Success - token is valid and matches user information
                 return Ok(new TokenValidationResponse
                 {

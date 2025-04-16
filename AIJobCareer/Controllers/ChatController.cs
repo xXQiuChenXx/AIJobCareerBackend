@@ -1,4 +1,5 @@
 ﻿using AIJobCareer.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
@@ -7,6 +8,7 @@ namespace AIJobCareer.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class ChatController : ControllerBase
     {
         private readonly IDifyService _difyService;
