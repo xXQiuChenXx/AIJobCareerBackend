@@ -315,7 +315,7 @@ namespace AIJobCareer.Data
                  job_type = JobType.Full_Time,
                  job_location = "Kuching, Sarawak",
                  job_status = "Open",
-                 Posted_Date = DateTime.Now.AddDays(-20),
+                 posted_date = DateTime.Now.AddDays(-20),
                  job_deadline = DateTime.Now.AddDays(30), // 45 days from posting
                  job_benefit = "Health insurance,\nPerformance bonus,\nProfessional development allowance.",
                  job_requirement = "Bachelor's degree in Computer Science,\n5+ years experience in software development."
@@ -334,7 +334,7 @@ namespace AIJobCareer.Data
                  job_type = JobType.Contract,
                  job_location = "Miri, Sarawak",
                  job_status = "Open",
-                 Posted_Date = DateTime.Now.AddDays(-10),
+                 posted_date = DateTime.Now.AddDays(-10),
                  job_deadline = DateTime.Now.AddDays(34), // 40 days from posting
                  job_benefit = "Housing allowance,\nTransportation,\nMedical coverage,\nAnnual bonus.",
                  job_requirement = "Bachelor's degree in Petroleum Engineering,\n5+ years field experience."
@@ -353,7 +353,7 @@ namespace AIJobCareer.Data
                  job_type = JobType.Part_Time,
                  job_location = "Kuching, Sarawak (with field work)",
                  job_status = "Open",
-                 Posted_Date = DateTime.Now.AddMonths(-2),
+                 posted_date = DateTime.Now.AddMonths(-2),
                  job_deadline = DateTime.Now.AddMonths(1).AddDays(10), // 60 days from posting
                  job_benefit = "Field allowance,\nGovernment pension scheme,\nPaid study leave.",
                  job_requirement = "Bachelor's degree in Forestry or Environmental Science,\nKnowledge of local ecosystems."
@@ -372,7 +372,7 @@ namespace AIJobCareer.Data
                  job_type = JobType.Full_Time,
                  job_location = "Samarahan, Sarawak",
                  job_status = "Closed",
-                 Posted_Date = DateTime.Now.AddMonths(-4),
+                 posted_date = DateTime.Now.AddMonths(-4),
                  job_deadline = DateTime.Now.AddMonths(-4).AddDays(30), // 30 days from posting
                  job_benefit = "Performance bonuses,\nFlexible working arrangements,\nTraining opportunities.",
                  job_requirement = "Bachelor's degree in Marketing or Communications,\nExperience with digital marketing tools."
@@ -391,7 +391,7 @@ namespace AIJobCareer.Data
                  job_type = JobType.Internship,
                  job_location = "Kuching, Sarawak",
                  job_status = "Open",
-                 Posted_Date = DateTime.Now.AddDays(-40),
+                 posted_date = DateTime.Now.AddDays(-40),
                  job_deadline = DateTime.Now.AddDays(5), // 45 days from posting
                  job_benefit = "Professional development fund,\nHealth insurance,\nPerformance bonus.",
                  job_requirement = "Bachelor's degree in Environmental Engineering or related field,\nKnowledge of renewable energy technologies."
@@ -410,7 +410,7 @@ namespace AIJobCareer.Data
                  job_type = JobType.Full_Time,
                  job_location = "Samarahan, Sarawak",
                  job_status = "Open",
-                 Posted_Date = DateTime.Now.AddDays(-34),
+                 posted_date = DateTime.Now.AddDays(-34),
                  job_deadline = DateTime.Now.AddDays(11), // 45 days from posting
                  job_benefit = "Remote work options,\nMedical coverage,\nProfessional development.",
                  job_requirement = "Bachelor's degree in Computer Science,\nProficiency in front‑end and back‑end technologies."
@@ -429,7 +429,7 @@ namespace AIJobCareer.Data
                  job_type = JobType.Full_Time,
                  job_location = "Kuching, Sarawak",
                  job_status = "Open",
-                 Posted_Date = DateTime.Now.AddDays(-15),
+                 posted_date = DateTime.Now.AddDays(-15),
                  job_deadline = DateTime.Now.AddDays(30), // 45 days from posting
                  job_benefit = "Health insurance,\nStock options,\nTraining budget.",
                  job_requirement = "Bachelor's/Master's in Data Science or related,\n3+ years experience in data analytics,\nProficiency in Python and ML frameworks."
@@ -449,7 +449,7 @@ namespace AIJobCareer.Data
                  job_type = JobType.Full_Time,
                  job_location = "Miri, Sarawak",
                  job_status = "Open",
-                 Posted_Date = DateTime.Now.AddDays(-25),
+                 posted_date = DateTime.Now.AddDays(-25),
                  job_deadline = DateTime.Now.AddDays(15), // 40 days from posting
                  job_benefit = "Housing allowance,\nMedical coverage,\nAnnual bonus.",
                  job_requirement = "Bachelor's degree in Civil Engineering,\n4+ years site experience,\nKnowledge of local building codes."
@@ -468,7 +468,7 @@ namespace AIJobCareer.Data
                  job_type = JobType.Contract,
                  job_location = "Samarahan, Sarawak",
                  job_status = "Open",
-                 Posted_Date = DateTime.Now.AddDays(-5),
+                 posted_date = DateTime.Now.AddDays(-5),
                  job_deadline = DateTime.Now.AddDays(35), // 40 days from posting
                  job_benefit = "Field allowance,\nFlexible schedule,\nEquipment provision.",
                  job_requirement = "Bachelor's in Geography/GIS,\nProficiency in ArcGIS/QGIS,\n2+ years GIS experience."
@@ -488,7 +488,7 @@ namespace AIJobCareer.Data
                  job_type = JobType.Full_Time,
                  job_location = "Kuching, Sarawak",
                  job_status = "Open",
-                 Posted_Date = DateTime.Now.AddDays(-12),
+                 posted_date = DateTime.Now.AddDays(-12),
                  job_deadline = DateTime.Now.AddDays(33), // 45 days from posting
                  job_benefit = "Flexible working hours,\nHealth coverage,\nProfessional development.",
                  job_requirement = "Bachelor's in Design or HCI,\n3+ years UX/UI experience,\nProficiency in Figma and Sketch."

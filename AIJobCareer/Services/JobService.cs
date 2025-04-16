@@ -68,7 +68,7 @@ namespace AIJobCareer.Services
                 "title" => filter.SortDescending ? query.OrderByDescending(j => j.job_title) : query.OrderBy(j => j.job_title),
                 "company" => filter.SortDescending ? query.OrderByDescending(j => j.company.company_name) : query.OrderBy(j => j.company.company_name),
                 "salary" => filter.SortDescending ? query.OrderByDescending(j => j.job_salary_max) : query.OrderBy(j => j.job_salary_max),
-                _ => filter.SortDescending ? query.OrderByDescending(j => j.Posted_Date) : query.OrderBy(j => j.Posted_Date)
+                _ => filter.SortDescending ? query.OrderByDescending(j => j.posted_date) : query.OrderBy(j => j.posted_date)
             };
 
             // Get total count for pagination
@@ -88,7 +88,7 @@ namespace AIJobCareer.Services
                     job_location = j.job_location,
                     job_type = j.job_type,
                     job_status = j.job_status,
-                    posted_date = j.Posted_Date,
+                    posted_date = j.posted_date,
                     job_benefit = j.job_benefit,
                     job_requirement = j.job_requirement,
                     company = new CompanyDto
@@ -129,7 +129,7 @@ namespace AIJobCareer.Services
                 job_location = result.job_location,
                 job_type = result.job_type,
                 job_status = result.job_status,
-                posted_date = result.Posted_Date,
+                posted_date = result.posted_date,
                 job_deadline = result.job_deadline,
                 job_description = result.job_description,
                 job_benefit = result.job_benefit,
@@ -148,7 +148,7 @@ namespace AIJobCareer.Services
 
         public async Task<JobCreateDto> CreateJobAsync(JobCreateDto job)
         {
-            job.Posted_Date = DateTime.UtcNow;
+            job.posted_date = DateTime.UtcNow;
             var formatted = new Job
             {
                 job_id = job.job_id,
@@ -161,7 +161,7 @@ namespace AIJobCareer.Services
                 job_location = job.job_location,
                 job_type = job.job_type,
                 job_status = job.job_status,
-                Posted_Date = job.Posted_Date,
+                posted_date = job.posted_date,
                 job_deadline = job.job_deadline,
                 job_benefit = job.job_benefit,
                 job_requirement = job.job_requirement,
@@ -254,7 +254,7 @@ namespace AIJobCareer.Services
         public string job_location { get; set; }
         public JobType job_type { get; set; }
         public string job_status { get; set; }
-        public DateTime Posted_Date { get; set; }
+        public DateTime posted_date { get; set; }
         public DateTime job_deadline { get; set; }
         public string job_benefit { get; set; }
         public string job_requirement { get; set; }

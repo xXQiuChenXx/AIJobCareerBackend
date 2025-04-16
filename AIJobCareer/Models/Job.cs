@@ -36,7 +36,7 @@ namespace AIJobCareer.Models
 
         [Column(TypeName = "enum('open', 'closed')")]
         public string job_status { get; set; } = "open";
-        public DateTime Posted_Date { get; set; }
+        public DateTime posted_date { get; set; }
 
         public DateTime job_deadline { get; set; }
         public string job_benefit { get; set; }
