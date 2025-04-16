@@ -31,6 +31,7 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IR2FileService, R2FileService>();
+builder.Services.AddScoped<IDifyService, DifyService>();
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -51,6 +52,15 @@ builder.Services.AddAuthentication(options =>
 // Register services
 builder.Services.AddScoped<IJobService, JobService>();
 
+
+builder.Services.AddSingleton<FileServiceFactory>();
+
+// Register the IFileService with the configured implementation
+builder.Services.AddSingleton<IFileService>(provider => {
+    var factory = provider.GetRequiredService<FileServiceFactory>();
+    return factory.CreateFileService();
+});
+
 // Add Database Context
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
@@ -59,6 +69,22 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
         connectionString,
         ServerVersion.AutoDetect(connectionString) // Auto-detect MySQL version
     );
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigin",
+        builder =>
+        {
+            builder
+                .WithOrigins(
+                    "http://localhost:5173/",       // Add your domains here
+                    "https://aijobcareer.vercel.com"
+                )
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();  // If you need to send cookies/auth headers
+        });
 });
 
 var app = builder.Build();
@@ -71,6 +97,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseCors("AllowSpecificOrigin");
 app.UseHttpsRedirection();
 
 app.UseAuthorization();

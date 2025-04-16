@@ -9,19 +9,13 @@ namespace AIJobCareer.Controllers
     [Route("[controller]")]
     public class ChatController : ControllerBase
     {
-        private readonly DifyClient _difyClient;
-        private readonly IConfiguration _configuration;
+        private readonly IDifyService _difyService;
         private readonly ILogger<ChatController> _logger;
 
-        public ChatController(IConfiguration configuration, ILogger<ChatController> logger)
+        public ChatController(ILogger<ChatController> logger, IDifyService difyService)
         {
             _logger = logger;
-            _configuration = configuration;
-            _difyClient = new DifyClient(
-                Environment.GetEnvironmentVariable("DIFY_API_KEY") ?? _configuration["Dify:ApiKey"],
-                logger,
-               Environment.GetEnvironmentVariable("DIFY_BASE_URL") ?? _configuration["Dify:BaseUrl"]
-            );
+            _difyService = difyService;
         }
 
         [HttpPost("message")]
@@ -42,7 +36,7 @@ namespace AIJobCareer.Controllers
                 inputs = request.inputs
             };
 
-            var (success, stream, errorMessage) = await _difyClient.StreamChatMessageAsync(difyRequest);
+            var (success, stream, errorMessage) = await _difyService.StreamChatMessageAsync(difyRequest);
             if (!success || stream == null)
             {
                 _logger.LogError("Error from Dify API: {ErrorMessage}", errorMessage);
@@ -64,7 +58,7 @@ namespace AIJobCareer.Controllers
             }
 
             using var stream = file.OpenReadStream();
-            var fileId = await _difyClient.UploadFileAsync(stream, file.FileName, file.ContentType, user_id);
+            var fileId = await _difyService.UploadFileAsync(stream, file.FileName, file.ContentType, user_id);
             return Ok(new { fileId });
         }
 
@@ -86,7 +80,7 @@ namespace AIJobCareer.Controllers
                 return BadRequest("Message ID is required");
             }
 
-            var (success, suggestions, errorMessage) = await _difyClient.GetSuggestions(message_id, user_id);
+            var (success, suggestions, errorMessage) = await _difyService.GetSuggestions(message_id, user_id);
             if (!success)
             {
                 _logger.LogError("Error from Dify API: {ErrorMessage}", errorMessage);
@@ -106,7 +100,7 @@ namespace AIJobCareer.Controllers
             [FromQuery] string firstId = null,
             [FromQuery] int limit = 20)
         {
-            var (success, data, errorMessage) = await _difyClient.GetHistory(conversationId, user, firstId, limit);
+            var (success, data, errorMessage) = await _difyService.GetHistory(conversationId, user, firstId, limit);
             if (!success || string.IsNullOrEmpty(data))
             {
                 _logger.LogError("Error from Dify API: {ErrorMessage}", errorMessage);

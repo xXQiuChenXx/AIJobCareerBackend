@@ -7,7 +7,6 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel.DataAnnotations;
 using Swashbuckle.AspNetCore.Annotations;
-using System.Threading.Tasks;
 
 namespace AIJobCareer.Controllers
 {
