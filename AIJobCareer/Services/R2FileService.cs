@@ -88,7 +88,7 @@ namespace AIJobCareer.Services
 
         protected override async Task<byte[]> ProcessRetrievalAsync(string fileKey)
         {
-            var request = new Amazon.S3.Model.GetObjectRequest
+            var request = new GetObjectRequest
             {
                 BucketName = _bucketName,
                 Key = fileKey

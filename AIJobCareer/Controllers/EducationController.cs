@@ -20,9 +20,9 @@ namespace AIJobCareer.Controllers
             _context = context;
         }
 
-        // GET: api/Education/user/current
-        [HttpGet("user/current")]
-        public async Task<ActionResult<IEnumerable<EducationDto>>> GetCurrentUserEducations()
+        // GET: api/Education/user
+        [HttpGet("user")]
+        public async Task<ActionResult<IEnumerable<EducationDto>>> GetEducations()
         {
             Guid userId = GetCurrentUserId();
 
@@ -37,7 +37,7 @@ namespace AIJobCareer.Controllers
 
         // GET: api/Education/user/{userId}
         [HttpGet("user/{userId}")]
-        public async Task<ActionResult<IEnumerable<EducationDto>>> GetEducationsByUserId(Guid userId)
+        public async Task<ActionResult<IEnumerable<EducationDto>>> GetEducations(Guid userId)
         {
             var educations = await _context.Education
                 .Where(e => e.user_id == userId)
