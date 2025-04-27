@@ -80,7 +80,7 @@ builder.Services.AddCors(options =>
                 .WithOrigins(
                     "http://localhost:3000",       // Add your domains here
                     "http://localhost:5173",       // Add your domains here
-                    "https://aijobcareer.vercel.com"
+                    "https://aijobcareer.vercel.app"
                 )
                 .AllowAnyHeader()
                 .AllowAnyMethod()
