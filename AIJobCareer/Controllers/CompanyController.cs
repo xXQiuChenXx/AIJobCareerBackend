@@ -79,7 +79,10 @@ namespace AIJobCareer.Controllers
                     job_salary_min = j.job_salary_min,
                     job_salary_max = j.job_salary_max,
                     job_location = j.job_location,
-                    job_posted_date = j.posted_date
+                    job_posted_date = j.posted_date,
+                    job_responsible = j.job_responsible,
+                    job_benefit = j.job_benefit,
+                    job_requirement = j.job_requirement,
                 }).ToList()
             };
 

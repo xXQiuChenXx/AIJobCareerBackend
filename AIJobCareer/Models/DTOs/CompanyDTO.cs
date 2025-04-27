@@ -90,6 +90,9 @@ namespace AIJobCareer.Models.DTOs
         public decimal? job_salary_max { get; set; }
         public string job_location { get; set; }
         public DateTime job_posted_date { get; set; }
+        public string job_requirement { get; set; }
+        public string job_benefit { get; set; }
+        public string job_responsible { get; set; }
     }
 
     public class AreaDTO
