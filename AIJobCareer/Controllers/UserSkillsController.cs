@@ -87,7 +87,7 @@ namespace AIJobCareer.Controllers
         public async Task<IActionResult> UpdateUserSkill(int id, CreateUserSkillDTO updateUserSkillDTO)
         {
             Guid current_user_id = GetCurrentUserId();
-            var userSkill = await _context.User_Skill.FindAsync(id);
+            var userSkill = await _context.User_Skill.Where(us => us.US_SKILL_ID == id).FirstOrDefaultAsync();
             if (userSkill == null)
             {
                 return NotFound();
