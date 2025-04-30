@@ -42,7 +42,7 @@ namespace AIJobCareer.Controllers
 
         // POST: api/JobApplications
         [HttpPost]
-        public async Task<ActionResult<JobApplicationResponseDto>> SubmitApplication(JobApplicationSubmitDto applicationDto)
+        public async Task<ActionResult<JobApplicationResponseDto>> SubmitApplication([FromForm] JobApplicationSubmitDto applicationDto)
         {
             var userId = GetCurrentUserId();
             try
