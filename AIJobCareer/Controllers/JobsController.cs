@@ -65,6 +65,7 @@ namespace AIJobCareer.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [Authorize]
         public async Task<ActionResult<JobCreateDto>> CreateJob(JobCreateDto job)
         {
             if (!ModelState.IsValid)
@@ -89,7 +90,8 @@ namespace AIJobCareer.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<ActionResult> UpdateJob(int id, Job job)
+        [Authorize]
+        public async Task<ActionResult> UpdateJob(int id, JobUpdateDto job)
         {
             if (id != job.job_id)
                 return BadRequest("ID in URL must match ID in request body");
