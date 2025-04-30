@@ -16,7 +16,7 @@ namespace AIJobCareer.Models
         public string resume_url { get; set; }
         public string resume_name { get; set; }
 
-        public string? job_application_id { get; set; }
+        public int? job_application_id { get; set; }
         [ForeignKey("job_application_id")]
 
         public virtual JobApplication JobApplication { get; set; }
