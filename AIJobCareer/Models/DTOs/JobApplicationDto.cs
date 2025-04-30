@@ -46,7 +46,7 @@ namespace AIJobCareerBackend.Models.DTOs
         [Required]
         public string CoverLetter { get; set; }
 
-        public IFormFile? Resume { get; set; }
+        public string? ResumeUrl { get; set; }
 
         [Required]
         public bool TermsAccepted { get; set; }
