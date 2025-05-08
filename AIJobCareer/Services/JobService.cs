@@ -11,7 +11,7 @@ namespace AIJobCareer.Services
         Task<PaginatedResponse<JobResponseDto>> GetJobsAsync(JobFilterRequest filter);
         Task<JobResponseDto> GetJobByIdAsync(int id);
         Task<JobCreateDto> CreateJobAsync(JobCreateDto job);
-        Task<bool> UpdateJobAsync(Job job);
+        Task<bool> UpdateJobAsync(JobUpdateDto job);
         Task<bool> DeleteJobAsync(int id);
     }
 
@@ -173,7 +173,7 @@ namespace AIJobCareer.Services
             ;
         }
 
-        public async Task<bool> UpdateJobAsync(Job job)
+        public async Task<bool> UpdateJobAsync(JobUpdateDto job)
         {
             var existingJob = await _dbContext.Job.FindAsync(job.job_id);
             if (existingJob == null)
@@ -248,6 +248,23 @@ namespace AIJobCareer.Services
         public string job_title { get; set; }
         public string job_description { get; set; }
         public string job_company_id { get; set; }
+        public string job_responsible { get; set; }
+        public decimal? job_salary_min { get; set; }
+        public decimal? job_salary_max { get; set; }
+        public string job_location { get; set; }
+        public JobType job_type { get; set; }
+        public string job_status { get; set; }
+        public DateTime posted_date { get; set; }
+        public DateTime job_deadline { get; set; }
+        public string job_benefit { get; set; }
+        public string job_requirement { get; set; }
+    }
+
+    public class JobUpdateDto
+    {
+        public int job_id { get; set; }
+        public string job_title { get; set; }
+        public string job_description { get; set; }
         public string job_responsible { get; set; }
         public decimal? job_salary_min { get; set; }
         public decimal? job_salary_max { get; set; }
