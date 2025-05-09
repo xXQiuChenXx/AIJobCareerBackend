@@ -42,9 +42,10 @@ namespace AIJobCareer.Controllers
 
         // POST: api/JobApplications
         [HttpPost]
-        public async Task<ActionResult<JobApplicationResponseDto>> SubmitApplication(JobApplicationSubmitDto applicationDto)
+        public async Task<ActionResult<JobApplicationResponseDto>> SubmitApplication([FromForm] JobApplicationSubmitDto applicationDto)
         {
             var userId = GetCurrentUserId();
+
             try
             {
                 // Verify the job position exists
@@ -98,6 +99,8 @@ namespace AIJobCareer.Controllers
                     JobId = applicationDto.JobId
                 };
 
+                Resume resume = null;
+
                 // Handle resume upload if provided
                 if (applicationDto.Resume != null)
                 {
@@ -117,7 +120,7 @@ namespace AIJobCareer.Controllers
                     try
                     {
                         string fileKey = await _fileService.UploadFileAsync(applicationDto.Resume, "resumes");
-                        Resume resume = new Resume
+                        resume = new Resume
                         {
                             resume_url = "https://store.myitscm.com/" + fileKey,
                             resume_name = applicationDto.Resume.FileName,
@@ -139,6 +142,12 @@ namespace AIJobCareer.Controllers
 
                 _context.Job_Application.Add(application);
                 await _context.SaveChangesAsync();
+
+                if (resume != null)
+                {
+                    resume.job_application_id = application.Id; // Assuming the ID property is named "Id"
+                    await _context.SaveChangesAsync();
+                }
 
                 // Return response
                 return Ok(new { success = true });

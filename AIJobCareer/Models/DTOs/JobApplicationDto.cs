@@ -1,5 +1,4 @@
 ﻿using AIJobCareer.Models;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace AIJobCareerBackend.Models.DTOs
@@ -46,7 +45,7 @@ namespace AIJobCareerBackend.Models.DTOs
         [Required]
         public string CoverLetter { get; set; }
 
-        public string? ResumeUrl { get; set; }
+        public IFormFile? Resume { get; set; } = null;
 
         [Required]
         public bool TermsAccepted { get; set; }
