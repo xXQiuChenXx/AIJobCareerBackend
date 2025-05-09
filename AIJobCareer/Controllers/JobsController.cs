@@ -91,7 +91,7 @@ namespace AIJobCareer.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [Authorize] 
-        public async Task<ActionResult> UpdateJob(int id, Job job)
+        public async Task<ActionResult> UpdateJob(int id, JobUpdateDto job)
         {
             if (id != job.job_id)
                 return BadRequest("ID in URL must match ID in request body");
